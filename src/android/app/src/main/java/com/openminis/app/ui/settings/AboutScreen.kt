@@ -55,7 +55,7 @@ fun AboutScreen(onBack: () -> Unit) {
             ) {
                 Image(
                     painter = androidx.compose.ui.res.painterResource(R.drawable.hark_logo),
-                    contentDescription = "Hark Logo",
+                    contentDescription = "Hassn Logo",
                     modifier = Modifier
                         .size(80.dp)
                         .padding(4.dp),

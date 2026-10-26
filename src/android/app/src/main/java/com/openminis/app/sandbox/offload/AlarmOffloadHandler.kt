@@ -389,7 +389,7 @@ class AlarmOffloadHandler(private val context: Context) : NativeOffloadHandler {
         if (needsHint && (action == "set" || action == "timer")) {
             data.put(
                 "oem_hint",
-                "${OsCompat.oemLabel()} aggressively kills background alarms. Please enable Autostart and disable battery optimization for Minis in system settings to keep this alarm reliable.",
+                "${OsCompat.oemLabel()} aggressively kills background alarms. Please enable Autostart and disable battery optimization for Hassn in system settings to keep this alarm reliable.",
             )
         }
         val envelope = JSONObject()

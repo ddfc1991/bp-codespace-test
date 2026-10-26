@@ -3183,7 +3183,7 @@ private fun OnboardingLanding(
             ) {
                 androidx.compose.foundation.Image(
                     painter = androidx.compose.ui.res.painterResource(R.drawable.hark_logo),
-                    contentDescription = "Hark Logo",
+                    contentDescription = "Hassn Logo",
                     modifier = Modifier
                         .size(72.dp)
                         .padding(4.dp),

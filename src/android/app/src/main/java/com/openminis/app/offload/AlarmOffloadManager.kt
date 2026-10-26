@@ -49,7 +49,7 @@ class AlarmOffloadManager(private val context: Context) {
                 CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Alarms and timers scheduled by the Hark agent"
+                description = "Alarms and timers scheduled by the Hassn agent"
                 enableVibration(true)
             }
             notificationManager.createNotificationChannel(channel)
