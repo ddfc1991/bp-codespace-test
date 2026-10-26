@@ -91,6 +91,9 @@ object Routes {
     const val SETTINGS = "settings"
     // [Hassn-P1] Settings → 智能网关
     const val HASSN_GATEWAY = "hassn_gateway"
+    // [Hassn-P1] 临时邮箱台账 (Settings / 主页)
+    const val HASSN_LEDGER = "hassn_ledger"
+    const val HASSN_LEDGER_BOX = "hassn_ledger_box/{boxId}"
     const val PROVIDER_LIST = "providers"
     const val ADD_PROVIDER = "add_provider"
     const val PROVIDER_DETAIL = "provider/{instanceId}"
@@ -201,6 +204,7 @@ object Routes {
     fun sessionStorageDetail(sessionId: String) = "session_storage/$sessionId"
     fun memoryFileEdit(fileName: String, isGlobal: Boolean) = "memory_file/$fileName/$isGlobal"
     fun chat(sessionId: String) = "chat/$sessionId"
+    fun hassnLedgerBox(boxId: String) = "hassn_ledger_box/$boxId"
     fun providerDetail(instanceId: String) = "provider/$instanceId"
     fun shadowVoiceDetail(instanceId: String) = "voice_service/$instanceId"
     fun modelGroupDetail(groupId: String) = "model_group/$groupId"
@@ -612,11 +616,30 @@ fun AppNavigation(
                 onMountedFoldersClick = { navController.safeNavigate(Routes.MOUNTED_FOLDERS) },
                 onSharedFoldersClick = { navController.safeNavigate(Routes.SHARED_FOLDERS) },
                 onHassnGatewayClick = { navController.safeNavigate(Routes.HASSN_GATEWAY) },
+                onHassnLedgerClick = { navController.safeNavigate(Routes.HASSN_LEDGER) },
             )
         }
 
         composable(Routes.HASSN_GATEWAY) {
             com.openminis.app.hassn.HassnGatewayScreen(onBack = { navController.safePopBackStack() })
+        }
+
+        composable(Routes.HASSN_LEDGER) {
+            com.openminis.app.hassn.ledger.LedgerListScreen(
+                onBack = { navController.safePopBackStack() },
+                onOpenBox = { id -> navController.safeNavigate(Routes.hassnLedgerBox(id)) },
+            )
+        }
+
+        composable(
+            route = Routes.HASSN_LEDGER_BOX,
+            arguments = listOf(navArgument("boxId") { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val boxId = backStackEntry.arguments?.getString("boxId") ?: return@composable
+            com.openminis.app.hassn.ledger.LedgerBoxScreen(
+                boxId = boxId,
+                onBack = { navController.safePopBackStack() },
+            )
         }
 
         composable(Routes.BACKUP) {

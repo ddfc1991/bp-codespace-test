@@ -113,6 +113,7 @@ fun HassnShell(
                         openChat = openChat,
                         openGateway = { navController.safeNavigate(Routes.HASSN_GATEWAY) },
                         openScheduled = { navController.safeNavigate(Routes.SCHEDULED_TASKS) },
+                        openLedger = { navController.safeNavigate(Routes.HASSN_LEDGER) },
                     )
                 }
             }
@@ -233,8 +234,11 @@ private fun HassnHomeTab(
     openChat: (String) -> Unit,
     openGateway: () -> Unit,
     openScheduled: () -> Unit,
+    openLedger: () -> Unit,
 ) {
     val ctx = LocalContext.current
+    remember { com.openminis.app.hassn.ledger.LedgerStore.init(ctx.applicationContext) }
+    val ledger by com.openminis.app.hassn.ledger.LedgerStore.state.collectAsState()
     val sessions by remember { chatRepository.observeSessions() }.collectAsState(initial = emptyList())
     val store = remember { ScheduledTaskStore(ctx.applicationContext) }
     val tasks by remember { store.observe() }.collectAsState(initial = emptyList())
@@ -278,6 +282,19 @@ private fun HassnHomeTab(
                         Line(t.label, t.lastResultPreview, stringResource(R.string.hassn_next_at, fmtTime(next)), onClick = openScheduled)
                     }
                 }
+            }
+        }
+
+        // [Hassn-P1] 临时邮箱台账 entry
+        item { SectionTitle("临时邮箱台账") }
+        item {
+            val (nb, np) = com.openminis.app.hassn.ledger.LedgerCore.totals(ledger)
+            Card {
+                Line(
+                    if (nb == 0) "还没有临时邮箱" else "$nb 个邮箱 · $np 个平台",
+                    "密码自动生成存入保管库 · 到期前自动延时",
+                    onClick = openLedger,
+                )
             }
         }
 

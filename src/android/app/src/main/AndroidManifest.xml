@@ -479,6 +479,11 @@
             android:name=".scheduled.ScheduledTaskAlarmReceiver"
             android:exported="false" />
 
+        <!-- [Hassn-P1] 临时邮箱台账 自动延时 / 探针保活 (inexact repeating alarm) -->
+        <receiver
+            android:name=".hassn.ledger.LedgerKeepAliveReceiver"
+            android:exported="false" />
+
         <!-- Notification listener — lets android-notification read active notifications.
              User must enable this manually in Settings → Notifications → Device &
              app notifications → Notification access. -->

@@ -56,6 +56,8 @@ object AgentTools {
         // Long-term memory & Hybrid RAG tools
         add(com.openminis.app.rag.tools.RagTools.indexDefinition())
         add(com.openminis.app.rag.tools.RagTools.queryDefinition())
+        // [Hassn-P1] 临时邮箱台账 tools (ledger_new_mailbox / record_signup / wait_code / mark / list)
+        addAll(com.openminis.app.hassn.ledger.LedgerTools.definitions())
         // Dynamic tools injected by active HarkPkg plugins
         addAll(com.openminis.app.plugins.harkpkg.HarkPkgManager.activeDynamicTools())
     }

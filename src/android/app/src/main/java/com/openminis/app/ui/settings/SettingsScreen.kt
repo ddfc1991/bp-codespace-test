@@ -111,6 +111,8 @@ fun SettingsScreen(
     onAboutClick: () -> Unit = {},
     // [Hassn-P1] Settings → 智能网关
     onHassnGatewayClick: () -> Unit = {},
+    // [Hassn-P1] Settings → 临时邮箱台账
+    onHassnLedgerClick: () -> Unit = {},
 ) {
     val hassnCtx = LocalContext.current
     var showRename by remember { mutableStateOf(false) }
@@ -184,6 +186,13 @@ fun SettingsScreen(
                     title = stringResource(R.string.hassn_gateway_title),
                     subtitle = stringResource(R.string.hassn_gateway_subtitle),
                     onClick = onHassnGatewayClick,
+                )
+                SettingsItem(
+                    icon = Icons.Outlined.Lock,
+                    iconColor = Color(0xFF34C759),
+                    title = "临时邮箱台账",
+                    subtitle = "临时邮箱 · 注册过的平台 · 验证码",
+                    onClick = onHassnLedgerClick,
                     showDivider = false,
                 )
             }

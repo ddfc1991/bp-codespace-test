@@ -630,6 +630,15 @@ class MinisApp : Application(), ImageLoaderFactory {
             com.openminis.app.service.SessionBadgeStore.reconcileInterruptedSessions(interrupted - active)
         }
 
+        // [Hassn-P1 临时邮箱台账] load the ledger off-main and re-arm its keep-alive alarm
+        // (alarms do not survive a reboot or an app update).
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+            runCatching {
+                com.openminis.app.hassn.ledger.LedgerStore.init(this@MinisApp)
+                com.openminis.app.hassn.ledger.LedgerKeepAlive.schedule(this@MinisApp)
+            }
+        }
+
         // T180-bg-notif: background-settings + task-completion notifier.
         // The notifier is wired into SessionActivityTracker's completion
         // hook so any session whose stream finishes (success or error)

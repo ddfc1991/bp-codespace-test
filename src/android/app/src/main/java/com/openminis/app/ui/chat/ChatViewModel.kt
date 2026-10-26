@@ -9843,7 +9843,19 @@ class ChatViewModel(
             }
             ReadImageTool.NAME -> executeReadImageTool(effectiveArgsJson)
             "shell_execute" -> executeShellCommand(effectiveArgsJson, toolId, toolBlocks, assistantId, currentText)
-            "browser_use" -> executeBrowserUseTool(effectiveArgsJson)
+            // [Hassn-P1 临时邮箱台账] {{ledger_email:…}} / {{ledger_pw:…}} in a type action are swapped
+            // for the real value here, after the hook pipeline and outside chat history / logs.
+            "browser_use" -> {
+                val filledArgs = com.openminis.app.hassn.ledger.LedgerTools.resolveBrowserArgs(context, effectiveArgsJson)
+                if (filledArgs == null) {
+                    ToolExecutionResult("Unknown ledger placeholder: call ledger_record_signup / ledger_list again and use the placeholder it returns.", false, toolTitle = toolTitle)
+                } else {
+                    executeBrowserUseTool(filledArgs)
+                }
+            }
+            in com.openminis.app.hassn.ledger.LedgerTools.NAMES -> {
+                com.openminis.app.hassn.ledger.LedgerTools.execute(name, effectiveArgsJson, context)
+            }
             "memory_write" -> executeMemoryWriteTool(effectiveArgsJson)
             "memory_get" -> executeMemoryGetTool(effectiveArgsJson)
             com.openminis.app.tools.TodoWriteTool.NAME -> executeTodoWriteTool(effectiveArgsJson)
@@ -10948,6 +10960,8 @@ Environment variables:
 - When a skill or task requires an environment variable that is not set, tell the user which variable is missing and provide a tappable deep link to create it: [Set ENV_NAME](hark://settings/environments?create_key=ENV_NAME&create_value=) — the user can tap it to open the Environment Variables page with the key pre-filled.
 - Settings deep links: when you tell the user "go to Settings → X" or want to point them at a specific setting, prefer a Markdown link `[Label](hark://settings/<path>)` over plain prose. Available paths: providers (list), providers/<instanceId> (one provider), model-groups (incl. Agent Loop), model-groups/<groupId>, usage (token usage), skills, memory, storage, shared-folders (Shared Folders: /var/hark/{shared,skills,memory}), mount-external (Mount External Folders), logs, appearance, background, about, permissions, environments[?create_key=K&create_value=V[&create_note=N]], rootfs (also reachable as mirrors). Unknown paths fall back to Settings home, but prefer the exact path so users land where they want. These settings/action links are app deep links — render them as Markdown links in chat (same action-vs-resource rule as the hark:// section above: only /var/hark resource URLs may go to browser_use).
 - To check if a variable is set, use `[ -n "${'$'}VAR" ] && echo 'set' || echo 'not set'`. NEVER use echo ${'$'}VAR, printenv VAR, or any command that would output the actual value into the conversation context.${memorySystemSection}
+
+Temporary mailbox sign-ups (Hassn 临时邮箱台账): ${com.openminis.app.hassn.ledger.LedgerTools.PROMPT_RULE}
 
 Scheduled tasks: crontab / at / nohup loops will stop when the app is suspended, so in-app scheduled scripts may not run as expected. For recurring tasks that must fire while the app is backgrounded, use the native alarm tool (AlarmManager) or tell the user to set up a system-level schedule (Google Calendar event, Tasker automation, etc.). (Waiting or polling WITHIN the current turn is different — that is what shell_execute `delay` chains are for, per the shell_execute notes above.)"""
 
