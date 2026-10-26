@@ -59,16 +59,16 @@ fun balanceAccent(info: BalanceInfo): Color = when {
     info.kind == BalanceKind.QUOTA -> {
         val frac = info.fractionRemaining
         when {
-            frac != null && frac < 0.10 -> Color(0xFFFF3B30)
-            frac != null && frac < 0.20 -> Color(0xFFFF9500)
+            frac != null && frac < 0.10 -> Color(0xFFDA2F35)
+            frac != null && frac < 0.20 -> Color(0xFFFF4D00)
             else -> MaterialTheme.colorScheme.onSurfaceVariant
         }
     }
     else -> {
         val frac = info.fractionRemaining
         when {
-            frac != null && frac < 0.10 -> Color(0xFFFF3B30)
-            frac != null && frac < 0.20 -> Color(0xFFFF9500)
+            frac != null && frac < 0.10 -> Color(0xFFDA2F35)
+            frac != null && frac < 0.20 -> Color(0xFFFF4D00)
             else -> MaterialTheme.colorScheme.onSurfaceVariant
         }
     }

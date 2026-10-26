@@ -20,11 +20,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloseFullscreen
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Refresh
+import com.openminis.app.hassn.icons.CloseFullscreen
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,7 +59,7 @@ fun CompactedHistoryFoldCard(
             .padding(horizontal = 14.dp, vertical = 6.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(ChatColors.secondaryBg)
-            .border(0.5.dp, Color(0xFFAF52DE).copy(alpha = 0.25f), RoundedCornerShape(12.dp))
+            .border(0.5.dp, Color(0xFF8E8E93).copy(alpha = 0.25f), RoundedCornerShape(12.dp))
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -77,7 +77,7 @@ fun CompactedHistoryFoldCard(
                 Icon(
                     imageVector = Icons.Default.CloseFullscreen,
                     contentDescription = null,
-                    tint = Color(0xFFAF52DE),
+                    tint = Color(0xFF8E8E93),
                     modifier = Modifier.size(13.dp),
                 )
                 Text(
@@ -102,12 +102,12 @@ fun CompactedHistoryFoldCard(
                     text = if (isFolded) "展开历史" else "收起历史",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color(0xFFAF52DE),
+                    color = Color(0xFF8E8E93),
                 )
                 Icon(
                     imageVector = if (isFolded) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                     contentDescription = null,
-                    tint = Color(0xFFAF52DE),
+                    tint = Color(0xFF8E8E93),
                     modifier = Modifier.size(14.dp),
                 )
             }

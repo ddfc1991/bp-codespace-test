@@ -39,14 +39,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Audiotrack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.PlayCircleFilled
-import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material.icons.outlined.BrokenImage
+import com.openminis.app.hassn.icons.Audiotrack
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Pause
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.PlayCircleFilled
+import com.openminis.app.hassn.icons.Videocam
+import com.openminis.app.hassn.icons.BrokenImage
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -246,8 +246,8 @@ val LocalMarkdownImageTapHandler =
  */
 val LocalMarkdownSessionId = compositionLocalOf<String?> { null }
 
-private val BaseFontSizeDefault = 16.sp
-private val BaseLineHeightDefault = 24.sp
+private val BaseFontSizeDefault = 15.sp // [Hassn] Hark bodyLarge
+private val BaseLineHeightDefault = 20.sp // [Hassn] Hark 15/18, +2 for CJK ascent
 
 private val BaseFontSize: TextUnit
     @Composable get() = BaseFontSizeDefault * LocalMarkdownFontScale.current
@@ -381,7 +381,7 @@ private fun MdText(
                         clipboardManager.setText(AnnotatedString(snippet))
                         haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                         val preview = if (snippet.length > 40) snippet.take(37) + "…" else snippet
-                        Toast.makeText(context, "Copied: $preview", Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, "Copied: $preview", long = false)
                     }
                 }
             }
@@ -1742,7 +1742,7 @@ private fun RenderBlock(block: MdBlock) {
                     Icon(
                         imageVector = if (copied) Icons.Default.Check else Icons.Default.ContentCopy,
                         contentDescription = if (copied) "Copied" else "Copy code",
-                        tint = if (copied) Color(0xFF34C759) else Color.White.copy(alpha = 0.4f),
+                        tint = if (copied) Color(0xFF00A665) else Color.White.copy(alpha = 0.4f),
                         modifier = Modifier
                             .size(16.dp)
                             .clickable {
@@ -1791,7 +1791,7 @@ private fun RenderBlock(block: MdBlock) {
             // refuses intrinsic measurement on those. Draw the orange rule
             // directly behind a single Column so layout never queries
             // intrinsics.
-            val barColor = Color(0xFFFF9500)
+            val barColor = Color(0xFFFF4D00)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -2645,7 +2645,7 @@ private fun RenderTable(block: MdBlock.Table) {
                         val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE)
                             as android.content.ClipboardManager
                         cm.setPrimaryClip(android.content.ClipData.newPlainText("table", md))
-                        Toast.makeText(context, tableCopiedToast, Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, tableCopiedToast, long = false)
                     }
                 },
                 copyTableImage = {
@@ -2674,11 +2674,11 @@ private fun RenderTable(block: MdBlock.Table) {
                                     val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE)
                                         as android.content.ClipboardManager
                                     cm.setPrimaryClip(clip)
-                                    Toast.makeText(context, tableImageCopiedToast, Toast.LENGTH_SHORT).show()
+                                    com.openminis.app.hassn.HassnToast.show(context, tableImageCopiedToast, long = false)
                                 }
                             }
                         } catch (e: Exception) {
-                            Toast.makeText(context, tableImageCopyFailedToast, Toast.LENGTH_SHORT).show()
+                            com.openminis.app.hassn.HassnToast.show(context, tableImageCopyFailedToast, long = false)
                         }
                     }
                     Unit

@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import com.openminis.app.hassn.icons.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -112,7 +112,7 @@ private fun CompactDragHandle() {
                 .width(UiCraftTokens.GrabberWidth)
                 .height(UiCraftTokens.GrabberHeight)
                 .background(
-                    color = ChatColors.secondaryText.copy(alpha = 0.35f),
+                    color = com.openminis.app.hassn.hassn.stroke, // [Hassn] ink @14 %
                     shape = RoundedCornerShape(2.dp),
                 ),
         )
@@ -132,7 +132,7 @@ fun StandardChatSheetHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
+            .padding(horizontal = 20.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (leadingAction != null) {
@@ -143,15 +143,14 @@ fun StandardChatSheetHeader(
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = title,
-            fontSize = 17.sp,
-            fontWeight = FontWeight.Bold,
+            style = androidx.compose.material3.MaterialTheme.typography.titleMedium, // [Hassn] Hark sheet title
             color = ChatColors.primaryText,
         )
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier
-                .size(28.dp)
-                .background(ChatColors.secondaryBg, CircleShape)
+                .size(32.dp)
+                .background(com.openminis.app.hassn.hassn.soft, CircleShape)
                 .clip(CircleShape)
                 .pressScaleEffect(targetScale = 0.92f)
                 .clickable(onClick = onDismiss),

@@ -1,16 +1,16 @@
 package com.openminis.app.ui.chat
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.NoteAdd
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.EditNote
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.outlined.ChecklistRtl
+import com.openminis.app.hassn.icons.NoteAdd
+import com.openminis.app.hassn.icons.Build
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.EditNote
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.ChecklistRtl
 import androidx.compose.ui.graphics.Color
 
 // [T-android-split-chat] Pure tool-label / duration / timestamp formatting
@@ -52,15 +52,15 @@ internal fun formatStepDuration(seconds: Long, stillRunning: Boolean): String {
 
 // Helper: tool accent color
 internal fun toolAccentColor(toolName: String): Color = when (toolName) {
-    "shell_execute" -> Color(0xFF34C759)
-    "file_read" -> Color(0xFF32ADE6)
-    "file_write" -> Color(0xFF007AFF)
-    "file_edit" -> Color(0xFFFF9500)
-    "browser_use" -> Color(0xFF007AFF)
-    "read_image" -> Color(0xFFAF52DE)
-    "memory_write", "memory_get" -> Color(0xFFFF2D55)
-    "web_search" -> Color(0xFF32ADE6)    // iOS: .cyan for search
-    "todo_write" -> Color(0xFF5856D6)    // Purple / Indigo for task management
+    "shell_execute" -> Color(0xFF00A665)
+    "file_read" -> Color(0xFF8E8E93)
+    "file_write" -> Color(0xFF8E8E93)
+    "file_edit" -> Color(0xFFFF4D00)
+    "browser_use" -> Color(0xFF8E8E93)
+    "read_image" -> Color(0xFF8E8E93)
+    "memory_write", "memory_get" -> Color(0xFF8E8E93)
+    "web_search" -> Color(0xFF8E8E93)    // iOS: .cyan for search
+    "todo_write" -> Color(0xFF8E8E93)    // Purple / Indigo for task management
     else -> Color(0xFF8E8E93)
 }
 

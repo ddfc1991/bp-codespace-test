@@ -21,14 +21,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.FolderOpen
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.LinkOff
-import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material.icons.filled.Terminal
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.FolderOpen
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.LinkOff
+import com.openminis.app.hassn.icons.SwapHoriz
+import com.openminis.app.hassn.icons.Terminal
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -288,7 +288,7 @@ fun ProjectContextSheet(
                     IconButton(
                         onClick = {
                             clipboardManager.setText(AnnotatedString(folderPath))
-                            Toast.makeText(context, "路径已复制", Toast.LENGTH_SHORT).show()
+                            com.openminis.app.hassn.HassnToast.show(context, "路径已复制", long = false)
                         },
                         modifier = Modifier.size(36.dp)
                     ) {

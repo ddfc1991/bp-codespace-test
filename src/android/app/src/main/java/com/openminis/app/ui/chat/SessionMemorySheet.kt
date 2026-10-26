@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.Undo
-import androidx.compose.material.icons.filled.Edit
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Undo
+import com.openminis.app.hassn.icons.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme

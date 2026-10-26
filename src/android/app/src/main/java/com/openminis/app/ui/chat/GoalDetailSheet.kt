@@ -20,15 +20,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.outlined.ChecklistRtl
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.ChecklistRtl
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -290,7 +290,7 @@ fun GoalDetailSheet(
                                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp, color = ChatColors.tertiaryText)
                             )
                             val statusColor = when (goal.status) {
-                                GoalStatus.COMPLETED -> Color(0xFF34C759)
+                                GoalStatus.COMPLETED -> Color(0xFF00A665)
                                 GoalStatus.IN_PROGRESS -> MaterialTheme.colorScheme.primary
                                 else -> ChatColors.secondaryText
                             }
@@ -366,7 +366,7 @@ fun GoalDetailSheet(
                                     Icon(
                                         imageVector = if (isDone) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
                                         contentDescription = null,
-                                        tint = if (isDone) Color(0xFF34C759) else if (isRunning) MaterialTheme.colorScheme.primary else ChatColors.tertiaryText,
+                                        tint = if (isDone) Color(0xFF00A665) else if (isRunning) MaterialTheme.colorScheme.primary else ChatColors.tertiaryText,
                                         modifier = Modifier.size(16.dp)
                                     )
 

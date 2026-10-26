@@ -14,7 +14,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
+import com.openminis.app.hassn.icons.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle

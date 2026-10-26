@@ -18,14 +18,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.ExpandLess
-import androidx.compose.material.icons.outlined.ExpandMore
-import androidx.compose.material.icons.outlined.GroupWork
-import androidx.compose.material.icons.outlined.SmartToy
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.ChatBubbleOutline
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ErrorOutline
+import com.openminis.app.hassn.icons.ExpandLess
+import com.openminis.app.hassn.icons.ExpandMore
+import com.openminis.app.hassn.icons.GroupWork
+import com.openminis.app.hassn.icons.SmartToy
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -239,7 +239,7 @@ private fun SubagentDetailItem(
                         imageVector = Icons.Outlined.CheckCircle,
                         contentDescription = null,
                         modifier = Modifier.size(14.dp),
-                        tint = Color(0xFF34C759),
+                        tint = Color(0xFF00A665),
                     )
                 }
                 SubagentState.FAILED, SubagentState.CANCELLED, SubagentState.INTERRUPTED -> {

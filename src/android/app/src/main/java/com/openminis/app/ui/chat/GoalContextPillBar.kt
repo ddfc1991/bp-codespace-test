@@ -18,9 +18,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.ChecklistRtl
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.ChecklistRtl
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
@@ -97,7 +97,7 @@ fun GoalContextPillBar(
                 } else {
                     // 已激活目标状态
                     val isCompleted = goal.status == GoalStatus.COMPLETED
-                    val iconTint = if (isCompleted) Color(0xFF34C759) else MaterialTheme.colorScheme.primary
+                    val iconTint = if (isCompleted) Color(0xFF00A665) else MaterialTheme.colorScheme.primary
 
                     Icon(
                         imageVector = if (isCompleted) Icons.Default.CheckCircle else Icons.Outlined.ChecklistRtl,
@@ -132,7 +132,7 @@ fun GoalContextPillBar(
                             text = "${goal.completedMilestones}/${goal.totalMilestones}",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = if (isCompleted) Color(0xFF34C759) else MaterialTheme.colorScheme.primary,
+                                color = if (isCompleted) Color(0xFF00A665) else MaterialTheme.colorScheme.primary,
                                 fontSize = 11.sp
                             )
                         )

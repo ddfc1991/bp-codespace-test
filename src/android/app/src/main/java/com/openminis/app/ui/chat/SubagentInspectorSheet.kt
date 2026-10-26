@@ -24,15 +24,15 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.StopCircle
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Psychology
-import androidx.compose.material.icons.outlined.SmartToy
+import com.openminis.app.hassn.icons.OpenInNew
+import com.openminis.app.hassn.icons.Send
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.StopCircle
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ErrorOutline
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.SmartToy
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -107,7 +107,7 @@ fun SubagentInspectorSheet(
                 )
             }
         },
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         shape = RoundedCornerShape(
             topStart = UiCraftTokens.SheetCornerRadius,
             topEnd = UiCraftTokens.SheetCornerRadius,
@@ -241,9 +241,9 @@ fun SubagentInspectorSheet(
                                 Text("执行中", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
                             }
                             SubagentState.SUCCEEDED -> {
-                                Icon(Icons.Outlined.CheckCircle, null, tint = Color(0xFF34C759), modifier = Modifier.size(16.dp))
+                                Icon(Icons.Outlined.CheckCircle, null, tint = Color(0xFF00A665), modifier = Modifier.size(16.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("任务成功", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF34C759))
+                                Text("任务成功", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF00A665))
                             }
                             SubagentState.FAILED, SubagentState.CANCELLED, SubagentState.INTERRUPTED -> {
                                 Icon(Icons.Outlined.ErrorOutline, null, tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(16.dp))
@@ -422,11 +422,11 @@ fun SubagentInspectorSheet(
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
                         .clip(RoundedCornerShape(6.dp))
-                        .background(Color(0xFF34C759).copy(alpha = 0.15f))
+                        .background(Color(0xFF00A665).copy(alpha = 0.15f))
                         .padding(horizontal = 8.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(Icons.Outlined.CheckCircle, null, tint = Color(0xFF34C759), modifier = Modifier.size(14.dp))
+                    Icon(Icons.Outlined.CheckCircle, null, tint = Color(0xFF00A665), modifier = Modifier.size(14.dp))
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(interventionSentNotice ?: "", fontSize = 12.sp, color = Color(0xFF1E7E34), fontWeight = FontWeight.Medium)
                 }

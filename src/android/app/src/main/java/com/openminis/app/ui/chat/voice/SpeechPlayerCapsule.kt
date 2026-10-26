@@ -32,11 +32,11 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.VolumeOff
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.GraphicEq
-import androidx.compose.material.icons.filled.UnfoldMore
+import com.openminis.app.hassn.icons.VolumeOff
+import com.openminis.app.hassn.icons.VolumeUp
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.GraphicEq
+import com.openminis.app.hassn.icons.UnfoldMore
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -396,7 +396,7 @@ private fun CompactSpeaker(
         Box(
             Modifier
                 .size(40.dp)
-                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.92f), CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f), CircleShape)
                 .border(0.5.dp, Color.Gray.copy(alpha = 0.25f), CircleShape)
                 .pointerInput(muted) {
                     detectTapGestures(
@@ -456,7 +456,7 @@ private fun ExpandedCapsule(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .height(40.dp)
-            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.95f), RoundedCornerShape(50))
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.95f), RoundedCornerShape(50))
             .border(0.5.dp, Color.Gray.copy(alpha = 0.25f), RoundedCornerShape(50))
             .padding(horizontal = 14.dp),
     ) {

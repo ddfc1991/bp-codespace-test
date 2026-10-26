@@ -21,9 +21,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Compress
-import androidx.compose.material.icons.filled.Info
+import com.openminis.app.hassn.icons.Bolt
+import com.openminis.app.hassn.icons.Compress
+import com.openminis.app.hassn.icons.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -55,11 +55,11 @@ fun ContextUsageIndicator(
     modifier: Modifier = Modifier,
     compact: Boolean = true,
 ) {
-    val purpleAccent = Color(0xFFAF52DE) // iOS Purple / AI Context Purple
+    val purpleAccent = Color(0xFF8E8E93) // iOS Purple / AI Context Purple
     val dotColor = when {
         state.isCompacting -> purpleAccent
-        state.level == ContextUsageState.Level.CRITICAL -> Color(0xFFFF3B30) // Red
-        state.level == ContextUsageState.Level.WARNING -> Color(0xFFFF9500)  // Amber
+        state.level == ContextUsageState.Level.CRITICAL -> Color(0xFFDA2F35) // Red
+        state.level == ContextUsageState.Level.WARNING -> Color(0xFFFF4D00)  // Amber
         else -> purpleAccent                                                 // Purple for normal!
     }
 
@@ -168,9 +168,9 @@ fun ContextDetailSheet(
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = when (state.level) {
-                            ContextUsageState.Level.NORMAL -> Color(0xFF34C759)
-                            ContextUsageState.Level.WARNING -> Color(0xFFFF9500)
-                            ContextUsageState.Level.CRITICAL -> Color(0xFFFF3B30)
+                            ContextUsageState.Level.NORMAL -> Color(0xFF00A665)
+                            ContextUsageState.Level.WARNING -> Color(0xFFFF4D00)
+                            ContextUsageState.Level.CRITICAL -> Color(0xFFDA2F35)
                         },
                     )
                 }
@@ -182,9 +182,9 @@ fun ContextDetailSheet(
                         .height(8.dp)
                         .clip(RoundedCornerShape(4.dp)),
                     color = when (state.level) {
-                        ContextUsageState.Level.NORMAL -> Color(0xFFAF52DE)
-                        ContextUsageState.Level.WARNING -> Color(0xFFFF9500)
-                        ContextUsageState.Level.CRITICAL -> Color(0xFFFF3B30)
+                        ContextUsageState.Level.NORMAL -> Color(0xFF8E8E93)
+                        ContextUsageState.Level.WARNING -> Color(0xFFFF4D00)
+                        ContextUsageState.Level.CRITICAL -> Color(0xFFDA2F35)
                     },
                     trackColor = ChatColors.secondaryBg,
                 )
@@ -242,7 +242,7 @@ fun ContextDetailSheet(
                 Icon(
                     imageVector = Icons.Default.Bolt,
                     contentDescription = null,
-                    tint = Color(0xFFAF52DE),
+                    tint = Color(0xFF8E8E93),
                     modifier = Modifier.size(18.dp),
                 )
                 Column {
@@ -273,7 +273,7 @@ fun ContextDetailSheet(
                     .fillMaxWidth()
                     .height(44.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF007AFF),
+                    containerColor = Color(0xFF8E8E93),
                     contentColor = Color.White,
                 ),
                 shape = RoundedCornerShape(10.dp),

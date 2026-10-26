@@ -25,17 +25,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Backspace
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.UnfoldMore
+import com.openminis.app.hassn.icons.Backspace
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.Mic
+import com.openminis.app.hassn.icons.UnfoldMore
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -268,11 +268,7 @@ fun InlineVoiceInputPanel(
         if (text.isEmpty() || isCorrecting) return
         val engine = com.openminis.app.speech.correction.VoiceCorrection.engine(panelContext)
         if (engine == null) {
-            android.widget.Toast.makeText(
-                panelContext,
-                panelContext.getString(R.string.voice_correction_failed),
-                android.widget.Toast.LENGTH_SHORT,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(panelContext, panelContext.getString(R.string.voice_correction_failed), long = false)
             return
         }
         isCorrecting = true
@@ -303,18 +299,10 @@ fun InlineVoiceInputPanel(
                 }
                 suggestion.rejectedReason == null ||
                     suggestion.rejectedReason == "empty_input" -> {
-                    android.widget.Toast.makeText(
-                        panelContext,
-                        panelContext.getString(R.string.voice_correction_none_needed),
-                        android.widget.Toast.LENGTH_SHORT,
-                    ).show()
+                    com.openminis.app.hassn.HassnToast.show(panelContext, panelContext.getString(R.string.voice_correction_none_needed), long = false)
                 }
                 else -> {
-                    android.widget.Toast.makeText(
-                        panelContext,
-                        panelContext.getString(R.string.voice_correction_failed),
-                        android.widget.Toast.LENGTH_SHORT,
-                    ).show()
+                    com.openminis.app.hassn.HassnToast.show(panelContext, panelContext.getString(R.string.voice_correction_failed), long = false)
                 }
             }
         }
@@ -717,10 +705,10 @@ private fun ExpandedContent(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .background(Color(0xFFFF9500).copy(alpha = 0.12f))
+                    .background(Color(0xFFFF4D00).copy(alpha = 0.12f))
                     .padding(horizontal = 12.dp, vertical = 5.dp),
             ) {
-                Text("⚠︎", fontSize = 10.sp, color = Color(0xFFFF9500))
+                Text("⚠︎", fontSize = 10.sp, color = Color(0xFFFF4D00))
                 Spacer(Modifier.width(5.dp))
                 Text(
                     transcribeError,

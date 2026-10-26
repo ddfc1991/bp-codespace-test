@@ -37,15 +37,15 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.AudioFile
-import androidx.compose.material.icons.filled.FolderZip
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.automirrored.filled.Article
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.Schedule
+import com.openminis.app.hassn.icons.AudioFile
+import com.openminis.app.hassn.icons.FolderZip
+import com.openminis.app.hassn.icons.PictureAsPdf
+import com.openminis.app.hassn.icons.VideoFile
+import com.openminis.app.hassn.icons.Article
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.conflate
@@ -94,49 +94,49 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AppShortcut
-import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.AttachFile
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Block
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DataUsage
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.Keyboard
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.CloseFullscreen
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.StopCircle
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.RadioButtonChecked
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.ChecklistRtl
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.ArrowForward
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.Send
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.AppShortcut
+import com.openminis.app.hassn.icons.ArrowCircleUp
+import com.openminis.app.hassn.icons.ArrowUpward
+import com.openminis.app.hassn.icons.AttachFile
+import com.openminis.app.hassn.icons.BugReport
+import com.openminis.app.hassn.icons.Build
+import com.openminis.app.hassn.icons.Extension
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.Block
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ChevronLeft
+import com.openminis.app.hassn.icons.ChevronRight
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.DataUsage
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Error
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.CameraAlt
+import com.openminis.app.hassn.icons.PhotoLibrary
+import com.openminis.app.hassn.icons.Keyboard
+import com.openminis.app.hassn.icons.Mic
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.CloseFullscreen
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.Lightbulb
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.Stop
+import com.openminis.app.hassn.icons.StopCircle
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.RadioButtonChecked
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.ChecklistRtl
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import com.openminis.app.BuildConfig
 import com.openminis.app.R
 import com.openminis.app.data.FileMentionIndex
@@ -215,8 +215,8 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.TextFields
+import com.openminis.app.hassn.icons.FormatListBulleted
+import com.openminis.app.hassn.icons.TextFields
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -229,18 +229,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.outlined.Public
-import androidx.compose.material.icons.filled.SkipNext
-import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material.icons.automirrored.filled.NoteAdd
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.EditNote
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.ArrowCircleDown
-import androidx.compose.material.icons.filled.AccountTree
+import com.openminis.app.hassn.icons.Cancel
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Public
+import com.openminis.app.hassn.icons.SkipNext
+import com.openminis.app.hassn.icons.SkipPrevious
+import com.openminis.app.hassn.icons.NoteAdd
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.EditNote
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Memory
+import com.openminis.app.hassn.icons.ArrowCircleDown
+import com.openminis.app.hassn.icons.AccountTree
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.text.style.TextAlign
@@ -362,7 +362,7 @@ internal fun AttachmentChip(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .size(22.dp)
-                .background(MaterialTheme.colorScheme.surface, CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceContainerLowest, CircleShape)
                 .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
                 .clip(CircleShape)
                 .clickable(onClick = onRemove),
@@ -389,10 +389,9 @@ internal fun InputCircleButton(
     val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
-            .pressScaleEffect(targetScale = 0.93f, interactionSource = interactionSource)
-            .size(38.dp)
-            // [Hassn] flat glass icon button inside the composer bar (no outline).
-            .background(com.openminis.app.hassn.hassn.soft, CircleShape)
+            .pressScaleEffect(targetScale = 0.97f, interactionSource = interactionSource)
+            // [Hassn] Hark composer action: plain 40dp touch target, no fill (spec §6.4).
+            .size(40.dp)
             .clip(CircleShape)
             .clickable(
                 interactionSource = interactionSource,
@@ -423,16 +422,16 @@ internal fun MicButton(
     // slot switches back to text input — keyboard glyph (mirrors iOS "T").
     isVoiceActive: Boolean = false,
 ) {
-    val bg = if (isRecording) Color.Red.copy(alpha = 0.15f)
-             else ChatColors.inputIconBg
-    val tint = if (isRecording) Color.Red
-               else MaterialTheme.colorScheme.onSurfaceVariant
-    val borderColor = if (isRecording) Color.Transparent else ChatColors.inputIconBorder
+    // [Hassn] Hark mic: plain 40dp target, textPrimary glyph; recording = systemRed tint.
+    val red = com.openminis.app.hassn.hassn.red
+    val bg = if (isRecording) red.copy(alpha = 0.12f) else Color.Transparent
+    val tint = if (isRecording) red else ChatColors.primaryText
+    val borderColor = Color.Transparent
     val micInteraction = remember { MutableInteractionSource() }
     Box(
         modifier = Modifier
-            .pressScaleEffect(targetScale = 0.93f, interactionSource = micInteraction)
-            .size(38.dp)
+            .pressScaleEffect(targetScale = 0.97f, interactionSource = micInteraction)
+            .size(40.dp)
             .background(bg, CircleShape)
             .border(0.5.dp, borderColor, CircleShape)
             .clip(CircleShape)
@@ -449,7 +448,7 @@ internal fun MicButton(
             contentDescription = if (isVoiceActive) "Switch to keyboard"
             else if (isRecording) "Stop recording" else "Voice input",
             tint = tint,
-            modifier = Modifier.size(20.dp),
+            modifier = Modifier.size(24.dp),
         )
         if (!localeBadge.isNullOrEmpty()) {
             Text(
@@ -1009,7 +1008,7 @@ internal fun ThinkingLevelPicker(
     // up-arrow, signalling "your setting is higher, this model caps here".
     val maxAvailable = availableLevels.lastOrNull { it != ThinkingLevel.OFF }
     val isClamped = current.isEnabled && maxAvailable != null && current.rank > maxAvailable.rank
-    val clampOrange = Color(0xFFFF9500)
+    val clampOrange = Color(0xFFFF4D00)
     Row(
         modifier = Modifier
             .background(
@@ -1143,7 +1142,7 @@ internal fun TodoProgressBanner(
                             Box(
                                 modifier = Modifier
                                     .background(
-                                        if (progress >= 1f) Color(0xFF34C759).copy(alpha = 0.12f)
+                                        if (progress >= 1f) Color(0xFF00A665).copy(alpha = 0.12f)
                                         else MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
                                         RoundedCornerShape(6.dp)
                                     )
@@ -1154,7 +1153,7 @@ internal fun TodoProgressBanner(
                                            else "$percent% ($completedCount/$totalCount)",
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (progress >= 1f) Color(0xFF34C759) else MaterialTheme.colorScheme.primary,
+                                    color = if (progress >= 1f) Color(0xFF00A665) else MaterialTheme.colorScheme.primary,
                                 )
                             }
                         }
@@ -1187,7 +1186,7 @@ internal fun TodoProgressBanner(
                     .fillMaxWidth()
                     .height(4.dp)
                     .clip(RoundedCornerShape(2.dp)),
-                color = if (progress >= 1f) Color(0xFF34C759) else MaterialTheme.colorScheme.primary,
+                color = if (progress >= 1f) Color(0xFF00A665) else MaterialTheme.colorScheme.primary,
                 trackColor = if (ChatColors.isDark) Color(0xFF1E293B) else Color(0xFFE2E8F0),
             )
 
@@ -1210,7 +1209,7 @@ internal fun TodoProgressBanner(
                                 .padding(vertical = 4.dp, horizontal = 2.dp)
                         ) {
                             val (icon, tint) = when {
-                                item.isCompleted -> Icons.Default.CheckCircle to Color(0xFF34C759)
+                                item.isCompleted -> Icons.Default.CheckCircle to Color(0xFF00A665)
                                 item.isInProgress -> Icons.Default.RadioButtonChecked to MaterialTheme.colorScheme.primary
                                 else -> Icons.Default.RadioButtonUnchecked to MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                             }

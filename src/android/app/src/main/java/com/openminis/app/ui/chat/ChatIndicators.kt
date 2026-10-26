@@ -1,5 +1,9 @@
 package com.openminis.app.ui.chat
 
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.foundation.border
+import androidx.compose.ui.draw.clip
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
@@ -155,43 +159,59 @@ internal fun CompactProgressIndicator(
 
 @Composable
 internal fun TypingIndicator() {
-    val infiniteTransition = rememberInfiniteTransition(label = "typing")
-    // Live Soul name → "<custom name> is thinking…" when the user renamed
-    // the assistant in Soul settings. SoulStore.cachedMetadata is a StateFlow
-    // that's updated on save (SoulSettingsScreen) and at app start
-    // (MinisApp.onCreate via refreshCache); collectAsState makes Compose
-    // recompose the indicator immediately when it changes.
+    // [Hassn] Hark thinking / status pill (spec §6.3): transparent, 1dp strokePrimary, r24,
+    // min height 50, padding 16, 15sp w500 textSecondary, with a shimmer sweeping across
+    // (300dp band, 1.6 s cubic(.65,0,.35,1), infinite).
     val soulMeta by com.openminis.app.agent.SoulStore.cachedMetadata.collectAsState()
     val soulName = soulMeta.name.trim().ifEmpty { "Hassn" }
-
-    Row(
-        modifier = Modifier.padding(top = 2.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.Bottom,
+    val p = com.openminis.app.hassn.hassn
+    val tr = rememberInfiniteTransition(label = "thinkingShimmer")
+    val t by tr.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            tween(1600, easing = androidx.compose.animation.core.CubicBezierEasing(0.65f, 0f, 0.35f, 1f)),
+        ),
+        label = "t",
+    )
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    val bandPx = with(density) { 300.dp.toPx() }
+    androidx.compose.foundation.layout.Box(
+        modifier = Modifier
+            .padding(top = 8.dp, bottom = 8.dp)
+            .heightIn(min = 50.dp)
+            .clip(shape)
+            .border(1.dp, p.stroke, shape)
+            .drawWithContent {
+                drawContent()
+                val x = -bandPx + (size.width + bandPx) * t
+                drawRect(
+                    androidx.compose.ui.graphics.Brush.horizontalGradient(
+                        0f to Color.Transparent,
+                        0.5f to p.text.copy(alpha = 0.035f),
+                        1f to Color.Transparent,
+                        startX = x,
+                        endX = x + bandPx,
+                    ),
+                )
+            }
+            .padding(horizontal = 16.dp, vertical = 15.dp),
+        contentAlignment = Alignment.CenterStart,
     ) {
+        val w = with(density) { 160.dp.toPx() }
+        val sx = -w + (w * 3f) * t
         Text(
             text = stringResource(R.string.chat_typing_indicator, soulName),
-            fontSize = 14.sp,
-            color = ChatColors.tertiaryText,
-        )
-        // Animated bouncing dots
-        val dots = listOf(".", ".", ".")
-        dots.forEachIndexed { index, dot ->
-            val offsetY by infiniteTransition.animateFloat(
-                initialValue = 0f,
-                targetValue = -6f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(400, delayMillis = index * 150, easing = LinearEasing),
-                    repeatMode = RepeatMode.Reverse,
+            style = MaterialTheme.typography.titleMedium.copy(
+                brush = androidx.compose.ui.graphics.Brush.horizontalGradient(
+                    0f to p.text2,
+                    0.5f to p.text,
+                    1f to p.text2,
+                    startX = sx,
+                    endX = sx + w,
                 ),
-                label = "dot_bounce_$index",
-            )
-            Text(
-                text = dot,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = ChatColors.tertiaryText,
-                modifier = Modifier.graphicsLayer { translationY = offsetY },
-            )
-        }
+            ),
+        )
     }
 }

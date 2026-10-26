@@ -33,17 +33,17 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Compress
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.VerticalAlignTop
-import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.AudioFile
-import androidx.compose.material.icons.filled.FolderZip
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.automirrored.filled.Article
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.Bolt
+import com.openminis.app.hassn.icons.Compress
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.VerticalAlignTop
+import com.openminis.app.hassn.icons.Schedule
+import com.openminis.app.hassn.icons.AudioFile
+import com.openminis.app.hassn.icons.FolderZip
+import com.openminis.app.hassn.icons.PictureAsPdf
+import com.openminis.app.hassn.icons.VideoFile
+import com.openminis.app.hassn.icons.Article
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.conflate
@@ -95,55 +95,55 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.automirrored.filled.VolumeOff
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AppShortcut
-import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.AttachFile
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Block
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DataUsage
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.CloseFullscreen
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.StopCircle
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.RadioButtonChecked
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.ChecklistRtl
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Menu
+import com.openminis.app.hassn.icons.ArrowForward
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.Send
+import com.openminis.app.hassn.icons.VolumeOff
+import com.openminis.app.hassn.icons.VolumeUp
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.AppShortcut
+import com.openminis.app.hassn.icons.ArrowCircleUp
+import com.openminis.app.hassn.icons.ArrowUpward
+import com.openminis.app.hassn.icons.AttachFile
+import com.openminis.app.hassn.icons.BugReport
+import com.openminis.app.hassn.icons.Build
+import com.openminis.app.hassn.icons.Extension
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.Block
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ChevronLeft
+import com.openminis.app.hassn.icons.ChevronRight
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.DataUsage
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Error
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.CameraAlt
+import com.openminis.app.hassn.icons.PhotoLibrary
+import com.openminis.app.hassn.icons.Mic
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.CloseFullscreen
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.Lightbulb
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.Stop
+import com.openminis.app.hassn.icons.StopCircle
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.RadioButtonChecked
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.ChecklistRtl
 import com.openminis.app.ui.sandbox.SandboxAmbientRibbon
 import com.openminis.app.ui.sandbox.SandboxMonitorSheet
 import androidx.compose.material3.ripple
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.Switch
 import com.openminis.app.ui.settings.SettingsSwitch
 import com.openminis.app.BuildConfig
@@ -229,8 +229,8 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.TextFields
+import com.openminis.app.hassn.icons.FormatListBulleted
+import com.openminis.app.hassn.icons.TextFields
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
@@ -245,19 +245,19 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.outlined.Forum
-import androidx.compose.material.icons.outlined.Public
-import androidx.compose.material.icons.filled.SkipNext
-import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material.icons.automirrored.filled.NoteAdd
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.EditNote
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.ArrowCircleDown
-import androidx.compose.material.icons.filled.AccountTree
+import com.openminis.app.hassn.icons.Cancel
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Forum
+import com.openminis.app.hassn.icons.Public
+import com.openminis.app.hassn.icons.SkipNext
+import com.openminis.app.hassn.icons.SkipPrevious
+import com.openminis.app.hassn.icons.NoteAdd
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.EditNote
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Memory
+import com.openminis.app.hassn.icons.ArrowCircleDown
+import com.openminis.app.hassn.icons.AccountTree
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.text.style.TextAlign
@@ -291,15 +291,16 @@ import com.openminis.app.data.repository.ProviderRepository
 import com.openminis.app.ui.browser.BrowserSheet
 import com.openminis.app.ui.theme.ChatColors
 import com.openminis.app.ui.theme.BrandAtmosphereGlow
+import com.openminis.app.hassn.harkGlass
 import com.openminis.app.ui.components.MinisTextButton
 import com.openminis.app.ui.components.pressScaleEffect
 
 // iOS ChatColors equivalent
-internal val ToolCheckColor = Color(0xFF34C759) // iOS .green
-internal val ToolErrorColor = Color(0xFFFF3B30) // iOS .red
+internal val ToolCheckColor = Color(0xFF00A665) // iOS .green
+internal val ToolErrorColor = Color(0xFFDA2F35) // iOS .red
 internal val ToolCancelColor = Color(0xFFFFCC00) // iOS .yellow
 // Memory tool accent — matches iOS `.pink` on SF Symbols.
-internal val ToolMemoryAccent = Color(0xFFFF2D55)
+internal val ToolMemoryAccent = Color(0xFF8E8E93)
 // Sparkle gradient colors (iOS uses linear gradient)
 internal val SparkleColor1 = Color(0xFFB8B096) // rgb(0.72, 0.69, 0.59)
 internal val SparkleColor2 = Color(0xFF99998C) // rgb(0.6, 0.6, 0.55)
@@ -962,11 +963,7 @@ fun ChatScreen(
             )
         }
         if (uris.size > ATTACHMENT_PICK_LIMIT) {
-            android.widget.Toast.makeText(
-                context,
-                "Only the first $ATTACHMENT_PICK_LIMIT items were attached.",
-                android.widget.Toast.LENGTH_SHORT,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, "Only the first $ATTACHMENT_PICK_LIMIT items were attached.", long = false)
         }
     }
 
@@ -1096,11 +1093,7 @@ fun ChatScreen(
             )
         }
         if (uris.size > ATTACHMENT_PICK_LIMIT) {
-            android.widget.Toast.makeText(
-                context,
-                "Only the first $ATTACHMENT_PICK_LIMIT files were attached.",
-                android.widget.Toast.LENGTH_SHORT,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, "Only the first $ATTACHMENT_PICK_LIMIT files were attached.", long = false)
         }
     }
 
@@ -2685,7 +2678,7 @@ fun ChatScreen(
                                         modifier = Modifier
                                             .size(6.dp)
                                             .background(
-                                                if (modelName.isNotEmpty()) Color(0xFF34C759) else Color(0xFFFF9500),
+                                                if (modelName.isNotEmpty()) Color(0xFF00A665) else Color(0xFFFF4D00),
                                                 CircleShape,
                                             ),
                                     )
@@ -2695,7 +2688,7 @@ fun ChatScreen(
                                             contentAlignment = Alignment.Center,
                                             modifier = Modifier
                                                 .size(11.dp)
-                                                .background(Color(0xFFFF9500), CircleShape),
+                                                .background(Color(0xFFFF4D00), CircleShape),
                                         ) {
                                             Icon(
                                                 Icons.Default.Bolt,
@@ -3765,6 +3758,8 @@ fun ChatScreen(
                     if (!hasCompacted || !isCompactedFolded) flatItems
                     else flatItems.filterNot { it.isCompacted() }
                 }
+                // [Hassn] Hark assistant bubble runs (start / end of each white bubble).
+                val hassnCardPos = remember(visibleFlatItems) { hassnCardPositions(visibleFlatItems) }
                 // SelectionContainer must wrap the WHOLE LazyColumn — placing
                 // it per-item breaks long-press because items get disposed
                 // when scrolled out and the selection registrar/detector goes
@@ -4114,7 +4109,7 @@ fun ChatScreen(
                         Box(
                             modifier = Modifier
                                 .alpha(rowAlpha)
-                                .then(hassnAssistantCard(item))
+                                .then(hassnAssistantCard(hassnCardPos[item.key] ?: 0))
                                 .then(
                                     if (isNewestItem) {
                                         Modifier.onPlaced {
@@ -4357,11 +4352,7 @@ fun ChatScreen(
                                     val text = formatToolDetailsForClipboard(item.block)
                                     val cb = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                                     cb.setPrimaryClip(android.content.ClipData.newPlainText("tool", text))
-                                    android.widget.Toast.makeText(
-                                        context,
-                                        context.getString(R.string.tool_longpress_copied_toast),
-                                        android.widget.Toast.LENGTH_SHORT,
-                                    ).show()
+                                    com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.tool_longpress_copied_toast), long = false)
                                 },
                             )
                             is FlatChatItem.AssistantInfo -> FallbackInfoBlock(
@@ -5380,10 +5371,9 @@ fun ChatScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        // [Hassn-P1] Hark composer: flat glass capsule (mockup 02), no drop shadow.
-                        .clip(RoundedCornerShape(28.dp))
-                        .background(ChatColors.inputBg)
-                        .padding(top = if (attachments.isNotEmpty()) 8.dp else 4.dp),
+                        // [Hassn] Hark composer: 48dp glass capsule — blur 50 + composerBg (spec §6.4).
+                        .harkGlass(RoundedCornerShape(24.dp), ChatColors.inputBg)
+                        .padding(top = if (attachments.isNotEmpty()) 8.dp else 0.dp),
                 ) {
                     // T185: Move-to capsule lives INSIDE the composer card,
                     // pinned 8dp from the top-right corner, mirroring iOS
@@ -5626,11 +5616,7 @@ fun ChatScreen(
                                                 try {
                                                     context.startActivity(intent)
                                                 } catch (_: android.content.ActivityNotFoundException) {
-                                                    android.widget.Toast.makeText(
-                                                        context,
-                                                        "No app available to open this attachment.",
-                                                        android.widget.Toast.LENGTH_SHORT,
-                                                    ).show()
+                                                    com.openminis.app.hassn.HassnToast.show(context, "No app available to open this attachment.", long = false)
                                                 }
                                             }
                                         }
@@ -5664,509 +5650,6 @@ fun ChatScreen(
                             }
                         }
                         Spacer(modifier = Modifier.height(6.dp))
-                    }
-
-                    // While a voice session is active, the TextField is
-                    // replaced by a live waveform + partial-transcription
-                    // preview (matches iOS `inputFieldOrWaveform`). Recognized
-                    // text is already delta-appended into `inputText` by the
-                    // mic button's callback, so when recording ends the field
-                    // shows the full recognized string automatically.
-                    val recSttState by com.openminis.app.speech.SpeechRecognitionManager
-                        .state.collectAsState()
-                    val recIsRecording = recSttState == com.openminis.app.speech.RecognitionState.RECORDING ||
-                        recSttState == com.openminis.app.speech.RecognitionState.STARTING ||
-                        recSttState == com.openminis.app.speech.RecognitionState.FINISHING
-                    // [T-android-voice-panel] Inline voice mode replaces the text
-                    // field with the panel (mirrors iOS inputFieldOrWaveform →
-                    // InlineVoiceInputView). The legacy in-composer waveform
-                    // branch below only serves captures started OUTSIDE the
-                    // panel (none today, kept as a safety net).
-                    if (com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive) {
-                        com.openminis.app.ui.chat.voice.InlineVoiceInputPanel(
-                            providerRepository = providerRepository,
-                            inputText = inputText,
-                            onInputTextChange = { text ->
-                                viewModel.setInputText(text)
-                                viewModel.updateSlashMenuState(text)
-                            },
-                            ensureMicPermission = { ensureMicPermissionFlow() },
-                            // [T-android-correction-context-wiring] Feed AI
-                            // correction the live conversation context. Reads the
-                            // FULL message list (not the windowed uiMessages) so
-                            // older turns still contribute rare-term grounding;
-                            // evaluated lazily at correction time.
-                            conversationContextProvider = {
-                                com.openminis.app.speech.correction.VoiceCorrection
-                                    .buildConversationContext(context, viewModel.messages.value)
-                            },
-                        )
-                    } else if (recIsRecording) {
-                        val levels by com.openminis.app.speech.SpeechRecognitionManager
-                            .audioLevels.collectAsState()
-                        val partial by com.openminis.app.speech.SpeechRecognitionManager
-                            .recognizedText.collectAsState()
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp, vertical = 8.dp),
-                        ) {
-                            AudioWaveformView(
-                                levels = levels,
-                                barColor = Color.Red.copy(alpha = 0.75f),
-                                heightDp = 28,
-                            )
-                            if (partial.isNotBlank()) {
-                                Spacer(modifier = Modifier.height(6.dp))
-                                Text(
-                                    text = partial,
-                                    fontSize = 14.sp,
-                                    color = ChatColors.secondaryText,
-                                    maxLines = 2,
-                                )
-                            }
-                        }
-                    } else
-                    // Text field (iOS: placeholder "Message Minis", no border)
-                    run {
-                        val interactionSource = remember { MutableInteractionSource() }
-                        // [T-android-composer-placeholder-rotation] Which entry
-                        // of the placeholder pool is showing, and whether the
-                        // composer has ever been focused in this session.
-                        //
-                        // rememberSaveable, not remember: a config change
-                        // (rotation, dark-mode toggle, font-scale change)
-                        // otherwise resets the index to the default AND clears
-                        // the first-focus flag, so the next tap would re-run
-                        // first-focus logic and the hint the user was reading
-                        // would snap back.
-                        var placeholderIndex by rememberSaveable {
-                            mutableIntStateOf(ComposerPlaceholderRotation.DEFAULT_INDEX)
-                        }
-                        var composerHasFocusedBefore by rememberSaveable { mutableStateOf(false) }
-                        // TalkBack pins the placeholder — see the picker's
-                        // accessibility note. Read live rather than cached so
-                        // enabling the screen reader mid-session takes effect.
-                        val screenReaderEnabled = rememberScreenReaderEnabled()
-                        val mergedTextStyle = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 16.5.sp * chatInputFontScale,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        // [T-android-enter-to-send-broken] Live read of the
-                        // "Return key sends" preference. Bound here (not
-                        // captured at BasicTextField construction) so a
-                        // toggle in Settings reflects on the next IME
-                        // commit without recomposing the chat tree.
-                        val sendOnEnter = com.openminis.app.ui.settings
-                            .returnKeySendsMessage(context)
-                        // Shared "Enter pressed → send" body used by BOTH
-                        // the hardware-keyboard onKeyEvent path AND the
-                        // soft-keyboard KeyboardActions.onSend below.
-                        // Pre-fix only the onKeyEvent path existed and
-                        // most soft IMEs (Gboard, Sogou, MIUI) never
-                        // route an Enter through onKeyEvent under
-                        // ImeAction.Default — they just inserted a '\n'
-                        // and the preference appeared not to work. We
-                        // now flip imeAction to Send when the toggle is
-                        // on, so the IME shows the send icon AND fires
-                        // onSend; this lambda is the single source of
-                        // truth for what "press Enter to send" means.
-                        val performEnterSend: () -> Boolean = handler@{
-                            if (inputText.isBlank() && attachments.isEmpty()) return@handler false
-                            // Intercept slash commands so "/compact" et al.
-                            // run locally instead of being sent as a chat
-                            // turn. Mirrors iOS performSend().
-                            if (viewModel.tryExecuteInputAsSlashCommand(inputText)) {
-                                viewModel.setInputText("")
-                                releaseComposerAfterSend()
-                                return@handler true
-                            }
-                            // T160: snapshot → clear state + IME →
-                            // sendMessage. Same ordering as the send-
-                            // button click; finishComposingText fires
-                            // when focus drops so any IME composing
-                            // buffer is committed/dropped before the
-                            // empty inputText becomes visible.
-                            val toSend = inputText
-                            lastSendTimeMs = System.currentTimeMillis()
-                            viewModel.setInputText("")
-                            releaseComposerAfterSend()
-                            viewModel.sendMessage(toSend)
-                            noteSendForInputModePref()
-                            userScrolledAway = false
-                            coroutineScope.launch {
-                                tracedScrollToItem("SEND-PATH(keyboard-imeAction)/initial", 0, 0)
-                                kotlinx.coroutines.delay(100)
-                                tracedScrollToItem("SEND-PATH(keyboard-imeAction)/settle", 0, 0)
-                            }
-                            true
-                        }
-                        BasicTextField(
-                            value = inputFieldValue,
-                            onValueChange = { tfv ->
-                                // T217-2: drop IME residue commits in 300ms post-send window.
-                                // finishComposingText (fired by clearFocus on send) makes
-                                // voice/Pinyin IMEs replay their pending candidate through
-                                // onValueChange after we cleared inputText.
-                                val now = System.currentTimeMillis()
-                                if (now - lastSendTimeMs < 300L && tfv.text.isNotEmpty()) {
-                                    return@BasicTextField
-                                }
-                                // [T-android-voice-correction] Capability #3:
-                                // learn from select-and-replace edits. When the
-                                // PREVIOUS value had a non-empty selection and
-                                // this change swapped that span for different
-                                // text, the user deliberately replaced something
-                                // they had already written — the same shape as
-                                // fixing a transcript, so the recorder applies
-                                // the identical phonetic admission test and
-                                // discards anything that reads as a rewrite.
-                                //
-                                // Silent background capture: consent-gated,
-                                // fire-and-forget, no UI. Deliberately NOT
-                                // firing on ordinary typing, which is
-                                // append-only and carries no correction signal.
-                                captureSelectionReplacement(context, inputFieldValue, tfv)
-                                // [T-android-enter-to-send-multiline] Root cause:
-                                // the composer is a multi-line BasicTextField
-                                // (maxLines=6 ⇒ EditorInfo carries
-                                // TYPE_TEXT_FLAG_MULTI_LINE, confirmed inputType
-                                // 0x28001 in dumpsys input_method). In multi-line
-                                // mode soft IMEs (Gboard/LatinIME, Sogou, MIUI)
-                                // render Enter as a newline and IGNORE
-                                // IME_ACTION_SEND — so KeyboardActions.onSend
-                                // never fires and the "Return key sends" pref
-                                // looked inert. The IME commits the Enter as a
-                                // plain '\n' through onValueChange (not through
-                                // onKeyEvent / a KEYCODE_ENTER), so the only
-                                // place to catch it for soft keyboards is here.
-                                //
-                                // Detect a single '\n' freshly inserted into the
-                                // text (one Enter keypress) and convert it to a
-                                // send. Guarded to a single added newline so a
-                                // paste containing newlines is NOT swallowed —
-                                // those increase the count by >1 and fall through
-                                // to the normal multi-line edit. Hardware-keyboard
-                                // Enter / Shift+Enter still go through onKeyEvent
-                                // below (Shift+Enter inserts a newline there and
-                                // never reaches the send path).
-                                if (sendOnEnter && !showMentionMenu) {
-                                    val oldText = inputFieldValue.text
-                                    val newText = tfv.text
-                                    val addedNewline = newText.length == oldText.length + 1 &&
-                                        newText.count { it == '\n' } == oldText.count { it == '\n' } + 1
-                                    if (addedNewline) {
-                                        val caret = tfv.selection.end
-                                        // The inserted char sits just before the
-                                        // caret; confirm it is the newline so we
-                                        // don't misfire on an unrelated 1-char edit
-                                        // that happens to keep newline parity.
-                                        if (caret in 1..newText.length &&
-                                            newText[caret - 1] == '\n'
-                                        ) {
-                                            performEnterSend()
-                                            return@BasicTextField
-                                        }
-                                    }
-                                }
-                                // [T-android-paste-placeholder] Fold a large
-                                // single-shot insertion into a `[Pasted#N]`
-                                // marker before anything else sees it.
-                                //
-                                // Detected by length jump rather than by
-                                // intercepting paste: Compose's BasicTextField
-                                // exposes no paste hook, and the alternative
-                                // (swapping in an AndroidView/EditText to
-                                // override onTextContextMenuItem) would put the
-                                // @-mention and slash-command logic below onto a
-                                // different text pipeline. A jump test costs
-                                // nothing and covers every source — long-press
-                                // Paste, hardware Ctrl+V, and IME bulk commit —
-                                // because all three surface as one big value
-                                // change.
-                                //
-                                // Placed BEFORE `inputFieldValue = tfv` and the
-                                // mention/slash updates on purpose: those must
-                                // see the SHORT text. Letting them run on the
-                                // raw paste first would make the @-picker scan a
-                                // 50 KB string and could pop the slash menu on a
-                                // '/' buried in pasted content.
-                                // [T-android-paste-oversize] The size split
-                                // lives INSIDE the stash lambda rather than
-                                // beside this call, because foldLongPasteIfNeeded
-                                // is what locates the inserted run — branching
-                                // outside would mean re-deriving that prefix/
-                                // suffix diff and keeping two copies of it in
-                                // step.
-                                //
-                                // Returning "" for the file case is what removes
-                                // the pasted text from the field entirely: the
-                                // fold substitutes the marker for the run, so an
-                                // empty marker deletes it. That is the intent —
-                                // the content is now a chip in the attachment
-                                // row, and leaving a stray literal behind would
-                                // send it twice.
-                                //
-                                // If the write fails the text is stashed as an
-                                // ordinary placeholder instead, so an unwritable
-                                // cache degrades to the old behaviour rather
-                                // than losing what the user pasted.
-                                val value = foldLongPasteIfNeeded(
-                                    old = inputFieldValue,
-                                    new = tfv,
-                                    stash = { pasted ->
-                                        if (pasted.length > PASTE_AS_FILE_THRESHOLD) {
-                                            if (viewModel.stashPastedTextAsFile(pasted) != null) {
-                                                ""
-                                            } else {
-                                                viewModel.stashPastedText(pasted)
-                                            }
-                                        } else {
-                                            viewModel.stashPastedText(pasted)
-                                        }
-                                    },
-                                )
-                                inputFieldValue = value
-                                if (inputText != value.text) {
-                                    viewModel.setInputText(value.text)
-                                    viewModel.updateSlashMenuState(value.text)
-                                }
-                                // Drive the @ mention picker on every keystroke
-                                // and selection change — caret position alone
-                                // can flip the active token's filter (e.g. user
-                                // moves cursor without typing). VM filters out
-                                // the slash-menu-priority case and any
-                                // non-mention caret state.
-                                viewModel.updateMentionMenuState(
-                                    text = value.text,
-                                    caret = value.selection.end,
-                                )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(min = 25.dp)
-                                .focusRequester(inputFocusRequester)
-                                .onFocusChanged {
-                                    // [T-android-composer-placeholder-rotation]
-                                    // Advance the placeholder on the focus-GAIN
-                                    // edge only. Guarding on the previous value
-                                    // matters: onFocusChanged also fires on
-                                    // focus loss and on recompositions that
-                                    // re-report the same state, and rotating on
-                                    // those would swap the hint while the user
-                                    // is typing or dismissing the keyboard.
-                                    if (it.isFocused && !inputFocused) {
-                                        placeholderIndex = ComposerPlaceholderRotation.nextIndex(
-                                            current = placeholderIndex,
-                                            hasFocusedBefore = composerHasFocusedBefore,
-                                            sessionHasMessages = messages.isNotEmpty(),
-                                            screenReaderOn = screenReaderEnabled,
-                                            randomIndex = { bound -> kotlin.random.Random.nextInt(bound) },
-                                        )
-                                        composerHasFocusedBefore = true
-                                    }
-                                    inputFocused = it.isFocused
-                                }
-                                .onKeyEvent { event ->
-                                    // T-at-filepicker-keyboard: while the @-mention
-                                    // menu is open, hardware Up/Down navigates the
-                                    // list and Return commits the highlighted entry.
-                                    // Falls through to the normal Return-send path
-                                    // when there are no mention candidates so the
-                                    // user isn't stuck if the menu is empty.
-                                    // [T-android-slash-tab-complete] Tab fills in
-                                    // the highlighted slash command — the shell
-                                    // convention, and the reason a user types
-                                    // "/andr" then reaches for Tab rather than
-                                    // the mouse.
-                                    //
-                                    // The slash menu has no selection cursor
-                                    // (unlike the mention menu, which tracks one
-                                    // for its arrow keys), so "highlighted" is
-                                    // the first row — the same one the list is
-                                    // already scrolled to and the one the user
-                                    // is looking at.
-                                    //
-                                    // Claimed BEFORE the mention block and the
-                                    // Enter handling below so Tab never falls
-                                    // through to focus traversal, which would
-                                    // move focus out of the composer and leave
-                                    // the menu open behind it.
-                                    if (showSlashMenu &&
-                                        event.type == KeyEventType.KeyDown &&
-                                        event.key == Key.Tab
-                                    ) {
-                                        val first = filteredSlashCommands.firstOrNull()
-                                        if (first != null) {
-                                            val newText = viewModel.executeSlashCommand(first, inputText)
-                                            viewModel.setInputText(newText)
-                                            // Caret to the end: executeSlashCommand
-                                            // leaves "/<name> " for a Skill, and the
-                                            // point of completing is to keep typing
-                                            // arguments right after it.
-                                            inputFieldValue = androidx.compose.ui.text.input.TextFieldValue(
-                                                text = newText,
-                                                selection = androidx.compose.ui.text.TextRange(newText.length),
-                                            )
-                                            return@onKeyEvent true
-                                        }
-                                    }
-                                    if (showMentionMenu && event.type == KeyEventType.KeyDown) {
-                                        when (event.key) {
-                                            Key.DirectionUp -> {
-                                                viewModel.mentionMenuUp()
-                                                return@onKeyEvent true
-                                            }
-                                            Key.DirectionDown -> {
-                                                viewModel.mentionMenuDown()
-                                                return@onKeyEvent true
-                                            }
-                                            // [T-android-slash-tab-complete] Tab
-                                            // completes here too, so the two
-                                            // menus answer the same key the same
-                                            // way. This one HAS a selection
-                                            // cursor, so Tab takes the selected
-                                            // row rather than the first.
-                                            Key.Enter, Key.Tab -> {
-                                                val result = viewModel.executeSelectedMention(
-                                                    currentText = inputFieldValue.text,
-                                                    currentCaret = inputFieldValue.selection.end,
-                                                )
-                                                if (result != null) {
-                                                    val (newText, newCaret) = result
-                                                    viewModel.setInputText(newText)
-                                                    inputFieldValue = androidx.compose.ui.text.input.TextFieldValue(
-                                                        text = newText,
-                                                        selection = androidx.compose.ui.text.TextRange(newCaret),
-                                                    )
-                                                    return@onKeyEvent true
-                                                }
-                                                // Menu open but no candidates → fall
-                                                // through to Return-send / newline.
-                                                //
-                                                // [T-android-slash-tab-complete]
-                                                // ...but only for Enter. Tab must
-                                                // still be swallowed: falling
-                                                // through would hand it to the
-                                                // Enter handling below and SEND
-                                                // the message, which is not
-                                                // remotely what Tab means.
-                                                if (event.key == Key.Tab) return@onKeyEvent true
-                                            }
-                                            Key.Escape -> {
-                                                viewModel.dismissMentionMenu()
-                                                return@onKeyEvent true
-                                            }
-                                            else -> Unit
-                                        }
-                                    }
-                                    // Return-key behavior is user-configurable
-                                    // (Appearance → Return Key, default Newline =
-                                    // iOS shipping default). Shift+Enter always
-                                    // inserts a newline regardless of the setting,
-                                    // mirroring iOS hardware-keyboard semantics.
-                                    // [T-android-enter-to-send-broken] Hardware-
-                                    // keyboard path. Soft IME route goes through
-                                    // KeyboardActions.onSend below.
-                                    if (event.type == KeyEventType.KeyDown &&
-                                        event.key == Key.Enter &&
-                                        !event.isShiftPressed &&
-                                        sendOnEnter
-                                    ) {
-                                        performEnterSend()
-                                    } else false
-                                },
-                            textStyle = mergedTextStyle,
-                            cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.primary),
-                            maxLines = 6,
-                            // [T-android-enter-to-send-broken] When the
-                            // user has Return-Key=Send turned on, ask the
-                            // IME for the Send action so it (a) shows the
-                            // send glyph instead of "Enter" and (b)
-                            // actually invokes KeyboardActions.onSend
-                            // instead of silently inserting '\n'. With
-                            // Default, Gboard / Sogou / MIUI etc. never
-                            // routed Enter through onKeyEvent so the
-                            // preference appeared inert.
-                            keyboardOptions = KeyboardOptions(
-                                imeAction = if (sendOnEnter) ImeAction.Send else ImeAction.Default,
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onSend = { performEnterSend() },
-                            ),
-                            interactionSource = interactionSource,
-                            decorationBox = { innerTextField ->
-                                OutlinedTextFieldDefaults.DecorationBox(
-                                    value = inputText,
-                                    innerTextField = innerTextField,
-                                    enabled = true,
-                                    singleLine = false,
-                                    visualTransformation = androidx.compose.ui.text.input.VisualTransformation.None,
-                                    interactionSource = interactionSource,
-                                    placeholder = {
-                                        // [T-android-placeholder-single-line, port iOS 19e1d61f]
-                                        // Single-line composer placeholder. The
-                                        // parenthetical "(@ to mention files)"
-                                        // is folded into the same line as
-                                        // "Message <SoulName>" at the same font
-                                        // size and color — iOS collapsed the
-                                        // two-line variant (#421/#425/#426) into
-                                        // a single hint because users read the
-                                        // smaller hint row as a separate UI
-                                        // element rather than placeholder text.
-                                        // SoulStore.cachedMetadata stays the
-                                        // source for the Soul-customized name
-                                        // so renames in Soul Settings reflect
-                                        // here live.
-                                        val soulName by com.openminis.app.agent.SoulStore
-                                            .cachedMetadata.collectAsState()
-                                        // [T-android-composer-placeholder-rotation]
-                                        // Crossfade between hints. Reduce-motion
-                                        // (animator scale 0) skips the fade and
-                                        // swaps instantly — matching the iOS
-                                        // Reduce Motion branch.
-                                        val fadeMs = if (animationsDisabled(context)) 0 else 220
-                                        Crossfade(
-                                            targetState = placeholderIndex,
-                                            animationSpec = tween(durationMillis = fadeMs),
-                                            label = "composerPlaceholder",
-                                        ) { idx ->
-                                            Text(
-                                                composerPlaceholderText(idx, soulName.name),
-                                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),
-                                                fontSize = 16.5.sp * chatInputFontScale,
-                                                maxLines = 1,
-                                                overflow = TextOverflow.Ellipsis,
-                                            )
-                                        }
-                                    },
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = Color.Transparent,
-                                        unfocusedBorderColor = Color.Transparent,
-                                        focusedContainerColor = Color.Transparent,
-                                        unfocusedContainerColor = Color.Transparent,
-                                    ),
-                                    // T7: vertical 10dp → 7dp (≈ −15%) to slim the
-                                    // chat composer. Settings TextFields keep
-                                    // Material3 default padding — those are
-                                    // 1-shot config inputs, not the daily-
-                                    // friction surface the user wants tightened.
-                                    // T185: 12dp horizontal lines the
-                                    // typed text up with the +/slash and
-                                    // mic/send icon-button row below
-                                    // (Modifier.padding(horizontal = 12.dp)
-                                    // there) and the attachment chip row
-                                    // (also 12dp). 16dp left an unaligned
-                                    // jog where the text started further
-                                    // right than every other composer
-                                    // element.
-                                    contentPadding = PaddingValues(
-                                        horizontal = 12.dp,
-                                        vertical = 7.dp,
-                                    ),
-                                )
-                            },
-                        )
                     }
 
                     // Speech recognition states & trigger for bottom bar
@@ -6218,19 +5701,516 @@ fun ChatScreen(
                         SpeechLanguagePickerSheet(onDismiss = { showLangSheet = false })
                     }
 
-                    // Button row below text field (iOS layout: + / ... mic send)
+                    // [Hassn] Hark composer (spec §6.4): ONE row — text field · + · mic / send pill.
+                    // The slash button and the mode chips (teamwork, edit, read-replies) live in a
+                    // second row that only shows while typing, so the idle composer is a 48dp capsule.
+                    val hassnEditingId by viewModel.editingMessageId.collectAsState()
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp, vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Bottom,
                     ) {
-                        // 1. Left: Attach (+) and Slash (/) primary actions
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        ) {
-                            // Left: + button (iOS: 34×34 circle, secondary bg)
+                        Box(modifier = Modifier.weight(1f)) {
+                            // While a voice session is active, the TextField is
+                            // replaced by a live waveform + partial-transcription
+                            // preview (matches iOS `inputFieldOrWaveform`). Recognized
+                            // text is already delta-appended into `inputText` by the
+                            // mic button's callback, so when recording ends the field
+                            // shows the full recognized string automatically.
+                            val recSttState by com.openminis.app.speech.SpeechRecognitionManager
+                                .state.collectAsState()
+                            val recIsRecording = recSttState == com.openminis.app.speech.RecognitionState.RECORDING ||
+                                recSttState == com.openminis.app.speech.RecognitionState.STARTING ||
+                                recSttState == com.openminis.app.speech.RecognitionState.FINISHING
+                            // [T-android-voice-panel] Inline voice mode replaces the text
+                            // field with the panel (mirrors iOS inputFieldOrWaveform →
+                            // InlineVoiceInputView). The legacy in-composer waveform
+                            // branch below only serves captures started OUTSIDE the
+                            // panel (none today, kept as a safety net).
+                            if (com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive) {
+                                com.openminis.app.ui.chat.voice.InlineVoiceInputPanel(
+                                    providerRepository = providerRepository,
+                                    inputText = inputText,
+                                    onInputTextChange = { text ->
+                                        viewModel.setInputText(text)
+                                        viewModel.updateSlashMenuState(text)
+                                    },
+                                    ensureMicPermission = { ensureMicPermissionFlow() },
+                                    // [T-android-correction-context-wiring] Feed AI
+                                    // correction the live conversation context. Reads the
+                                    // FULL message list (not the windowed uiMessages) so
+                                    // older turns still contribute rare-term grounding;
+                                    // evaluated lazily at correction time.
+                                    conversationContextProvider = {
+                                        com.openminis.app.speech.correction.VoiceCorrection
+                                            .buildConversationContext(context, viewModel.messages.value)
+                                    },
+                                )
+                            } else if (recIsRecording) {
+                                val levels by com.openminis.app.speech.SpeechRecognitionManager
+                                    .audioLevels.collectAsState()
+                                val partial by com.openminis.app.speech.SpeechRecognitionManager
+                                    .recognizedText.collectAsState()
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                ) {
+                                    AudioWaveformView(
+                                        levels = levels,
+                                        barColor = Color.Red.copy(alpha = 0.75f),
+                                        heightDp = 28,
+                                    )
+                                    if (partial.isNotBlank()) {
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        Text(
+                                            text = partial,
+                                            fontSize = 14.sp,
+                                            color = ChatColors.secondaryText,
+                                            maxLines = 2,
+                                        )
+                                    }
+                                }
+                            } else
+                            // Text field (iOS: placeholder "Message Minis", no border)
+                            run {
+                                val interactionSource = remember { MutableInteractionSource() }
+                                // [T-android-composer-placeholder-rotation] Which entry
+                                // of the placeholder pool is showing, and whether the
+                                // composer has ever been focused in this session.
+                                //
+                                // rememberSaveable, not remember: a config change
+                                // (rotation, dark-mode toggle, font-scale change)
+                                // otherwise resets the index to the default AND clears
+                                // the first-focus flag, so the next tap would re-run
+                                // first-focus logic and the hint the user was reading
+                                // would snap back.
+                                var placeholderIndex by rememberSaveable {
+                                    mutableIntStateOf(ComposerPlaceholderRotation.DEFAULT_INDEX)
+                                }
+                                var composerHasFocusedBefore by rememberSaveable { mutableStateOf(false) }
+                                // TalkBack pins the placeholder — see the picker's
+                                // accessibility note. Read live rather than cached so
+                                // enabling the screen reader mid-session takes effect.
+                                val screenReaderEnabled = rememberScreenReaderEnabled()
+                                val mergedTextStyle = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = 15.sp * chatInputFontScale,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                )
+                                // [T-android-enter-to-send-broken] Live read of the
+                                // "Return key sends" preference. Bound here (not
+                                // captured at BasicTextField construction) so a
+                                // toggle in Settings reflects on the next IME
+                                // commit without recomposing the chat tree.
+                                val sendOnEnter = com.openminis.app.ui.settings
+                                    .returnKeySendsMessage(context)
+                                // Shared "Enter pressed → send" body used by BOTH
+                                // the hardware-keyboard onKeyEvent path AND the
+                                // soft-keyboard KeyboardActions.onSend below.
+                                // Pre-fix only the onKeyEvent path existed and
+                                // most soft IMEs (Gboard, Sogou, MIUI) never
+                                // route an Enter through onKeyEvent under
+                                // ImeAction.Default — they just inserted a '\n'
+                                // and the preference appeared not to work. We
+                                // now flip imeAction to Send when the toggle is
+                                // on, so the IME shows the send icon AND fires
+                                // onSend; this lambda is the single source of
+                                // truth for what "press Enter to send" means.
+                                val performEnterSend: () -> Boolean = handler@{
+                                    if (inputText.isBlank() && attachments.isEmpty()) return@handler false
+                                    // Intercept slash commands so "/compact" et al.
+                                    // run locally instead of being sent as a chat
+                                    // turn. Mirrors iOS performSend().
+                                    if (viewModel.tryExecuteInputAsSlashCommand(inputText)) {
+                                        viewModel.setInputText("")
+                                        releaseComposerAfterSend()
+                                        return@handler true
+                                    }
+                                    // T160: snapshot → clear state + IME →
+                                    // sendMessage. Same ordering as the send-
+                                    // button click; finishComposingText fires
+                                    // when focus drops so any IME composing
+                                    // buffer is committed/dropped before the
+                                    // empty inputText becomes visible.
+                                    val toSend = inputText
+                                    lastSendTimeMs = System.currentTimeMillis()
+                                    viewModel.setInputText("")
+                                    releaseComposerAfterSend()
+                                    viewModel.sendMessage(toSend)
+                                    noteSendForInputModePref()
+                                    userScrolledAway = false
+                                    coroutineScope.launch {
+                                        tracedScrollToItem("SEND-PATH(keyboard-imeAction)/initial", 0, 0)
+                                        kotlinx.coroutines.delay(100)
+                                        tracedScrollToItem("SEND-PATH(keyboard-imeAction)/settle", 0, 0)
+                                    }
+                                    true
+                                }
+                                BasicTextField(
+                                    value = inputFieldValue,
+                                    onValueChange = { tfv ->
+                                        // T217-2: drop IME residue commits in 300ms post-send window.
+                                        // finishComposingText (fired by clearFocus on send) makes
+                                        // voice/Pinyin IMEs replay their pending candidate through
+                                        // onValueChange after we cleared inputText.
+                                        val now = System.currentTimeMillis()
+                                        if (now - lastSendTimeMs < 300L && tfv.text.isNotEmpty()) {
+                                            return@BasicTextField
+                                        }
+                                        // [T-android-voice-correction] Capability #3:
+                                        // learn from select-and-replace edits. When the
+                                        // PREVIOUS value had a non-empty selection and
+                                        // this change swapped that span for different
+                                        // text, the user deliberately replaced something
+                                        // they had already written — the same shape as
+                                        // fixing a transcript, so the recorder applies
+                                        // the identical phonetic admission test and
+                                        // discards anything that reads as a rewrite.
+                                        //
+                                        // Silent background capture: consent-gated,
+                                        // fire-and-forget, no UI. Deliberately NOT
+                                        // firing on ordinary typing, which is
+                                        // append-only and carries no correction signal.
+                                        captureSelectionReplacement(context, inputFieldValue, tfv)
+                                        // [T-android-enter-to-send-multiline] Root cause:
+                                        // the composer is a multi-line BasicTextField
+                                        // (maxLines=6 ⇒ EditorInfo carries
+                                        // TYPE_TEXT_FLAG_MULTI_LINE, confirmed inputType
+                                        // 0x28001 in dumpsys input_method). In multi-line
+                                        // mode soft IMEs (Gboard/LatinIME, Sogou, MIUI)
+                                        // render Enter as a newline and IGNORE
+                                        // IME_ACTION_SEND — so KeyboardActions.onSend
+                                        // never fires and the "Return key sends" pref
+                                        // looked inert. The IME commits the Enter as a
+                                        // plain '\n' through onValueChange (not through
+                                        // onKeyEvent / a KEYCODE_ENTER), so the only
+                                        // place to catch it for soft keyboards is here.
+                                        //
+                                        // Detect a single '\n' freshly inserted into the
+                                        // text (one Enter keypress) and convert it to a
+                                        // send. Guarded to a single added newline so a
+                                        // paste containing newlines is NOT swallowed —
+                                        // those increase the count by >1 and fall through
+                                        // to the normal multi-line edit. Hardware-keyboard
+                                        // Enter / Shift+Enter still go through onKeyEvent
+                                        // below (Shift+Enter inserts a newline there and
+                                        // never reaches the send path).
+                                        if (sendOnEnter && !showMentionMenu) {
+                                            val oldText = inputFieldValue.text
+                                            val newText = tfv.text
+                                            val addedNewline = newText.length == oldText.length + 1 &&
+                                                newText.count { it == '\n' } == oldText.count { it == '\n' } + 1
+                                            if (addedNewline) {
+                                                val caret = tfv.selection.end
+                                                // The inserted char sits just before the
+                                                // caret; confirm it is the newline so we
+                                                // don't misfire on an unrelated 1-char edit
+                                                // that happens to keep newline parity.
+                                                if (caret in 1..newText.length &&
+                                                    newText[caret - 1] == '\n'
+                                                ) {
+                                                    performEnterSend()
+                                                    return@BasicTextField
+                                                }
+                                            }
+                                        }
+                                        // [T-android-paste-placeholder] Fold a large
+                                        // single-shot insertion into a `[Pasted#N]`
+                                        // marker before anything else sees it.
+                                        //
+                                        // Detected by length jump rather than by
+                                        // intercepting paste: Compose's BasicTextField
+                                        // exposes no paste hook, and the alternative
+                                        // (swapping in an AndroidView/EditText to
+                                        // override onTextContextMenuItem) would put the
+                                        // @-mention and slash-command logic below onto a
+                                        // different text pipeline. A jump test costs
+                                        // nothing and covers every source — long-press
+                                        // Paste, hardware Ctrl+V, and IME bulk commit —
+                                        // because all three surface as one big value
+                                        // change.
+                                        //
+                                        // Placed BEFORE `inputFieldValue = tfv` and the
+                                        // mention/slash updates on purpose: those must
+                                        // see the SHORT text. Letting them run on the
+                                        // raw paste first would make the @-picker scan a
+                                        // 50 KB string and could pop the slash menu on a
+                                        // '/' buried in pasted content.
+                                        // [T-android-paste-oversize] The size split
+                                        // lives INSIDE the stash lambda rather than
+                                        // beside this call, because foldLongPasteIfNeeded
+                                        // is what locates the inserted run — branching
+                                        // outside would mean re-deriving that prefix/
+                                        // suffix diff and keeping two copies of it in
+                                        // step.
+                                        //
+                                        // Returning "" for the file case is what removes
+                                        // the pasted text from the field entirely: the
+                                        // fold substitutes the marker for the run, so an
+                                        // empty marker deletes it. That is the intent —
+                                        // the content is now a chip in the attachment
+                                        // row, and leaving a stray literal behind would
+                                        // send it twice.
+                                        //
+                                        // If the write fails the text is stashed as an
+                                        // ordinary placeholder instead, so an unwritable
+                                        // cache degrades to the old behaviour rather
+                                        // than losing what the user pasted.
+                                        val value = foldLongPasteIfNeeded(
+                                            old = inputFieldValue,
+                                            new = tfv,
+                                            stash = { pasted ->
+                                                if (pasted.length > PASTE_AS_FILE_THRESHOLD) {
+                                                    if (viewModel.stashPastedTextAsFile(pasted) != null) {
+                                                        ""
+                                                    } else {
+                                                        viewModel.stashPastedText(pasted)
+                                                    }
+                                                } else {
+                                                    viewModel.stashPastedText(pasted)
+                                                }
+                                            },
+                                        )
+                                        inputFieldValue = value
+                                        if (inputText != value.text) {
+                                            viewModel.setInputText(value.text)
+                                            viewModel.updateSlashMenuState(value.text)
+                                        }
+                                        // Drive the @ mention picker on every keystroke
+                                        // and selection change — caret position alone
+                                        // can flip the active token's filter (e.g. user
+                                        // moves cursor without typing). VM filters out
+                                        // the slash-menu-priority case and any
+                                        // non-mention caret state.
+                                        viewModel.updateMentionMenuState(
+                                            text = value.text,
+                                            caret = value.selection.end,
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .heightIn(min = 25.dp)
+                                        .focusRequester(inputFocusRequester)
+                                        .onFocusChanged {
+                                            // [T-android-composer-placeholder-rotation]
+                                            // Advance the placeholder on the focus-GAIN
+                                            // edge only. Guarding on the previous value
+                                            // matters: onFocusChanged also fires on
+                                            // focus loss and on recompositions that
+                                            // re-report the same state, and rotating on
+                                            // those would swap the hint while the user
+                                            // is typing or dismissing the keyboard.
+                                            if (it.isFocused && !inputFocused) {
+                                                placeholderIndex = ComposerPlaceholderRotation.nextIndex(
+                                                    current = placeholderIndex,
+                                                    hasFocusedBefore = composerHasFocusedBefore,
+                                                    sessionHasMessages = messages.isNotEmpty(),
+                                                    screenReaderOn = screenReaderEnabled,
+                                                    randomIndex = { bound -> kotlin.random.Random.nextInt(bound) },
+                                                )
+                                                composerHasFocusedBefore = true
+                                            }
+                                            inputFocused = it.isFocused
+                                        }
+                                        .onKeyEvent { event ->
+                                            // T-at-filepicker-keyboard: while the @-mention
+                                            // menu is open, hardware Up/Down navigates the
+                                            // list and Return commits the highlighted entry.
+                                            // Falls through to the normal Return-send path
+                                            // when there are no mention candidates so the
+                                            // user isn't stuck if the menu is empty.
+                                            // [T-android-slash-tab-complete] Tab fills in
+                                            // the highlighted slash command — the shell
+                                            // convention, and the reason a user types
+                                            // "/andr" then reaches for Tab rather than
+                                            // the mouse.
+                                            //
+                                            // The slash menu has no selection cursor
+                                            // (unlike the mention menu, which tracks one
+                                            // for its arrow keys), so "highlighted" is
+                                            // the first row — the same one the list is
+                                            // already scrolled to and the one the user
+                                            // is looking at.
+                                            //
+                                            // Claimed BEFORE the mention block and the
+                                            // Enter handling below so Tab never falls
+                                            // through to focus traversal, which would
+                                            // move focus out of the composer and leave
+                                            // the menu open behind it.
+                                            if (showSlashMenu &&
+                                                event.type == KeyEventType.KeyDown &&
+                                                event.key == Key.Tab
+                                            ) {
+                                                val first = filteredSlashCommands.firstOrNull()
+                                                if (first != null) {
+                                                    val newText = viewModel.executeSlashCommand(first, inputText)
+                                                    viewModel.setInputText(newText)
+                                                    // Caret to the end: executeSlashCommand
+                                                    // leaves "/<name> " for a Skill, and the
+                                                    // point of completing is to keep typing
+                                                    // arguments right after it.
+                                                    inputFieldValue = androidx.compose.ui.text.input.TextFieldValue(
+                                                        text = newText,
+                                                        selection = androidx.compose.ui.text.TextRange(newText.length),
+                                                    )
+                                                    return@onKeyEvent true
+                                                }
+                                            }
+                                            if (showMentionMenu && event.type == KeyEventType.KeyDown) {
+                                                when (event.key) {
+                                                    Key.DirectionUp -> {
+                                                        viewModel.mentionMenuUp()
+                                                        return@onKeyEvent true
+                                                    }
+                                                    Key.DirectionDown -> {
+                                                        viewModel.mentionMenuDown()
+                                                        return@onKeyEvent true
+                                                    }
+                                                    // [T-android-slash-tab-complete] Tab
+                                                    // completes here too, so the two
+                                                    // menus answer the same key the same
+                                                    // way. This one HAS a selection
+                                                    // cursor, so Tab takes the selected
+                                                    // row rather than the first.
+                                                    Key.Enter, Key.Tab -> {
+                                                        val result = viewModel.executeSelectedMention(
+                                                            currentText = inputFieldValue.text,
+                                                            currentCaret = inputFieldValue.selection.end,
+                                                        )
+                                                        if (result != null) {
+                                                            val (newText, newCaret) = result
+                                                            viewModel.setInputText(newText)
+                                                            inputFieldValue = androidx.compose.ui.text.input.TextFieldValue(
+                                                                text = newText,
+                                                                selection = androidx.compose.ui.text.TextRange(newCaret),
+                                                            )
+                                                            return@onKeyEvent true
+                                                        }
+                                                        // Menu open but no candidates → fall
+                                                        // through to Return-send / newline.
+                                                        //
+                                                        // [T-android-slash-tab-complete]
+                                                        // ...but only for Enter. Tab must
+                                                        // still be swallowed: falling
+                                                        // through would hand it to the
+                                                        // Enter handling below and SEND
+                                                        // the message, which is not
+                                                        // remotely what Tab means.
+                                                        if (event.key == Key.Tab) return@onKeyEvent true
+                                                    }
+                                                    Key.Escape -> {
+                                                        viewModel.dismissMentionMenu()
+                                                        return@onKeyEvent true
+                                                    }
+                                                    else -> Unit
+                                                }
+                                            }
+                                            // Return-key behavior is user-configurable
+                                            // (Appearance → Return Key, default Newline =
+                                            // iOS shipping default). Shift+Enter always
+                                            // inserts a newline regardless of the setting,
+                                            // mirroring iOS hardware-keyboard semantics.
+                                            // [T-android-enter-to-send-broken] Hardware-
+                                            // keyboard path. Soft IME route goes through
+                                            // KeyboardActions.onSend below.
+                                            if (event.type == KeyEventType.KeyDown &&
+                                                event.key == Key.Enter &&
+                                                !event.isShiftPressed &&
+                                                sendOnEnter
+                                            ) {
+                                                performEnterSend()
+                                            } else false
+                                        },
+                                    textStyle = mergedTextStyle,
+                                    cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.primary),
+                                    maxLines = 6,
+                                    // [T-android-enter-to-send-broken] When the
+                                    // user has Return-Key=Send turned on, ask the
+                                    // IME for the Send action so it (a) shows the
+                                    // send glyph instead of "Enter" and (b)
+                                    // actually invokes KeyboardActions.onSend
+                                    // instead of silently inserting '\n'. With
+                                    // Default, Gboard / Sogou / MIUI etc. never
+                                    // routed Enter through onKeyEvent so the
+                                    // preference appeared inert.
+                                    keyboardOptions = KeyboardOptions(
+                                        imeAction = if (sendOnEnter) ImeAction.Send else ImeAction.Default,
+                                    ),
+                                    keyboardActions = KeyboardActions(
+                                        onSend = { performEnterSend() },
+                                    ),
+                                    interactionSource = interactionSource,
+                                    decorationBox = { innerTextField ->
+                                        OutlinedTextFieldDefaults.DecorationBox(
+                                            value = inputText,
+                                            innerTextField = innerTextField,
+                                            enabled = true,
+                                            singleLine = false,
+                                            visualTransformation = androidx.compose.ui.text.input.VisualTransformation.None,
+                                            interactionSource = interactionSource,
+                                            placeholder = {
+                                                // [T-android-placeholder-single-line, port iOS 19e1d61f]
+                                                // Single-line composer placeholder. The
+                                                // parenthetical "(@ to mention files)"
+                                                // is folded into the same line as
+                                                // "Message <SoulName>" at the same font
+                                                // size and color — iOS collapsed the
+                                                // two-line variant (#421/#425/#426) into
+                                                // a single hint because users read the
+                                                // smaller hint row as a separate UI
+                                                // element rather than placeholder text.
+                                                // SoulStore.cachedMetadata stays the
+                                                // source for the Soul-customized name
+                                                // so renames in Soul Settings reflect
+                                                // here live.
+                                                val soulName by com.openminis.app.agent.SoulStore
+                                                    .cachedMetadata.collectAsState()
+                                                // [T-android-composer-placeholder-rotation]
+                                                // Crossfade between hints. Reduce-motion
+                                                // (animator scale 0) skips the fade and
+                                                // swaps instantly — matching the iOS
+                                                // Reduce Motion branch.
+                                                val fadeMs = if (animationsDisabled(context)) 0 else 220
+                                                Crossfade(
+                                                    targetState = placeholderIndex,
+                                                    animationSpec = tween(durationMillis = fadeMs),
+                                                    label = "composerPlaceholder",
+                                                ) { idx ->
+                                                    Text(
+                                                        composerPlaceholderText(idx, soulName.name),
+                                                        color = ChatColors.tertiaryText,
+                                                fontSize = 15.sp * chatInputFontScale,
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis,
+                                                    )
+                                                }
+                                            },
+                                            colors = OutlinedTextFieldDefaults.colors(
+                                                focusedBorderColor = Color.Transparent,
+                                                unfocusedBorderColor = Color.Transparent,
+                                                focusedContainerColor = Color.Transparent,
+                                                unfocusedContainerColor = Color.Transparent,
+                                            ),
+                                            // T7: vertical 10dp → 7dp (≈ −15%) to slim the
+                                            // chat composer. Settings TextFields keep
+                                            // Material3 default padding — those are
+                                            // 1-shot config inputs, not the daily-
+                                            // friction surface the user wants tightened.
+                                            // T185: 12dp horizontal lines the
+                                            // typed text up with the +/slash and
+                                            // mic/send icon-button row below
+                                            // (Modifier.padding(horizontal = 12.dp)
+                                            // there) and the attachment chip row
+                                            // (also 12dp). 16dp left an unaligned
+                                            // jog where the text started further
+                                            // right than every other composer
+                                            // element.
+                                            contentPadding = PaddingValues(start = 16.dp, end = 4.dp, top = 14.dp, bottom = 14.dp), // [Hassn] 48dp
+                                        )
+                                    },
+                                )
+                            }
+                        }
+                        Box(modifier = Modifier.height(48.dp), contentAlignment = Alignment.Center) {
                             Box {
                                 InputCircleButton(
                                     onClick = { showAttachMenu = true },
@@ -6238,8 +6218,8 @@ fun ChatScreen(
                                     Icon(
                                         Icons.Default.Add,
                                         contentDescription = "Attach",
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        modifier = Modifier.size(20.dp),
+                                        tint = ChatColors.primaryText,
+                                        modifier = Modifier.size(24.dp),
                                     )
                                 }
                                 MinisMenu(
@@ -6285,7 +6265,110 @@ fun ChatScreen(
                                     )
                                 }
                             }
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.height(48.dp).padding(end = 8.dp),
+                        ) {
+                            // Recording language pill
+                            if (sttAvailable && !com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive &&
+                                (sttState == com.openminis.app.speech.RecognitionState.RECORDING ||
+                                    sttState == com.openminis.app.speech.RecognitionState.STARTING)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(38.dp)
+                                        .background(ChatColors.inputIconBg, CircleShape)
+                                        .border(0.5.dp, ChatColors.inputIconBorder, CircleShape)
+                                        .clip(CircleShape)
+                                        .clickable { showLangSheet = true },
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Text(
+                                        text = sttLocale.language.uppercase().take(2),
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = ChatColors.primaryText,
+                                    )
+                                }
+                            }
+                            val hasText = inputText.isNotBlank()
+                            val hasContent = hasText || attachments.isNotEmpty()
+                            val showStop = isStreaming && !hasContent
+                            val showMic = !hasContent && !showStop &&
+                                com.openminis.app.speech.SpeechRecognitionManager.hasMicrophoneHardware
+                            val hassnPal = com.openminis.app.hassn.hassn
+                            if (showMic) {
+                                MicButton(
+                                    isRecording = !com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive &&
+                                        (sttState == com.openminis.app.speech.RecognitionState.RECORDING ||
+                                            sttState == com.openminis.app.speech.RecognitionState.STARTING),
+                                    localeBadge = null,
+                                    onClick = { triggerVoiceInput() },
+                                    onLongClick = { showLangSheet = true },
+                                    isVoiceActive = com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive,
+                                )
+                            } else if (showStop) {
+                                // Stop: the same 32dp ink pill as send, with a square glyph.
+                                val stopInteraction = remember { MutableInteractionSource() }
+                                Box(
+                                    modifier = Modifier
+                                        .padding(start = 4.dp)
+                                        .pressScaleEffect(targetScale = 0.96f, interactionSource = stopInteraction)
+                                        .size(width = 48.dp, height = 32.dp)
+                                        .clip(CircleShape)
+                                        .background(hassnPal.ink)
+                                        .clickable(
+                                            interactionSource = stopInteraction,
+                                            indication = null,
+                                        ) { viewModel.cancelStream() },
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Box(
+                                        Modifier
+                                            .size(10.dp)
+                                            .clip(RoundedCornerShape(2.dp))
+                                            .background(hassnPal.onInk),
+                                    )
+                                }
+                            } else {
+                                // Send: 32dp-high ink pill, 16dp up-arrow in textPrimaryOn (disabled = partial alpha).
+                                val canActivate = hasContent
+                                val sendInteraction = remember { MutableInteractionSource() }
+                                val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+                                Box(
+                                    modifier = Modifier
+                                        .padding(start = 4.dp)
+                                        .pressScaleEffect(targetScale = 0.96f, enabled = canActivate, interactionSource = sendInteraction)
+                                        .size(width = 48.dp, height = 32.dp)
+                                        .clip(CircleShape)
+                                        .background(if (canActivate) hassnPal.ink else hassnPal.ink.copy(alpha = 0.3f))
+                                        .clickable(
+                                            enabled = canActivate,
+                                            interactionSource = sendInteraction,
+                                            indication = null,
+                                        ) {
+                                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                                            performSendOrEnqueue(inputText)
+                                        },
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    com.openminis.app.hassn.HassnIcon("send", 16.dp, tint = hassnPal.onInk)
+                                }
+                            }
+                        }
+                    }
 
+                    // Tools row (only while typing / editing / in voice mode).
+                    val hassnShowTools = inputFocused || inputText.isNotEmpty() || hassnEditingId != null ||
+                        com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive
+                    if (hassnShowTools) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, end = 12.dp, bottom = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
                             // Left: "/" slash command button (iOS: italic /, bold)
                             InputCircleButton(onClick = {
                                 if (viewModel.showSlashMenu.value) {
@@ -6302,11 +6385,7 @@ fun ChatScreen(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
-                        }
-
-                        Spacer(modifier = Modifier.width(6.dp))
-
-                        // 2. Middle Capsule & State Group (Horizontal scrollable, flexible, NEVER steals space from send button)
+                            Spacer(modifier = Modifier.width(6.dp))
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -6465,107 +6544,6 @@ fun ChatScreen(
                                 }
                             }
                         }
-
-                        Spacer(modifier = Modifier.width(6.dp))
-
-                        // 3. Right Action Group: Mic Button + Send / Stop Button (Fixed 100% visible on right)
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        ) {
-                            // Recording language pill
-                            if (sttAvailable && !com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive &&
-                                (sttState == com.openminis.app.speech.RecognitionState.RECORDING ||
-                                    sttState == com.openminis.app.speech.RecognitionState.STARTING)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(38.dp)
-                                        .background(ChatColors.inputIconBg, CircleShape)
-                                        .border(0.5.dp, ChatColors.inputIconBorder, CircleShape)
-                                        .clip(CircleShape)
-                                        .clickable { showLangSheet = true },
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Text(
-                                        text = sttLocale.language.uppercase().take(2),
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = ChatColors.primaryText,
-                                    )
-                                }
-                            }
-
-                            if (com.openminis.app.speech.SpeechRecognitionManager.hasMicrophoneHardware) {
-                                MicButton(
-                                    isRecording = !com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive &&
-                                        (sttState == com.openminis.app.speech.RecognitionState.RECORDING ||
-                                            sttState == com.openminis.app.speech.RecognitionState.STARTING),
-                                    localeBadge = null,
-                                    onClick = { triggerVoiceInput() },
-                                    onLongClick = { showLangSheet = true },
-                                    isVoiceActive = com.openminis.app.ui.chat.voice.VoiceModePrefs.isVoiceActive,
-                                )
-                            }
-
-                            // Right: 3-state Send / Enqueue / Stop button (mirrors iOS sendButton)
-                            val hasText = inputText.isNotBlank()
-                            val hasContent = hasText || attachments.isNotEmpty()
-                            val showStop = isStreaming && !hasContent
-                            val stopInteraction = remember { MutableInteractionSource() }
-                            if (showStop) {
-                                Box(
-                                    modifier = Modifier
-                                        .pressScaleEffect(targetScale = 0.92f, interactionSource = stopInteraction)
-                                        .size(38.dp)
-                                        .background(Color(0xFFE5484D).copy(alpha = 0.92f), CircleShape)
-                                        .clip(CircleShape)
-                                        .clickable(
-                                            interactionSource = stopInteraction,
-                                            indication = null,
-                                        ) { viewModel.cancelStream() },
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Icon(
-                                        Icons.Default.Stop,
-                                        contentDescription = "Stop",
-                                        tint = Color.White,
-                                        modifier = Modifier.size(16.dp),
-                                    )
-                                }
-                            } else {
-                                val canActivate = hasContent
-                                val sendInteraction = remember { MutableInteractionSource() }
-                                val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
-                                Box(
-                                    modifier = Modifier
-                                        .pressScaleEffect(targetScale = 0.92f, enabled = canActivate, interactionSource = sendInteraction)
-                                        .size(40.dp)
-                                        .background(
-                                            if (canActivate) ChatColors.sendButton
-                                            else ChatColors.sendButtonDisabled,
-                                            CircleShape,
-                                        )
-                                        .clip(CircleShape)
-                                        .clickable(
-                                            enabled = canActivate,
-                                            interactionSource = sendInteraction,
-                                            indication = null,
-                                        ) {
-                                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
-                                            performSendOrEnqueue(inputText)
-                                        },
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Icon(
-                                        Icons.Default.ArrowUpward,
-                                        contentDescription = "Send",
-                                        tint = if (canActivate) ChatColors.background
-                                        else ChatColors.primaryText.copy(alpha = 0.5f),
-                                        modifier = Modifier.size(20.dp),
-                                    )
-                                }
-                            }
                         }
                     }
                 }
@@ -7271,23 +7249,65 @@ private fun ThinkingLevelSheet(
 
 
 
+private fun hassnCardable(item: FlatChatItem): Boolean = when (item) {
+    is FlatChatItem.AssistantHeader, is FlatChatItem.AssistantText, is FlatChatItem.AssistantMarkdownBlock,
+    is FlatChatItem.AssistantThinking, is FlatChatItem.AssistantToolUse, is FlatChatItem.AssistantInfo,
+    is FlatChatItem.AssistantLegacyContent, is FlatChatItem.AssistantActionBar -> true
+    else -> false
+}
+
 /**
- * [Hassn-P1] (was: one white card) Assistant turn padding only; Hark draws text on the sky: the header row opens it
- * (rounded top), the action bar closes it (rounded bottom), every block in between is painted
- * edge to edge and reaches 2dp up over the LazyColumn's spacedBy gap so the card has no seams.
+ * [Hassn] Bubble runs: consecutive assistant parts (a header always opens a new one) form one
+ * Hark assistant bubble. Bit 1 = in a bubble, 2 = first row, 4 = last row. A run that is only the
+ * (empty) header gets no bubble — the thinking pill / error banner stand on their own.
+ */
+private fun hassnCardPositions(items: List<FlatChatItem>): Map<String, Int> {
+    val out = HashMap<String, Int>()
+    var i = 0
+    while (i < items.size) {
+        if (!hassnCardable(items[i])) { i++; continue }
+        var j = i + 1
+        while (j < items.size && hassnCardable(items[j]) && items[j] !is FlatChatItem.AssistantHeader) j++
+        val run = items.subList(i, j)
+        if (run.any { it !is FlatChatItem.AssistantHeader }) {
+            run.forEachIndexed { k, it ->
+                out[it.key] = 1 or (if (k == 0) 2 else 0) or (if (k == run.lastIndex) 4 else 0)
+            }
+        }
+        i = j
+    }
+    return out
+}
+
+/**
+ * [Hassn] Hark assistant bubble (spec §6.3): chatBubbleAssistantSurface (white @98 %), r24,
+ * padding 16, max width = available − 88dp. One turn spans several LazyColumn rows, so each row
+ * paints its slice; slices reach 2dp up over the spacedBy gap so the bubble has no seams.
  */
 @Composable
-private fun hassnAssistantCard(item: FlatChatItem): Modifier {
-    val pos = when (item) {
-        is FlatChatItem.AssistantHeader -> 0
-        is FlatChatItem.AssistantActionBar -> 2
-        is FlatChatItem.AssistantText, is FlatChatItem.AssistantMarkdownBlock,
-        is FlatChatItem.AssistantThinking, is FlatChatItem.AssistantToolUse,
-        is FlatChatItem.AssistantInfo, is FlatChatItem.AssistantTyping,
-        is FlatChatItem.AssistantError, is FlatChatItem.AssistantLegacyContent -> 1
-        else -> return Modifier
-    }
-    // [Hassn] Hark style: assistant text sits directly on the sky — no white card.
+private fun hassnAssistantCard(pos: Int): Modifier {
+    if (pos and 1 == 0) return Modifier
+    val first = pos and 2 != 0
+    val last = pos and 4 != 0
+    val color = com.openminis.app.hassn.hassn.assistantBubble
     return Modifier
-        .padding(start = 6.dp, end = 6.dp, top = if (pos == 0) 4.dp else 0.dp, bottom = if (pos == 2) 4.dp else 0.dp)
+        .padding(end = 88.dp, top = if (first) 8.dp else 0.dp, bottom = if (last) 4.dp else 0.dp)
+        .drawBehind {
+            val r = 24.dp.toPx()
+            val gap = 2.dp.toPx()
+            val top = if (first) 0f else -gap
+            val path = androidx.compose.ui.graphics.Path().apply {
+                addRoundRect(
+                    androidx.compose.ui.geometry.RoundRect(
+                        left = 0f, top = top, right = size.width, bottom = size.height,
+                        topLeftCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (first) r else 0f),
+                        topRightCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (first) r else 0f),
+                        bottomLeftCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (last) r else 0f),
+                        bottomRightCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (last) r else 0f),
+                    ),
+                )
+            }
+            drawPath(path, color)
+        }
+        .padding(start = 16.dp, end = 16.dp, top = if (first) 14.dp else 0.dp, bottom = if (last) 10.dp else 0.dp)
 }

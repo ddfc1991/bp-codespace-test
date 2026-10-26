@@ -38,17 +38,17 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.AudioFile
-import androidx.compose.material.icons.filled.FolderZip
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.AltRoute
-import androidx.compose.material.icons.automirrored.filled.Article
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.Schedule
+import com.openminis.app.hassn.icons.AudioFile
+import com.openminis.app.hassn.icons.FolderZip
+import com.openminis.app.hassn.icons.PictureAsPdf
+import com.openminis.app.hassn.icons.VideoFile
+import com.openminis.app.hassn.icons.Share
+import com.openminis.app.hassn.icons.AltRoute
+import com.openminis.app.hassn.icons.Article
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.conflate
@@ -97,47 +97,47 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AppShortcut
-import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.AttachFile
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Block
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DataUsage
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.CloseFullscreen
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.StopCircle
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.RadioButtonChecked
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.ArrowForward
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.Send
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.AppShortcut
+import com.openminis.app.hassn.icons.ArrowCircleUp
+import com.openminis.app.hassn.icons.ArrowUpward
+import com.openminis.app.hassn.icons.AttachFile
+import com.openminis.app.hassn.icons.BugReport
+import com.openminis.app.hassn.icons.Build
+import com.openminis.app.hassn.icons.Extension
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.Block
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ChevronLeft
+import com.openminis.app.hassn.icons.ChevronRight
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.DataUsage
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Error
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.CameraAlt
+import com.openminis.app.hassn.icons.PhotoLibrary
+import com.openminis.app.hassn.icons.Mic
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.CloseFullscreen
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.Lightbulb
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.Stop
+import com.openminis.app.hassn.icons.StopCircle
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.RadioButtonChecked
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import com.openminis.app.BuildConfig
 import com.openminis.app.R
 import com.openminis.app.data.FileMentionIndex
@@ -218,8 +218,8 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.TextFields
+import com.openminis.app.hassn.icons.FormatListBulleted
+import com.openminis.app.hassn.icons.TextFields
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -231,18 +231,18 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.outlined.Public
-import androidx.compose.material.icons.filled.SkipNext
-import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material.icons.automirrored.filled.NoteAdd
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.EditNote
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.ArrowCircleDown
-import androidx.compose.material.icons.filled.AccountTree
+import com.openminis.app.hassn.icons.Cancel
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Public
+import com.openminis.app.hassn.icons.SkipNext
+import com.openminis.app.hassn.icons.SkipPrevious
+import com.openminis.app.hassn.icons.NoteAdd
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.EditNote
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Memory
+import com.openminis.app.hassn.icons.ArrowCircleDown
+import com.openminis.app.hassn.icons.AccountTree
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.text.style.TextAlign
@@ -281,49 +281,9 @@ import com.openminis.app.ui.components.pressScaleEffect
 
 @Composable
 internal fun AssistantHeader() {
-    // [T-soul-md] Identity header = icon + SOUL.md-driven `name`.
-    //
-    // [T-android-soul-custom-icon] The icon is now the user-settable
-    // `SoulMetadata.icon` (emoji or transparent PNG), falling back to the
-    // canonical sparkle gradient when unset — so a user who never touches it
-    // sees exactly the previous rendering.
-    //
-    // Deliberately the SAME composable the settings card uses. On iOS these
-    // two surfaces were written separately and the chat one silently failed
-    // to pick up image icons; sharing the renderer makes that class of
-    // divergence impossible rather than merely unlikely.
-    val soulMeta by com.openminis.app.agent.SoulStore.cachedMetadata.collectAsState()
-    val displayName = soulMeta.name.ifBlank { com.openminis.app.agent.SoulMetadata.DEFAULT.name }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            // [T-android-user-assistant-spacing-16] top=10 so the
-            // User→Assistant boundary reads ~16dp: user-bubble bottom(4) +
-            // LazyColumn spacedBy(2) + this top(10) = 16. The header→body gap
-            // inside the turn is unaffected (that's this row's bottom=2).
-            .padding(top = 10.dp, bottom = 2.dp),
-    ) {
-        val sparkleGradient = Brush.linearGradient(
-            colors = listOf(SparkleColor1, SparkleColor2),
-        )
-        // 18.dp, matching the previous Icon exactly: the row height feeds a
-        // measured-height estimate in the message list, so the icon stays
-        // square and same-sized whichever branch renders.
-        // [Hassn] Hark style: small, subtle sparkle + name over the sky (no bubble).
-        com.openminis.app.ui.settings.SoulIconGlyph(
-            icon = soulMeta.icon,
-            sizeDp = 14.dp,
-            emojiSp = 12.sp,
-            sparkleTint = sparkleGradient,
-        )
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(
-            text = displayName,
-            fontSize = 13.sp,
-            fontWeight = FontWeight.Medium,
-            color = com.openminis.app.hassn.hassn.text2,
-        )
-    }
+    // [Hassn] Hark bubbles carry no name/icon header (Minis layout removed). The row stays as
+    // the bubble's first slice so the bubble opens with its rounded top.
+    Spacer(modifier = Modifier.height(2.dp))
 }
 
 @Composable
@@ -460,37 +420,36 @@ internal fun BoundsTrackedBlock(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun InlineErrorBanner(error: String, onRetry: (() -> Unit)? = null) {
-    // [Hassn] glass r20 card, soft red accent, short Chinese headline; raw detail on tap, copy on long-press.
+    // [Hassn] Hark error banner (spec §6.3): min 44dp, padding 12/16, r12, 15sp systemOrange text,
+    // orange @14.5 % fill, 1dp orange @15 % border; retry = secondary pill (ink @5 %). Raw detail on
+    // tap, copy on long-press.
     val clipboard = LocalClipboardManager.current
     val p = com.openminis.app.hassn.hassn
     val friendly = remember(error) { com.openminis.app.hassn.HassnErrorText.friendly(error) }
     var expanded by remember(error) { androidx.compose.runtime.mutableStateOf(false) }
-    val red = Color(0xFFE5484D)
+    val orange = p.warn
+    val shape = RoundedCornerShape(12.dp)
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 6.dp, bottom = 4.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(p.card)
-            .border(0.75.dp, red.copy(alpha = 0.22f), RoundedCornerShape(20.dp))
+            .padding(top = 8.dp, bottom = 4.dp)
+            .heightIn(min = 44.dp)
+            .clip(shape)
+            .background(orange.copy(alpha = 0.145f))
+            .border(1.dp, orange.copy(alpha = 0.15f), shape)
             .combinedClickable(
                 onClick = { if (friendly.translated) expanded = !expanded },
                 onLongClick = {
                     clipboard.setText(androidx.compose.ui.text.AnnotatedString(error))
                 },
             )
-            .padding(start = 14.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
+            .padding(start = 16.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier.size(8.dp).clip(CircleShape).background(red.copy(alpha = 0.85f)),
-            )
-            Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = friendly.headline,
-                color = p.text,
-                fontSize = 14.sp,
-                lineHeight = 19.sp,
+                color = orange,
+                style = MaterialTheme.typography.bodyLarge,
                 maxLines = if (friendly.translated) 2 else 4,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f),
@@ -499,20 +458,16 @@ internal fun InlineErrorBanner(error: String, onRetry: (() -> Unit)? = null) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(50))
-                        .background(p.glassButton)
+                        .heightIn(min = 32.dp)
+                        .clip(CircleShape)
+                        .background(p.soft)
                         .clickable(onClick = onRetry)
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                        .padding(horizontal = 14.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = null,
-                        tint = p.text,
-                        modifier = Modifier.size(13.dp),
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(stringResource(R.string.chat_longpress_retry), color = p.text, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                    com.openminis.app.hassn.HassnIcon("refresh", 14.dp, tint = p.text)
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(stringResource(R.string.chat_longpress_retry), color = p.text, style = MaterialTheme.typography.labelMedium)
                 }
             }
         }
@@ -520,11 +475,10 @@ internal fun InlineErrorBanner(error: String, onRetry: (() -> Unit)? = null) {
             Text(
                 text = if (expanded) error else "轻触查看详情 · 长按复制",
                 color = p.text2,
-                fontSize = 11.sp,
-                lineHeight = 15.sp,
+                style = MaterialTheme.typography.bodySmall,
                 maxLines = if (expanded) 12 else 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 18.dp, top = 3.dp),
+                modifier = Modifier.padding(top = 4.dp),
             )
         }
     }
@@ -569,7 +523,7 @@ private fun ToolStopButton(
                 modifier = Modifier
                     .size(10.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(Color(0xFFFF3B30)),
+                    .background(com.openminis.app.hassn.hassn.red),
             )
         }
     }
@@ -893,7 +847,7 @@ internal fun ThinkingBlock(block: AssistantBlock, isStreaming: Boolean, isLast: 
         // if the user hasn't taken control of its state yet.
         if (!isStreaming && !userTouched) expanded = false
     }
-    val thinkingBlue = Color(0xFF007AFF)
+    val thinkingBlue = Color(0xFF8E8E93)
     val charCount = block.content.length
     val charLabel = when {
         charCount >= 1000 -> "${charCount / 1000}K"
@@ -1132,7 +1086,7 @@ private fun ThinkingFullContentDialog(content: String, onDismiss: () -> Unit) {
                         text = "Deep Thinking",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFF007AFF),
+                        color = Color(0xFF8E8E93),
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     MinisTextButton(onClick = onDismiss) {
@@ -1198,7 +1152,7 @@ internal fun AssistantActionBar(
                 .size(32.dp)
                 .clip(CircleShape)
                 .background(
-                    if (copied) Color(0xFF34C759).copy(alpha = 0.12f)
+                    if (copied) Color(0xFF00A665).copy(alpha = 0.12f)
                     else Color.Transparent
                 )
                 .pressScaleEffect(targetScale = 0.90f)
@@ -1209,7 +1163,7 @@ internal fun AssistantActionBar(
                         val clip = android.content.ClipData.newPlainText("Hassn", markdown)
                         clipboard.setPrimaryClip(clip)
                         copied = true
-                        android.widget.Toast.makeText(context, "已复制全文", android.widget.Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, "已复制全文", long = false)
                     }
                 },
             contentAlignment = Alignment.Center,
@@ -1218,7 +1172,7 @@ internal fun AssistantActionBar(
                 imageVector = if (copied) Icons.Default.Check else Icons.Default.ContentCopy,
                 contentDescription = "复制全文",
                 modifier = Modifier.size(16.dp),
-                tint = if (copied) Color(0xFF34C759) else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                tint = if (copied) Color(0xFF00A665) else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             )
         }
 

@@ -14,23 +14,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.BarChart
-import androidx.compose.material.icons.outlined.Book
-import androidx.compose.material.icons.outlined.Brush
-import androidx.compose.material.icons.outlined.Calculate
-import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Forum
-import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Map
-import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.Payments
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Translate
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.BarChart
+import com.openminis.app.hassn.icons.Book
+import com.openminis.app.hassn.icons.Brush
+import com.openminis.app.hassn.icons.Calculate
+import com.openminis.app.hassn.icons.CalendarMonth
+import com.openminis.app.hassn.icons.Code
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Favorite
+import com.openminis.app.hassn.icons.Forum
+import com.openminis.app.hassn.icons.GridView
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.Map
+import com.openminis.app.hassn.icons.Palette
+import com.openminis.app.hassn.icons.Payments
+import com.openminis.app.hassn.icons.Settings
+import com.openminis.app.hassn.icons.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -145,7 +145,7 @@ fun MoveToSessionSheet(
                         // row is what keeps the MIDDLE rows square-edged: per-row
                         // rounding would carve notches between adjacent rows.
                         .clip(RoundedCornerShape(16.dp))
-                        .background(color = MaterialTheme.colorScheme.surface),
+                        .background(color = MaterialTheme.colorScheme.surfaceContainerLowest),
                 ) {
                     items(sessions, key = { it.id }) { session ->
                         MoveToPickerRow(
@@ -183,7 +183,7 @@ private fun NewChatRow(onClick: () -> Unit) {
             // clip first, so this row's own click indication stays inside its
             // rounded shape instead of squaring off the corners.
             .clip(RoundedCornerShape(16.dp))
-            .background(color = MaterialTheme.colorScheme.surface)
+            .background(color = MaterialTheme.colorScheme.surfaceContainerLowest)
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -284,19 +284,19 @@ private data class CategoryStyle(val icon: ImageVector, val color: Color)
 
 private fun categoryStyle(category: String?): CategoryStyle {
     return when (category?.lowercase()) {
-        "code"         -> CategoryStyle(Icons.Outlined.Code, Color(0xFFF09A37))
-        "writing"      -> CategoryStyle(Icons.Outlined.Description, Color(0xFF3478F6))
-        "research"     -> CategoryStyle(Icons.Outlined.Language, Color(0xFF30B0C7))
-        "analysis"     -> CategoryStyle(Icons.Outlined.BarChart, Color(0xFF5856D6))
-        "creative"     -> CategoryStyle(Icons.Outlined.Brush, Color(0xFFFF2D55))
-        "chat"         -> CategoryStyle(Icons.Outlined.Forum, Color(0xFF34C759))
-        "math"         -> CategoryStyle(Icons.Outlined.Calculate, Color(0xFF9B59B6))
-        "translation"  -> CategoryStyle(Icons.Outlined.Translate, Color(0xFF00BCD4))
-        "health"       -> CategoryStyle(Icons.Outlined.Favorite, Color(0xFFFF3B30))
+        "code"         -> CategoryStyle(Icons.Outlined.Code, Color(0xFFFF4D00))
+        "writing"      -> CategoryStyle(Icons.Outlined.Description, Color(0xFF8E8E93))
+        "research"     -> CategoryStyle(Icons.Outlined.Language, Color(0xFF8E8E93))
+        "analysis"     -> CategoryStyle(Icons.Outlined.BarChart, Color(0xFF8E8E93))
+        "creative"     -> CategoryStyle(Icons.Outlined.Brush, Color(0xFF8E8E93))
+        "chat"         -> CategoryStyle(Icons.Outlined.Forum, Color(0xFF00A665))
+        "math"         -> CategoryStyle(Icons.Outlined.Calculate, Color(0xFF8E8E93))
+        "translation"  -> CategoryStyle(Icons.Outlined.Translate, Color(0xFF8E8E93))
+        "health"       -> CategoryStyle(Icons.Outlined.Favorite, Color(0xFFDA2F35))
         "finance"      -> CategoryStyle(Icons.Outlined.Payments, Color(0xFF00C7BE))
-        "travel"       -> CategoryStyle(Icons.Outlined.Map, Color(0xFFF09A37))
-        "education"    -> CategoryStyle(Icons.Outlined.Book, Color(0xFF3478F6))
-        "design"       -> CategoryStyle(Icons.Outlined.Palette, Color(0xFFFF2D55))
+        "travel"       -> CategoryStyle(Icons.Outlined.Map, Color(0xFFFF4D00))
+        "education"    -> CategoryStyle(Icons.Outlined.Book, Color(0xFF8E8E93))
+        "design"       -> CategoryStyle(Icons.Outlined.Palette, Color(0xFF8E8E93))
         "productivity" -> CategoryStyle(Icons.Outlined.CalendarMonth, Color(0xFFFFCC00))
         "support"      -> CategoryStyle(Icons.Outlined.Settings, Color(0xFF8B6914))
         "other"        -> CategoryStyle(Icons.Outlined.GridView, Color(0xFF8E8E93))

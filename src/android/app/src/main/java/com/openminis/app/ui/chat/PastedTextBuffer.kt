@@ -18,8 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.TextSnippet
-import androidx.compose.material.icons.filled.Close
+import com.openminis.app.hassn.icons.TextSnippet
+import com.openminis.app.hassn.icons.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.draw.clip
@@ -424,7 +424,7 @@ fun PastedTextChip(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .size(20.dp)
-                .background(MaterialTheme.colorScheme.surface, CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceContainerLowest, CircleShape)
                 .border(0.5.dp, ChatColors.thumbnailBorder, CircleShape)
                 .clip(CircleShape)
                 .clickable(onClick = onRemove),
@@ -465,9 +465,9 @@ private fun PastedTextPreviewDialog(
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
+            shape = RoundedCornerShape(24.dp),
+            color = com.openminis.app.hassn.hassn.solid,
+            tonalElevation = 0.dp,
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
                 Text(

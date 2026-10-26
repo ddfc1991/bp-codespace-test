@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.IosShare
-import androidx.compose.material.icons.filled.UnfoldMore
+import com.openminis.app.hassn.icons.IosShare
+import com.openminis.app.hassn.icons.UnfoldMore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -151,15 +151,11 @@ internal fun LargeContentBadge(
             MinisTextButton(
                 onClick = {
                     val ok = exportLargeContentToFile(context, content, stableKey)
-                    Toast.makeText(
-                        context,
-                        if (ok) {
+                    com.openminis.app.hassn.HassnToast.show(context, if (ok) {
                             context.getString(R.string.chat_message_large_export_ok)
                         } else {
                             context.getString(R.string.chat_message_large_export_fail)
-                        },
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                        }, long = false)
                 },
                 modifier = Modifier.padding(0.dp),
             ) {
