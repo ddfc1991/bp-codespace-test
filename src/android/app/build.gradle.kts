@@ -70,7 +70,14 @@ android {
     }
 
     signingConfigs {
+        // [Hassn] ONE fixed test key for every debug / CI build, so a new APK installs over the
+        // previous one (the runner's random debug key caused 签名冲突). Test-only key: the password
+        // is intentionally not secret. Never use it for a store release.
         getByName("debug") {
+            storeFile = file("hassn-test.keystore")
+            storePassword = "hassn-test"
+            keyAlias = "hassn-test"
+            keyPassword = "hassn-test"
             enableV1Signing = true
             enableV2Signing = true
             enableV3Signing = true
@@ -207,6 +214,8 @@ dependencies {
     implementation(composeBom)
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
+    // [Hassn] Hark-style real backdrop blur (glass chrome). 1.6.x = Kotlin 2.1 / Compose 1.8+.
+    implementation("dev.chrisbanes.haze:haze:1.6.10")
 
     // [T-android-tablet-split] Adaptive list-detail layout for tablets/large
     // windows. Version pinned explicitly rather than left to the BOM: the

@@ -140,11 +140,7 @@ class MainActivity : ComponentActivity() {
      */
     private fun finishAndRestartProcess() {
         try {
-            android.widget.Toast.makeText(
-                this,
-                getString(R.string.crash_safe_mode_restart_needed),
-                android.widget.Toast.LENGTH_LONG,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(this, getString(R.string.crash_safe_mode_restart_needed), long = true)
         } catch (t: Throwable) {
             android.util.Log.w("MainActivity", "restart toast failed: ${t.message}")
         }
@@ -588,8 +584,8 @@ class MainActivity : ComponentActivity() {
 
                 // [Hassn-P1] One weather sky behind every screen; the Hassn theme's background
                 // and surface are transparent so Scaffolds show it (Hark glass look).
-                androidx.compose.foundation.layout.Box(androidx.compose.ui.Modifier.fillMaxSize()) {
-                com.openminis.app.hassn.HassnSkyBackground(androidx.compose.ui.Modifier.fillMaxSize())
+                // Sky = Haze blur source for every glass surface; also hosts the Hark toast.
+                com.openminis.app.hassn.HassnGlassRoot {
                 AppNavigation(
                     chatRepository = app.chatRepository,
                     providerRepository = app.providerRepository,

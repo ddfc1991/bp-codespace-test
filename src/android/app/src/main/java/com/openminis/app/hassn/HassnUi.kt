@@ -1,6 +1,46 @@
 package com.openminis.app.hassn
 
 import androidx.compose.foundation.Image
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import com.openminis.app.hassn.icons.HassnLineIcons
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -64,93 +104,112 @@ import com.openminis.app.R
 import com.openminis.app.ui.theme.LocalChatPalette
 
 /**
- * [Hassn-P1] Hark-style light glass skin, values ported 1:1 from the approved v2 mockups
- * (work/mock/v2/gen2.py CSS): sky background + blue tint, 26dp white glass cards, 48dp glass
- * circle buttons, black selected pill in a glass segmented control, 1.8-stroke line icons.
+ * [Hassn] Hark skin. Every value comes from Hark's own app (APK com.hark.android 1.0.0-52,
+ * HarkColors in qw6.java; spec work/hark-spec/HARK_UI_SPEC.md §1). Field names are the old
+ * mockup names so existing call sites keep compiling; comments give the Hark token.
  */
 @Immutable
 data class HassnPalette(
     val dark: Boolean,
-    val text: Color,          // #141416
-    val text2: Color,         // .rt small  #7a7e86
-    val text3: Color,         // status line / group header #3d4250
-    val card: Color,          // .card rgba(255,255,255,.64)
-    val cardStrong: Color,    // chat cards rgba(255,255,255,.82)
-    val divider: Color,       // rgba(20,20,30,.075)
-    val ink: Color,           // #18181a (selected tab, black buttons, bars)
-    val onInk: Color,
-    val seg: Color,           // rgba(214,222,236,.80)
-    val segBorder: Color,     // rgba(255,255,255,.45)
-    val segText: Color,       // #6a6f79
-    val glassButton: Color,   // .gb rgba(222,228,238,.78)
-    val soft: Color,          // .rnd rgba(20,20,30,.06)
-    val track: Color,         // .bar rgba(20,20,30,.08)
-    val input: Color,         // composer rgba(236,239,245,.80)
-    val inputHint: Color,     // #8a8e96
-    val userBubble: Color,    // rgba(206,216,232,.72)
-    val assistantBubble: Color, // #fff
-    val tag: Color,           // rgba(20,20,30,.065)
-    val tagText: Color,       // #5a5e66
-    val green: Color,
-    val idle: Color,
-    val warn: Color,
-    val red: Color,
-    val link: Color,
+    val text: Color,          // textPrimary
+    val text2: Color,         // textSecondary (ink @50 %)
+    val text3: Color,         // textSecondary (status lines, headers)
+    val card: Color,          // regularSurface (white @66.75 % / ink @61.75 %)
+    val cardStrong: Color,    // chatBubbleAssistantSurface (white @98 %)
+    val divider: Color,       // strokeSecondary (ink @7 %)
+    val ink: Color,           // fillPrimary
+    val onInk: Color,         // textPrimaryOn
+    val seg: Color,           // tab pill = regularSurface
+    val segBorder: Color,     // strokePrimaryOn (white @10 %)
+    val segText: Color,       // textSecondary
+    val glassButton: Color,   // thinBg (white @55 %)
+    val soft: Color,          // fillTertiary (ink @5 %)
+    val track: Color,         // fillTertiary
+    val input: Color,         // composerBg
+    val inputHint: Color,     // textTertiary
+    val userBubble: Color,    // chatBubbleUserSurface (white @30 %)
+    val assistantBubble: Color, // chatBubbleAssistantSurface
+    val tag: Color,           // status chip fill (ink @6 %)
+    val tagText: Color,       // textSecondary
+    val green: Color,         // systemGreen #00A665
+    val idle: Color,          // textTertiary
+    val warn: Color,          // systemOrange #FF4D00
+    val red: Color,           // systemRed #DA2F35
+    val link: Color,          // link (ink @50 %)
+    val stroke: Color,        // strokePrimary (ink @14 %)
+    val solid: Color,         // regularSolid (white @96 %)
+    val text3rd: Color,       // textTertiary (ink @30 %)
+    val hover: Color,         // hoverWash (ink @5 %)
 )
+
+private val HkInk = Color(0xFF1D1D1F)
+private val HkPaper = Color(0xFFF5F5F7)
+private val HkOnInk = Color(0xFFF9F9FA)
 
 val HassnLight = HassnPalette(
     dark = false,
-    text = Color(0xFF141416),
-    text2 = Color(0xFF7A7E86),
-    text3 = Color(0xFF3D4250),
-    card = Color.White.copy(alpha = 0.64f),
-    cardStrong = Color.White.copy(alpha = 0.82f),
-    divider = Color(0x1314141E),
-    ink = Color(0xFF18181A),
-    onInk = Color.White,
-    seg = Color(0xCCD6DEEC),
-    segBorder = Color.White.copy(alpha = 0.45f),
-    segText = Color(0xFF6A6F79),
-    glassButton = Color(0xC7DEE4EE),
-    soft = Color(0x0F14141E),
-    track = Color(0x1414141E),
-    input = Color(0xCCECEFF5),
-    inputHint = Color(0xFF8A8E96),
-    userBubble = Color(0xB8CED8E8),
-    assistantBubble = Color.White,
-    tag = Color(0x1114141E),
-    tagText = Color(0xFF5A5E66),
-    green = Color(0xFF3AA864),
-    idle = Color(0xFFA3A7AE),
-    warn = Color(0xFFD9952A),
-    red = Color(0xFFC9473D),
-    link = Color(0xFF2C66D8),
+    text = HkInk,
+    text2 = HkInk.copy(alpha = 0.5f),
+    text3 = HkInk.copy(alpha = 0.5f),
+    card = Color.White.copy(alpha = 0.6675f),
+    cardStrong = Color.White.copy(alpha = 0.98f),
+    divider = HkInk.copy(alpha = 0.07f),
+    ink = HkInk,
+    onInk = HkOnInk,
+    seg = Color.White.copy(alpha = 0.6675f),
+    segBorder = Color.White.copy(alpha = 0.1f),
+    segText = HkInk.copy(alpha = 0.5f),
+    glassButton = Color.White.copy(alpha = 0.55f),
+    soft = HkInk.copy(alpha = 0.05f),
+    track = HkInk.copy(alpha = 0.05f),
+    input = Color.White.copy(alpha = 0.55f),
+    inputHint = HkInk.copy(alpha = 0.3f),
+    userBubble = Color.White.copy(alpha = 0.3f),
+    assistantBubble = Color.White.copy(alpha = 0.98f),
+    tag = HkInk.copy(alpha = 0.06f),
+    tagText = HkInk.copy(alpha = 0.5f),
+    green = Color(0xFF00A665),
+    idle = HkInk.copy(alpha = 0.3f),
+    warn = Color(0xFFFF4D00),
+    red = Color(0xFFDA2F35),
+    link = HkInk.copy(alpha = 0.5f),
+    stroke = HkInk.copy(alpha = 0.14f),
+    solid = Color.White.copy(alpha = 0.96f),
+    text3rd = HkInk.copy(alpha = 0.3f),
+    hover = HkInk.copy(alpha = 0.05f),
 )
 
-/** Dark theme keeps the same layout; glass turns smoky so white text stays readable. */
-val HassnDark = HassnLight.copy(
+val HassnDark = HassnPalette(
     dark = true,
-    text = Color(0xFFF4F5F7),
-    text2 = Color(0xFFA9ADB5),
-    text3 = Color(0xFFD5D8DE),
-    card = Color(0xA81C1E24),
-    cardStrong = Color(0xD11C1E24),
-    divider = Color(0x1AFFFFFF),
-    ink = Color(0xFFF4F5F7),
-    onInk = Color(0xFF141416),
-    seg = Color(0xB3262A33),
-    segBorder = Color.White.copy(alpha = 0.12f),
-    segText = Color(0xFFA9ADB5),
-    glassButton = Color(0xB3262A33),
-    soft = Color(0x1AFFFFFF),
-    track = Color(0x24FFFFFF),
-    input = Color(0xCC262A33),
-    inputHint = Color(0xFF8A8E96),
-    userBubble = Color(0xB83A4252),
-    assistantBubble = Color(0xE01C1E24),
-    tag = Color(0x1FFFFFFF),
-    tagText = Color(0xFFC4C7CE),
-    link = Color(0xFF7FA8F0),
+    text = HkPaper,
+    text2 = HkPaper.copy(alpha = 0.5f),
+    text3 = HkPaper.copy(alpha = 0.5f),
+    card = HkInk.copy(alpha = 0.6175f),
+    cardStrong = HkInk.copy(alpha = 0.7f),
+    divider = HkPaper.copy(alpha = 0.07f),
+    ink = HkPaper,
+    onInk = HkInk,
+    seg = HkInk.copy(alpha = 0.6175f),
+    segBorder = HkInk.copy(alpha = 0.1f),
+    segText = HkPaper.copy(alpha = 0.5f),
+    glassButton = HkInk.copy(alpha = 0.615f),
+    soft = HkPaper.copy(alpha = 0.05f),
+    track = HkPaper.copy(alpha = 0.05f),
+    input = HkInk.copy(alpha = 0.618f),
+    inputHint = HkPaper.copy(alpha = 0.3f),
+    userBubble = HkInk.copy(alpha = 0.3f),
+    assistantBubble = HkInk.copy(alpha = 0.7f),
+    tag = HkPaper.copy(alpha = 0.06f),
+    tagText = HkPaper.copy(alpha = 0.5f),
+    green = Color(0xFF00A665),
+    idle = HkPaper.copy(alpha = 0.3f),
+    warn = Color(0xFFFF4D00),
+    red = Color(0xFFF1555B),
+    link = HkPaper.copy(alpha = 0.5f),
+    stroke = HkPaper.copy(alpha = 0.14f),
+    solid = HkInk.copy(alpha = 0.96f),
+    text3rd = HkPaper.copy(alpha = 0.3f),
+    hover = HkPaper.copy(alpha = 0.05f),
 )
 
 val hassn: HassnPalette
@@ -158,79 +217,86 @@ val hassn: HassnPalette
     @ReadOnlyComposable
     get() = if (LocalChatPalette.current.isDark) HassnDark else HassnLight
 
+// ─── glass (Haze real blur over the one sky; spec §4) ───
+/** The sky behind the NavHost is the blur source; null inside dialogs/sheets (other windows). */
+val LocalHazeState = staticCompositionLocalOf<HazeState?> { null }
+/** The root view the sky lives in; glass inside another window (dialog, popup, sheet) can't blur it. */
+val LocalHazeRootView = staticCompositionLocalOf<android.view.View?> { null }
+
+object HarkBlur {
+    val Chrome = 50.dp      // tab pill, circle buttons, composer, search
+    val Card = 32.dp        // settings / list cards
+}
+
+/**
+ * Hark glass surface: clip to [shape], blur the sky behind by [blur] (Haze), paint [fill] on top,
+ * optional 1dp [stroke]. Without a blur source (dialogs, previews) it is just the fill.
+ */
+@Composable
+fun Modifier.harkGlass(
+    shape: Shape,
+    fill: Color,
+    blur: Dp = HarkBlur.Chrome,
+    stroke: Color? = null,
+): Modifier {
+    val root = LocalHazeRootView.current
+    val state = LocalHazeState.current?.takeIf { root != null && root === LocalView.current }
+    val dark = LocalChatPalette.current.isDark
+    var m = this.clip(shape)
+    m = if (state != null) {
+        m.hazeEffect(
+            state,
+            HazeStyle(
+                backgroundColor = if (dark) Color.Black else Color.White,
+                tints = listOf(HazeTint(fill)),
+                blurRadius = blur,
+                noiseFactor = 0f,
+                fallbackTint = HazeTint(fill.copy(alpha = maxOf(fill.alpha, 0.9f))),
+            ),
+        )
+    } else {
+        m.background(fill)
+    }
+    if (stroke != null) m = m.border(1.dp, stroke, shape)
+    return m
+}
+
+/** Sky + blur source behind [content]; used once at the root (MainActivity). */
+@Composable
+fun HassnGlassRoot(content: @Composable () -> Unit) {
+    val state = remember { HazeState() }
+    Box(Modifier.fillMaxSize()) {
+        HassnSkyBackground(Modifier.fillMaxSize().hazeSource(state))
+        CompositionLocalProvider(LocalHazeState provides state, LocalHazeRootView provides LocalView.current) { content() }
+        HassnToastHost()
+    }
+}
+
 /** Shell tab chosen from outside the shell (e.g. the tabs on the Settings page). */
 object HassnShellState {
     val tab = mutableIntStateOf(0)
     /** CI shots: next ChatScreen seeds an in-memory sample conversation. */
     @Volatile var demoChatPending = false
+    /** CI shots: the ledger list opens its domain dropdown once. */
+    @Volatile var ledgerDropdownPending = false
 }
 
-// ─── line icons (mockup IC set, 24-unit viewBox, stroke 1.8, round caps) ───
+// ─── line icons: our own Hark-style set (hassn/icons/HassnLineIcons.kt) ───
 object HassnIcons {
-    private val paths = mapOf(
-        "menu" to "M5 7h14M5 12h10M5 17h7",
-        "search" to "M4.5 11a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0zM16 16l4 4",
-        "plus" to "M12 5v14M5 12h14",
-        "mic" to "M12 3.5h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h-0a3 3 0 0 1 -3 -3v-5a3 3 0 0 1 3 -3zM5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21",
-        "back" to "M14.5 6l-6 6 6 6",
-        "chev" to "M9.5 6.5l5.5 5.5-5.5 5.5",
-        "down" to "M7 10l5 5 5-5",
-        "more" to "M5.5 12h.01M12 12h.01M18.5 12h.01",
-        "close" to "M6.5 6.5l11 11M17.5 6.5l-11 11",
-        "folder" to "M3.5 7.5a2 2 0 012-2h4l2 2.2h7a2 2 0 012 2v7.8a2 2 0 01-2 2h-13a2 2 0 01-2-2z",
-        "file" to "M7 3.5h6.5l4.5 4.5v12.5H7zM13.5 3.5V8H18",
-        "check" to "M5 12.5l4.5 4.5L19 7.5",
-        "trash" to "M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12M10.5 10.5v6M13.5 10.5v6",
-        "user" to "M8.2 8.5a3.8 3.8 0 1 0 7.6 0a3.8 3.8 0 1 0 -7.6 0zM4.5 20a7.5 7.5 0 0 1 15 0",
-        "clock" to "M4 12a8 8 0 1 0 16 0a8 8 0 1 0 -16 0zM12 8v4.5l3 2",
-        "link" to "M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",
-        "card" to "M5.5 6h13a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-13a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2zM3.5 10h17",
-        "shield" to "M12 3.5l7 2.8v5.4c0 4.4-3 7.4-7 8.8-4-1.4-7-4.4-7-8.8V6.3z",
-        "gear" to "M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0zM12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4L18 18M6 18l1.6-1.6M16.4 7.6L18 6",
-        "msg" to "M5 5h14v10H9l-4 4z",
-        "info" to "M3.5 12a8.5 8.5 0 1 0 17 0a8.5 8.5 0 1 0 -17 0zM12 11v5.5M12 7.8v.4",
-        "logout" to "M10 5H5v14h5M14 8l4 4-4 4M18 12H9",
-        "route" to "M3.8 18a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0zM15.8 6a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0zM8.2 18H14a3.5 3.5 0 0 0 0-7h-4a3.5 3.5 0 0 1 0-7h5.8",
-        "users" to "M5.7 9a3.3 3.3 0 1 0 6.6 0a3.3 3.3 0 1 0 -6.6 0zM3 19a6 6 0 0 1 12 0M14.4 8a2.6 2.6 0 1 0 5.2 0a2.6 2.6 0 1 0 -5.2 0zM16 13.5a5 5 0 0 1 5.5 5",
-        "server" to "M5.5 4.5h13a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1 -1.5 1.5h-13a1.5 1.5 0 0 1 -1.5 -1.5v-3a1.5 1.5 0 0 1 1.5 -1.5zM5.5 13.5h13a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1 -1.5 1.5h-13a1.5 1.5 0 0 1 -1.5 -1.5v-3a1.5 1.5 0 0 1 1.5 -1.5zM7.5 7.5h.01M7.5 16.5h.01",
-        "monitor" to "M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1 -1.5 1.5h-14a1.5 1.5 0 0 1 -1.5 -1.5v-8a1.5 1.5 0 0 1 1.5 -1.5zM9 19.5h6M12 15.5v4",
-        "graph" to "M4 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0zM16 7a2 2 0 1 0 4 0a2 2 0 1 0 -4 0zM10 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0zM7.7 7.2l3.2 8M16.6 8.5l-3.6 7M8 6.2l8 .7",
-        "key" to "M4.2 15a3.8 3.8 0 1 0 7.6 0a3.8 3.8 0 1 0 -7.6 0zM10.8 12.2L19 4M15.5 7.5l2.5 2.5",
-        "globe" to "M3.5 12a8.5 8.5 0 1 0 17 0a8.5 8.5 0 1 0 -17 0zM3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17",
-        "bolt" to "M13 3L5 14h6l-1 7 8-11h-6z",
-        "heart" to "M12 19.5s-7-4.3-7-9.3A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.2c0 5-7 9.3-7 9.3z",
-        "chat" to "M12 4.5c4.7 0 8 2.9 8 6.6s-3.3 6.6-8 6.6c-1 0-1.9-.1-2.7-.4L5 19l1.1-3.3C4.8 14.5 4 13 4 11.1 4 7.4 7.3 4.5 12 4.5z",
-        "pause" to "M9.5 6v12M14.5 6v12",
-        "gift" to "M5.5 9h13a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1 -1.5 1.5h-13a1.5 1.5 0 0 1 -1.5 -1.5v-8a1.5 1.5 0 0 1 1.5 -1.5zM12 9v11M3 9h18M12 9c-2-4-6-4-6-1.5S10 9 12 9zm0 0c2-4 6-4 6-1.5S14 9 12 9z",
-        "loop" to "M17 8a6 6 0 1 0 1 6M18 4v4h-4",
-        "wrench" to "M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z",
-        "refresh" to "M19 12a7 7 0 1 1-2-4.9M19 4v4h-4",
-        "arrow" to "M5 12h13M13 7l5 5-5 5",
-        "repo" to "M6 4.5h11a1 1 0 0 1 1 1V17H7a1.5 1.5 0 0 0 0 3h11M6 4.5v14",
-        "edit" to "M4.5 19.5l4-1 10-10-3-3-10 10z",
-        "cloud" to "M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.5 1.5A3.8 3.8 0 0 1 17.5 18z",
-        "flag" to "M6 21V4M6 4h11l-2 4 2 4H6",
-        "cpu" to "M8 6h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2zM9.5 9.5h5v5h-5zM9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3",
-    )
-    private val cache = HashMap<String, ImageVector>()
-
-    fun get(name: String, stroke: Float = 1.8f): ImageVector = cache.getOrPut("$name@$stroke") {
-        ImageVector.Builder(name, 24.dp, 24.dp, 24f, 24f).apply {
-            addPath(
-                pathData = addPathNodes(paths.getValue(name)),
-                fill = null,
-                stroke = SolidColor(Color.Black),
-                strokeLineWidth = stroke,
-                strokeLineCap = StrokeCap.Round,
-                strokeLineJoin = StrokeJoin.Round,
-            )
-        }.build()
-    }
+    fun get(name: String, stroke: Float = HassnLineIcons.LINE): ImageVector = HassnLineIcons.get(name, stroke)
 }
 
+/**
+ * Hark-style icon: [size] is the glyph box like Hark's 16 dp icons (our 24-unit drawing is cropped
+ * to its 3..21 area so the glyph fills the box the way Hark's 16-grid icons do). The line is 2 dp
+ * at 16 dp and scales with the icon above that, like Hark's vectors. [stroke] is ignored (legacy).
+ */
 @Composable
-fun HassnIcon(name: String, size: Dp = 20.dp, tint: Color = hassn.text, stroke: Float = 1.8f, modifier: Modifier = Modifier) {
-    Icon(HassnIcons.get(name, stroke), contentDescription = null, tint = tint, modifier = modifier.size(size))
+@Suppress("UNUSED_PARAMETER")
+fun HassnIcon(name: String, size: Dp = 16.dp, tint: Color = hassn.text, stroke: Float = 2f, modifier: Modifier = Modifier) {
+    val lineDp = 2f * maxOf(1f, size.value / 16f)
+    val units = lineDp * 18f / size.value
+    Icon(HassnLineIcons.tight(name, units), contentDescription = null, tint = tint, modifier = modifier.size(size))
 }
 
 // ─── background: Mines sky photo (pre-blurred, desaturated) + the mockup's blue tint + weather ───
@@ -269,7 +335,10 @@ fun HassnSkyBackground(modifier: Modifier = Modifier) {
     }
 }
 
-// ─── building blocks ───
+// ─── building blocks (spec §6) ───
+val HarkCardShape = RoundedCornerShape(24.dp)
+
+/** Group card: r24, glass blur 32 + regularSurface (spec §6.5). */
 @Composable
 fun GlassCard(
     modifier: Modifier = Modifier,
@@ -279,60 +348,71 @@ fun GlassCard(
     Column(
         modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(26.dp))
-            .background(color),
+            .harkGlass(HarkCardShape, color, HarkBlur.Card),
         content = content,
     )
 }
 
+/** 44dp chrome circle: glass blur 50 + thinBg, 22dp line icon (spec §6.1). */
 @Composable
 fun GlassCircleButton(icon: String, onClick: () -> Unit, modifier: Modifier = Modifier, contentDescription: String? = null) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .size(48.dp)
-            .clip(CircleShape)
-            .background(hassn.glassButton)
+            .size(44.dp)
+            .harkGlass(CircleShape, hassn.glassButton)
             .clickable(onClickLabel = contentDescription, onClick = onClick),
-    ) { HassnIcon(icon, 24.dp, stroke = 2f) }
+    ) { HassnIcon(icon, 20.dp) }
 }
 
-/** The glass segmented control: 54dp tall, black selected pill, -1 = nothing selected. */
+/**
+ * Hark tab pill (spec §6.1): 48dp, CircleShape, glass blur 50 + regularSurface, 1dp
+ * strokePrimaryOn; the selected segment is solid ink inset 2dp and slides between tabs.
+ * Labels labelLarge 15/18 w500, unselected textSecondary. -1 = nothing selected.
+ */
 @Composable
 fun HassnTabs(labels: List<String>, selected: Int, onSelect: (Int) -> Unit, modifier: Modifier = Modifier) {
     val p = hassn
-    Row(
+    BoxWithConstraints(
         modifier
-            .height(54.dp)
-            .clip(RoundedCornerShape(27.dp))
-            .background(p.seg)
-            .border(2.dp, p.segBorder, RoundedCornerShape(27.dp))
-            .padding(4.dp),
+            .height(48.dp)
+            .harkGlass(CircleShape, p.seg, stroke = if (p.dark) null else p.segBorder)
+            .padding(2.dp),
     ) {
-        labels.forEachIndexed { i, label ->
-            val on = i == selected
+        val n = labels.size.coerceAtLeast(1)
+        val segW = maxWidth / n
+        if (selected in labels.indices) {
+            val x by animateDpAsState(segW * selected, spring(dampingRatio = 0.82f, stiffness = 520f), label = "tab")
             Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .weight(1f)
+                Modifier
+                    .offset(x = x)
+                    .width(segW)
                     .fillMaxHeight()
-                    .clip(RoundedCornerShape(24.dp))
-                    .background(if (on) p.ink else Color.Transparent)
-                    .clickable { onSelect(i) },
-            ) {
-                Text(
-                    label,
-                    fontSize = 15.sp,
-                    fontWeight = if (on) FontWeight.Bold else FontWeight.Normal,
-                    color = if (on) p.onInk else p.segText,
-                    maxLines = 1,
-                )
+                    .clip(CircleShape)
+                    .background(p.ink),
+            )
+        }
+        Row(Modifier.fillMaxSize()) {
+            labels.forEachIndexed { i, label ->
+                val on = i == selected
+                val c by animateColorAsState(if (on) p.onInk else p.segText, tween(180), label = "tabText")
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clip(CircleShape)
+                        .clickable { onSelect(i) }
+                        .semantics { this.selected = on },
+                ) {
+                    Text(label, style = MaterialTheme.typography.labelLarge, color = c, maxLines = 1)
+                }
             }
         }
     }
 }
 
-/** Top bar of the shell and of Settings: [left glass button] [tabs] [user glass button]. */
+/** Top bar of the shell and of Settings: [44dp glass circle] [48dp tab pill] [44dp profile circle]. */
 @Composable
 fun HassnTopBar(
     labels: List<String>,
@@ -348,8 +428,7 @@ fun HassnTopBar(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(66.dp)
-            .padding(horizontal = 16.dp),
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
     ) {
         GlassCircleButton(leftIcon, onLeft)
         HassnTabs(labels, selected, onSelect, Modifier.weight(1f))
@@ -357,52 +436,56 @@ fun HassnTopBar(
     }
 }
 
-/** Sub-page top bar: glass back button, centred 18sp bold title, optional right slot. */
+/** Sub-page header (spec §6.2): 44dp glass back circle, centred titleLarge 20/24 w500. */
 @Composable
 fun HassnSubTopBar(title: String, onBack: () -> Unit, right: (@Composable () -> Unit)? = null) {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(66.dp)
+            .height(60.dp)
             .padding(horizontal = 16.dp),
     ) {
         GlassCircleButton("back", onBack, Modifier.align(Alignment.CenterStart))
         Text(
             title,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge,
             color = hassn.text,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.align(Alignment.Center).padding(horizontal = 60.dp),
+            modifier = Modifier.align(Alignment.Center).padding(horizontal = 56.dp),
         )
         if (right != null) Box(Modifier.align(Alignment.CenterEnd)) { right() }
     }
 }
 
+/** Group header: labelMedium 13/16 w500 textSecondary, 20dp inset. */
 @Composable
 fun HassnGroupHeader(text: String, modifier: Modifier = Modifier) {
     Text(
         text,
-        fontSize = 13.sp,
-        fontWeight = FontWeight.Medium,
-        color = if (hassn.dark) hassn.text3 else Color(0xFF3A404B),
-        modifier = modifier.padding(start = 22.dp, end = 22.dp, top = 4.dp, bottom = 7.dp),
+        style = MaterialTheme.typography.labelMedium,
+        color = hassn.text2,
+        modifier = modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 8.dp),
     )
 }
 
+/** Hairline divider: 1px strokeSecondary, inset 20dp both sides (spec §6.5). */
 @Composable
 fun HassnDivider() {
+    val px = with(LocalDensity.current) { 1f.toDp() }
     Box(
         Modifier
-            .padding(horizontal = 18.dp)
+            .padding(horizontal = 20.dp)
             .fillMaxWidth()
-            .height(1.dp)
+            .height(px)
             .background(hassn.divider),
     )
 }
 
-/** One mockup `.row`: icon · title/subtitle · value · chevron, min 54dp. */
+/**
+ * Settings / list row (spec §6.5): min 56dp, padding 20 / 18, gap 12, 16dp leading icon,
+ * titleMedium 15/18 w500, subtitle textSecondary, trailing value textSecondary, 16dp chevron.
+ */
 @Composable
 fun HassnRow(
     title: String,
@@ -416,30 +499,31 @@ fun HassnRow(
     trailing: (@Composable RowScope.() -> Unit)? = null,
 ) {
     val p = hassn
+    val t = MaterialTheme.typography
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 54.dp)
+            .heightIn(min = 56.dp)
             .let { if (onClick != null) it.clickable(onClick = onClick) else it }
-            .padding(horizontal = 18.dp),
+            .padding(horizontal = 20.dp, vertical = if (subtitle.isNullOrBlank()) 18.dp else 14.dp),
     ) {
-        if (leading != null) { leading(); Spacer(Modifier.width(13.dp)) }
-        else if (icon != null) { HassnIcon(icon, 20.dp); Spacer(Modifier.width(13.dp)) }
-        Column(Modifier.weight(1f).padding(vertical = 9.dp)) {
-            Text(title, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = titleColor, maxLines = 2, overflow = TextOverflow.Ellipsis, lineHeight = 20.sp)
+        if (leading != null) { leading(); Spacer(Modifier.width(12.dp)) }
+        else if (icon != null) { HassnIcon(icon, 16.dp, tint = titleColor); Spacer(Modifier.width(12.dp)) }
+        Column(Modifier.weight(1f)) {
+            Text(title, style = t.titleMedium, color = titleColor, maxLines = 2, overflow = TextOverflow.Ellipsis)
             if (!subtitle.isNullOrBlank()) {
-                Text(subtitle, fontSize = 12.5.sp, color = p.text2, maxLines = 2, overflow = TextOverflow.Ellipsis, lineHeight = 17.sp, modifier = Modifier.padding(top = 1.dp))
+                Text(subtitle, style = t.bodyMedium, color = p.text2, maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 2.dp))
             }
         }
         if (value != null) {
-            Spacer(Modifier.width(8.dp))
-            Text(value, fontSize = 13.sp, color = p.text2, maxLines = 1)
+            Spacer(Modifier.width(12.dp))
+            Text(value, style = t.bodyLarge, color = p.text2, maxLines = 1)
         }
-        if (trailing != null) { Spacer(Modifier.width(8.dp)); trailing() }
+        if (trailing != null) { Spacer(Modifier.width(12.dp)); trailing() }
         if (chevron) {
-            Spacer(Modifier.width(6.dp))
-            HassnIcon("chev", 15.dp, tint = p.text, stroke = 2f)
+            Spacer(Modifier.width(12.dp))
+            HassnIcon("chev", 16.dp, tint = p.text)
         }
     }
 }
@@ -455,75 +539,108 @@ fun HassnRowGroup(modifier: Modifier = Modifier, rows: List<@Composable () -> Un
     }
 }
 
+/** 4dp progress bar: fillPrimary on fillTertiary. */
 @Composable
 fun HassnBar(progress: Float, modifier: Modifier = Modifier) {
     val p = hassn
-    Box(modifier.fillMaxWidth().height(5.dp).clip(RoundedCornerShape(3.dp)).background(p.track)) {
-        Box(Modifier.fillMaxWidth(progress.coerceIn(0f, 1f)).fillMaxHeight().clip(RoundedCornerShape(3.dp)).background(p.ink))
+    Box(modifier.fillMaxWidth().height(4.dp).clip(CircleShape).background(p.track)) {
+        Box(Modifier.fillMaxWidth(progress.coerceIn(0f, 1f)).fillMaxHeight().clip(CircleShape).background(p.ink))
     }
 }
 
 @Composable
 fun HassnDot(color: Color, modifier: Modifier = Modifier) {
-    Box(modifier.size(7.dp).clip(CircleShape).background(color))
+    Box(modifier.size(8.dp).clip(CircleShape).background(color))
 }
 
-/** Letter avatar (mockup `ava`). */
+/** Letter avatar on a thin glass disc. */
 @Composable
 fun HassnLetterAvatar(ch: String, size: Dp = 36.dp) {
     val p = hassn
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(size).clip(CircleShape).background(if (p.dark) Color(0x33FFFFFF) else Color(0xFFDFE5EE)),
+        modifier = Modifier.size(size).clip(CircleShape).background(p.soft),
     ) {
-        Text(ch.take(1), fontSize = (size.value * 0.42f).sp, fontWeight = FontWeight.SemiBold, color = if (p.dark) p.text else Color(0xFF3D4149))
+        Text(ch.take(1), fontSize = (size.value * 0.42f).sp, fontWeight = FontWeight.Medium, color = p.text)
     }
 }
 
-/** Status pill: running = grey glass with spinner ring, done = white glass with check. */
+/** Small spinner ring used in status chips. */
+@Composable
+fun HassnSpinner(size: Dp = 16.dp, color: Color = hassn.text, track: Color = color.copy(alpha = 0.25f)) {
+    val tr = rememberInfiniteTransition(label = "spin")
+    val a by tr.animateFloat(0f, 360f, infiniteRepeatable(tween(900, easing = LinearEasing)), label = "a")
+    Canvas(Modifier.size(size)) {
+        val w = 2.dp.toPx()
+        drawCircle(track, radius = (this.size.minDimension - w) / 2, style = Stroke(w))
+        drawArc(color, a, 100f, false, topLeft = Offset(w / 2, w / 2), size = Size(this.size.width - w, this.size.height - w), style = Stroke(w, cap = StrokeCap.Round))
+    }
+}
+
+/**
+ * Status chip (spec §6.6). running = Hark project status chip (dark glass, white labelMedium,
+ * 16dp spinner); otherwise the quiet chip (ink @6 %, textSecondary, check).
+ */
 @Composable
 fun HassnStatusPill(label: String, running: Boolean) {
     val p = hassn
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .height(30.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .background(if (running) Color(0xB8585A62) else Color.White.copy(alpha = if (p.dark) 0.18f else 0.55f))
-            .padding(start = 9.dp, end = 13.dp),
+            .height(26.dp)
+            .clip(CircleShape)
+            .background(if (running) HkInk.copy(alpha = 0.5f) else p.tag)
+            .padding(start = 8.dp, end = 10.dp),
     ) {
-        if (running) {
-            Box(Modifier.size(16.dp).clip(CircleShape).border(3.dp, Color.White.copy(alpha = 0.6f), CircleShape))
-        } else {
-            HassnIcon("check", 16.dp, tint = if (p.dark) p.text else Color(0xFF3D4149), stroke = 2.2f)
-        }
-        Spacer(Modifier.width(7.dp))
-        Text(label, fontSize = 13.5.sp, color = if (running) Color.White else if (p.dark) p.text else Color(0xFF3D4149))
+        if (running) HassnSpinner(14.dp, Color.White) else HassnIcon("check", 14.dp, tint = p.text2)
+        Spacer(Modifier.width(6.dp))
+        Text(label, style = MaterialTheme.typography.labelMedium, color = if (running) Color.White else p.text2, maxLines = 1)
     }
 }
 
-/** Small round action chip inside a row (mockup "确认" black / "查看" soft). */
+/** Button pill (spec §6.6 sm): primary = ink / textPrimaryOn, secondary = fillTertiary / textPrimary. */
 @Composable
 fun HassnChipButton(label: String, primary: Boolean, onClick: () -> Unit) {
     val p = hassn
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .height(36.dp)
-            .clip(RoundedCornerShape(18.dp))
+            .heightIn(min = 32.dp)
+            .clip(CircleShape)
             .background(if (primary) p.ink else p.soft)
             .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp),
+            .padding(horizontal = 16.dp, vertical = 7.dp),
     ) {
-        Text(label, fontSize = 13.sp, fontWeight = if (primary) FontWeight.SemiBold else FontWeight.Normal, color = if (primary) p.onInk else p.text)
+        Text(label, style = MaterialTheme.typography.labelMedium, color = if (primary) p.onInk else p.text)
     }
 }
 
+/** Primary xl button: 48dp ink pill, labelLarge in textPrimaryOn. */
+@Composable
+fun HassnPrimaryButton(label: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
+    val p = hassn
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .height(48.dp)
+            .clip(CircleShape)
+            .background(if (enabled) p.ink else p.ink.copy(alpha = 0.4f))
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = 20.dp),
+    ) { Text(label, style = MaterialTheme.typography.labelLarge, color = p.onInk) }
+}
+
+/** Empty state (spec §6.9): bodyLarge textSecondary, left-aligned at the 16dp margin. */
+@Composable
+fun HassnEmptyText(text: String, modifier: Modifier = Modifier) {
+    Text(text, style = MaterialTheme.typography.bodyLarge, color = hassn.text2, modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+}
+
 /**
- * Drop-in replacement for Material `TopAppBar` / `CenterAlignedTopAppBar` on upstream sub-pages:
- * same parameter names, Hark look — navigation in a round glass button, centred 18sp bold title,
- * actions in one glass capsule. `colors` / `scrollBehavior` are accepted and ignored on purpose.
- * Empty slots draw nothing (the glass wraps the content's own size).
+ * Drop-in replacement for Material `TopAppBar` / `CenterAlignedTopAppBar` on upstream sub-pages
+ * (same parameter names), Hark sub-page header: navigation in a 44dp glass circle, centred
+ * titleLarge 20/24 w500, actions in one 44dp glass capsule. `colors` / `scrollBehavior` are
+ * accepted and ignored on purpose. Empty slots draw nothing.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -532,33 +649,36 @@ fun HassnAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    expandedHeight: Dp = 66.dp,
+    expandedHeight: Dp = 60.dp,
     windowInsets: WindowInsets = WindowInsets.statusBars,
     colors: TopAppBarColors? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     val p = hassn
-    CompositionLocalProvider(LocalContentColor provides p.text) {
+    CompositionLocalProvider(
+        LocalContentColor provides p.text,
+        LocalMinimumInteractiveComponentSize provides 44.dp,
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
                 .fillMaxWidth()
                 .windowInsetsPadding(windowInsets)
                 .heightIn(min = if (expandedHeight < 56.dp) 56.dp else expandedHeight)
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = 16.dp),
         ) {
-            Box(Modifier.widthIn(min = 48.dp), contentAlignment = Alignment.CenterStart) {
-                Box(Modifier.clip(CircleShape).background(p.glassButton)) { navigationIcon() }
+            Box(Modifier.widthIn(min = 44.dp), contentAlignment = Alignment.CenterStart) {
+                Box(Modifier.harkGlass(CircleShape, p.glassButton)) { navigationIcon() }
             }
             Box(Modifier.weight(1f).padding(horizontal = 8.dp), contentAlignment = Alignment.Center) {
-                ProvideTextStyle(TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold, color = p.text, textAlign = TextAlign.Center)) {
+                ProvideTextStyle(MaterialTheme.typography.titleLarge.copy(color = p.text, textAlign = TextAlign.Center)) {
                     title()
                 }
             }
-            Box(Modifier.widthIn(min = 48.dp), contentAlignment = Alignment.CenterEnd) {
+            Box(Modifier.widthIn(min = 44.dp), contentAlignment = Alignment.CenterEnd) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clip(RoundedCornerShape(24.dp)).background(p.glassButton),
+                    modifier = Modifier.harkGlass(CircleShape, p.glassButton),
                     content = actions,
                 )
             }
@@ -566,7 +686,7 @@ fun HassnAppBar(
     }
 }
 
-/** Glass capsule chip (chat header model pill / menu): 40dp, glass fill, optional leading line icon. */
+/** Thin glass capsule chip (chat header model pill / menus): 40dp, thinBg glass, optional icons. */
 @Composable
 fun HassnGlassChip(
     label: String?,
@@ -581,16 +701,88 @@ fun HassnGlassChip(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .height(40.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(p.glassButton)
+            .harkGlass(CircleShape, p.glassButton)
             .clickable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = if (label == null) 10.dp else 14.dp),
+            .padding(horizontal = if (label == null) 12.dp else 16.dp),
     ) {
-        if (icon != null) HassnIcon(icon, 20.dp, stroke = 2f)
+        if (icon != null) HassnIcon(icon, 16.dp)
         if (label != null) {
             if (icon != null) Spacer(Modifier.width(6.dp))
-            Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = p.text, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 180.dp))
+            Text(label, style = MaterialTheme.typography.labelLarge, color = p.text, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 180.dp))
         }
-        if (trailingIcon != null) { Spacer(Modifier.width(4.dp)); HassnIcon(trailingIcon, 14.dp, stroke = 2.2f) }
+        if (trailingIcon != null) { Spacer(Modifier.width(4.dp)); HassnIcon(trailingIcon, 12.dp, tint = p.text2) }
+    }
+}
+
+// ─── toast (spec §6.8): r24, white @90 % (black @90 % dark), 1dp text @20 % border, 13sp text @85 %,
+// sits above the composer, slides up 300 ms. Shown by HassnToast.show from anywhere. ───
+object HassnToast {
+    internal val current = kotlinx.coroutines.flow.MutableStateFlow<Pair<Long, String>?>(null)
+    @Volatile internal var hostAttached = false
+
+    /** Shows [text] in the app's toast; falls back to the system toast when no screen is up. */
+    fun show(context: android.content.Context, text: CharSequence?, long: Boolean = false) {
+        val msg = text?.toString() ?: return
+        if (!hostAttached) {
+            android.widget.Toast.makeText(context.applicationContext, msg, if (long) android.widget.Toast.LENGTH_LONG else android.widget.Toast.LENGTH_SHORT).show()
+            return
+        }
+        current.value = System.nanoTime() to msg
+    }
+
+    fun show(context: android.content.Context, resId: Int, long: Boolean = false) =
+        show(context, context.getString(resId), long)
+}
+
+@Composable
+fun HassnToastHost() {
+    val item by HassnToast.current.collectAsState()
+    // Attached only while this screen is resumed, so toasts from other activities (web apps,
+    // share sheet) or from the background fall back to the system toast.
+    val owner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    DisposableEffect(owner) {
+        val obs = androidx.lifecycle.LifecycleEventObserver { _, e ->
+            when (e) {
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> HassnToast.hostAttached = true
+                androidx.lifecycle.Lifecycle.Event.ON_PAUSE -> HassnToast.hostAttached = false
+                else -> {}
+            }
+        }
+        owner.lifecycle.addObserver(obs)
+        onDispose { owner.lifecycle.removeObserver(obs); HassnToast.hostAttached = false }
+    }
+    var shown by remember { mutableStateOf<String?>(null) }
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(item) {
+        val it = item ?: return@LaunchedEffect
+        shown = it.second
+        visible = true
+        kotlinx.coroutines.delay(if (it.second.length > 40) 3500 else 2200)
+        visible = false
+    }
+    val dark = LocalChatPalette.current.isDark
+    val textC = (if (dark) HkPaper else HkInk)
+    Box(Modifier.fillMaxSize().navigationBarsPadding().imePadding(), contentAlignment = Alignment.BottomCenter) {
+        AnimatedVisibility(
+            visible = visible,
+            enter = slideInVertically(tween(300)) { it } + fadeIn(tween(300)),
+            exit = slideOutVertically(tween(200)) { it } + fadeOut(tween(200)),
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 84.dp),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .widthIn(max = 424.dp)
+                    .shadow(24.dp, HarkCardShape, ambientColor = Color.Black.copy(alpha = 0.35f), spotColor = Color.Black.copy(alpha = 0.35f))
+                    .clip(HarkCardShape)
+                    .background(if (dark) Color.Black.copy(alpha = 0.9f) else Color.White.copy(alpha = 0.9f))
+                    .border(1.dp, textC.copy(alpha = 0.2f), HarkCardShape)
+                    .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp),
+            ) {
+                HassnIcon("info", 16.dp, tint = textC.copy(alpha = 0.6f))
+                Spacer(Modifier.width(10.dp))
+                Text(shown.orEmpty(), fontSize = 13.sp, lineHeight = 18.sp, color = textC.copy(alpha = 0.85f), maxLines = 4, overflow = TextOverflow.Ellipsis)
+            }
+        }
     }
 }
