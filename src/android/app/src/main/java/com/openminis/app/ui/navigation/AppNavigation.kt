@@ -558,9 +558,11 @@ fun AppNavigation(
         // share handoff, Move-to, the widget, notifications — and every one of
         // them keeps working unchanged. On a phone the scaffold resolves to a
         // single pane, so those pushes look and behave exactly as before.
+        // [Hassn-P1] SESSION_LIST is the app's root, so it now hosts the Hassn shell
+        // (主页 / 聊天 / 动态 / 项目); its 聊天 tab is the same ChatSplitScaffoldRoute as before.
+        // Keeping the route string means every popUpTo(SESSION_LIST) keeps working.
         composable(Routes.SESSION_LIST) {
-            ChatSplitScaffoldRoute(
-                initialSessionId = null,
+            com.openminis.app.hassn.HassnShell(
                 navController = navController,
                 chatRepository = chatRepository,
                 providerRepository = providerRepository,
