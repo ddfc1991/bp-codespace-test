@@ -539,6 +539,9 @@ fun ChatScreen(
      *  Model Groups section header. */
     onModelGroupsClick: () -> Unit = {},
     onOpenSubagentSettings: () -> Unit = {},
+    /** [Hassn-P1] Rendered inside the Hassn shell's 聊天 tab, under the shell's own top bar:
+     *  the chat header then takes no status-bar inset. */
+    hassnEmbedded: Boolean = false,
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -2539,7 +2542,8 @@ fun ChatScreen(
         LocalMarkdownSessionId provides sessionId,
     ) {
     Scaffold(
-        containerColor = ChatColors.background,
+        // [Hassn-P1] transparent: the app-wide weather sky shows behind the chat.
+        containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(0),
         topBar = {
             Column {
@@ -3134,10 +3138,10 @@ fun ChatScreen(
                         }
                     }
                 },
-                windowInsets = WindowInsets.statusBars,
+                windowInsets = if (hassnEmbedded) WindowInsets(0) else WindowInsets.statusBars,
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
-                    containerColor = ChatColors.background.copy(alpha = 0.92f),
-                    scrolledContainerColor = ChatColors.background.copy(alpha = 0.92f),
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
                 ),
                 // [T-android-topbar-shrink] 76dp → 68dp. The earlier
                 // T-topbar-model-row-clip fix bumped 60dp → 76dp to give the
@@ -4068,6 +4072,7 @@ fun ChatScreen(
                         Box(
                             modifier = Modifier
                                 .alpha(rowAlpha)
+                                .then(hassnAssistantCard(item))
                                 .then(
                                     if (isNewestItem) {
                                         Modifier.onPlaced {
@@ -5233,16 +5238,7 @@ fun ChatScreen(
                     }
                 }
 
-                // Input box: iOS-style floating card — no visible border, separated
-                // from the backdrop by a symmetric soft shadow painted by hand
-                // (Android's Modifier.shadow only casts downward).
-                val inputBgArgb = ChatColors.inputBg.toArgb()
-                val shadowPaint = remember(inputBgArgb) {
-                    android.graphics.Paint().apply {
-                        color = inputBgArgb
-                        isAntiAlias = true
-                    }
-                }
+                // Input box: [Hassn-P1] glass capsule (see the Column below).
                 // T185: Move-to-session capsule mirrors iOS
                 // AIChatView.swift:1816 (.overlay(alignment: .topTrailing))
                 // on the input card. We render it as the first child of the
@@ -5342,30 +5338,9 @@ fun ChatScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .drawBehind {
-                            val radiusPx = 20.dp.toPx()
-                            val canvas = drawContext.canvas.nativeCanvas
-                            // Pass 1: symmetric ambient halo — small blur, low alpha.
-                            shadowPaint.setShadowLayer(
-                                6.dp.toPx(), 0f, 0f,
-                                android.graphics.Color.argb(22, 0, 0, 0),
-                            )
-                            canvas.drawRoundRect(
-                                0f, 0f, size.width, size.height,
-                                radiusPx, radiusPx,
-                                shadowPaint,
-                            )
-                            // Pass 2: soft downward shadow (spot light).
-                            shadowPaint.setShadowLayer(
-                                10.dp.toPx(), 0f, 3.dp.toPx(),
-                                android.graphics.Color.argb(24, 0, 0, 0),
-                            )
-                            canvas.drawRoundRect(
-                                0f, 0f, size.width, size.height,
-                                radiusPx, radiusPx,
-                                shadowPaint,
-                            )
-                        }
+                        // [Hassn-P1] Hark composer: flat glass capsule (mockup 02), no drop shadow.
+                        .clip(RoundedCornerShape(26.dp))
+                        .background(ChatColors.inputBg)
                         .padding(top = if (attachments.isNotEmpty()) 8.dp else 4.dp),
                 ) {
                     // T185: Move-to capsule lives INSIDE the composer card,
@@ -6704,21 +6679,7 @@ fun ChatScreen(
                 )
             }
         }
-        // Top gradient fade: messages fade into the Scaffold background.
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxWidth()
-                .height(6.dp)
-                .background(
-                    androidx.compose.ui.graphics.Brush.verticalGradient(
-                        colors = listOf(
-                            ChatColors.background,
-                            ChatColors.background.copy(alpha = 0f),
-                        ),
-                    )
-                )
-        )
+        // [Hassn-P1] top gradient fade removed: the background is the sky, not a flat colour.
         }
     }
 
@@ -7270,3 +7231,42 @@ private fun ThinkingLevelSheet(
 }
 
 
+
+
+/**
+ * [Hassn-P1] Each assistant turn reads as one white Hark card (mockup 02): the header row opens it
+ * (rounded top), the action bar closes it (rounded bottom), every block in between is painted
+ * edge to edge and reaches 2dp up over the LazyColumn's spacedBy gap so the card has no seams.
+ */
+@Composable
+private fun hassnAssistantCard(item: FlatChatItem): Modifier {
+    val pos = when (item) {
+        is FlatChatItem.AssistantHeader -> 0
+        is FlatChatItem.AssistantActionBar -> 2
+        is FlatChatItem.AssistantText, is FlatChatItem.AssistantMarkdownBlock,
+        is FlatChatItem.AssistantThinking, is FlatChatItem.AssistantToolUse,
+        is FlatChatItem.AssistantInfo, is FlatChatItem.AssistantTyping,
+        is FlatChatItem.AssistantError, is FlatChatItem.AssistantLegacyContent -> 1
+        else -> return Modifier
+    }
+    val color = com.openminis.app.hassn.hassn.assistantBubble
+    return Modifier
+        .drawBehind {
+            val r = 24.dp.toPx()
+            val gap = 2.dp.toPx()
+            val top = if (pos == 0) 0f else -gap
+            val path = androidx.compose.ui.graphics.Path().apply {
+                addRoundRect(
+                    androidx.compose.ui.geometry.RoundRect(
+                        left = 0f, top = top, right = size.width, bottom = size.height + if (pos == 2) 0f else 0.5f,
+                        topLeftCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 0) r else 0f),
+                        topRightCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 0) r else 0f),
+                        bottomLeftCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 2) r else 0f),
+                        bottomRightCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 2) r else 0f),
+                    ),
+                )
+            }
+            drawPath(path, color)
+        }
+        .padding(start = 16.dp, end = 16.dp, top = if (pos == 0) 6.dp else 0.dp, bottom = if (pos == 2) 6.dp else 0.dp)
+}

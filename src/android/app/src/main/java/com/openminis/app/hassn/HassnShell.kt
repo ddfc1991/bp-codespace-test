@@ -28,6 +28,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -62,12 +67,13 @@ import java.text.DateFormat
 import java.util.Date
 
 /**
- * [Hassn-P1] Top-level shell: pill tabs 主页 / 聊天 / 动态 / 项目 with the profile button
- * (→ Settings) on the right, as in the approved v2 mockups. Every tab reads real app data
- * (sessions, projects, scheduled tasks, gateway state). Features the mockups show that do not
- * exist yet (目标看板, 专家, 等你确认) are not drawn with sample data; the home tab says they come later.
+ * [Hassn-P1] Top-level shell in the official-Hark layout (approved v2 mockups 01/02/03/07):
+ * [glass menu/plus] [主页 · 聊天 · 动态 · 项目] [glass user → 设置] over the app-wide sky.
+ * Every tab reads real app data. 聊天 shows the latest chat itself (as in mockup 02); the menu
+ * button opens the full chat history list.
  *
- * 聊天 embeds the upstream Hark session list + chat unchanged (same look), below the tabs.
+ * Launch extras (used by the CI screenshot job, harmless otherwise): `hassn_tab` 0..3 picks a
+ * tab, `hassn_open` = settings | ledger opens that page.
  */
 @Composable
 fun HassnShell(
@@ -78,155 +84,132 @@ fun HassnShell(
     skillRepository: SkillRepository?,
     mcpRepository: MCPRepository?,
 ) {
-    var tab by rememberSaveable { mutableIntStateOf(0) }
+    var tab by HassnShellState.tab
     BackHandler(enabled = tab != 0) { tab = 0 }
+    val ctx = LocalContext.current
+    LaunchedEffect(Unit) {
+        val intent = (ctx as? android.app.Activity)?.intent ?: return@LaunchedEffect
+        val t = intent.getIntExtra("hassn_tab", -1)
+        if (t in 0..3) tab = t
+        when (intent.getStringExtra("hassn_open")) {
+            "settings" -> navController.safeNavigate(Routes.SETTINGS)
+            "ledger" -> navController.safeNavigate(Routes.HASSN_LEDGER)
+        }
+        intent.removeExtra("hassn_tab")
+        intent.removeExtra("hassn_open")
+    }
 
     val openChat: (String) -> Unit = { id -> navController.safeNavigate(Routes.chat(id)) }
-
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-    ) {
-        if (tab != 1) HassnWeatherLayer(Modifier.fillMaxSize())
-        Column(Modifier.fillMaxSize().statusBarsPadding()) {
-            HassnTopBar(
-                selected = tab,
-                onSelect = { tab = it },
-                onProfile = { navController.safeNavigate(Routes.SETTINGS) },
-            )
-            Box(Modifier.weight(1f).fillMaxWidth()) {
-                when (tab) {
-                    1 -> ChatSplitScaffoldRoute(
-                        initialSessionId = null,
-                        navController = navController,
-                        chatRepository = chatRepository,
-                        providerRepository = providerRepository,
-                        memoryRepository = memoryRepository,
-                        skillRepository = skillRepository,
-                        mcpRepository = mcpRepository,
-                    )
-                    2 -> HassnFeedTab(chatRepository, openChat)
-                    3 -> HassnProjectsTab(chatRepository, openChat)
-                    else -> HassnHomeTab(
-                        chatRepository = chatRepository,
-                        openChat = openChat,
-                        openGateway = { navController.safeNavigate(Routes.HASSN_GATEWAY) },
-                        openScheduled = { navController.safeNavigate(Routes.SCHEDULED_TASKS) },
-                        openLedger = { navController.safeNavigate(Routes.HASSN_LEDGER) },
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HassnTopBar(selected: Int, onSelect: (Int) -> Unit, onProfile: () -> Unit) {
+    val openHistory: () -> Unit = { navController.safeNavigate(Routes.HASSN_CHATS) }
     val labels = listOf(
         stringResource(R.string.hassn_tab_home),
         stringResource(R.string.hassn_tab_chat),
         stringResource(R.string.hassn_tab_feed),
         stringResource(R.string.hassn_tab_projects),
     )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Surface(
-            shape = RoundedCornerShape(50),
-            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.85f),
-            modifier = Modifier.weight(1f),
-        ) {
-            Row(Modifier.padding(4.dp)) {
-                labels.forEachIndexed { i, label ->
-                    val on = i == selected
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(50))
-                            .background(if (on) MaterialTheme.colorScheme.onSurface else androidx.compose.ui.graphics.Color.Transparent)
-                            .clickable { onSelect(i) }
-                            .padding(vertical = 10.dp),
-                    ) {
-                        Text(
-                            label,
-                            fontWeight = if (on) FontWeight.Bold else FontWeight.Normal,
-                            color = if (on) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                        )
-                    }
-                }
+
+    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+        HassnTopBar(
+            labels = labels,
+            selected = tab,
+            onSelect = { tab = it },
+            leftIcon = if (tab == 3) "plus" else "menu",
+            onLeft = { if (tab == 3) openChat(newDraftSessionId()) else openHistory() },
+            onProfile = { navController.safeNavigate(Routes.SETTINGS) },
+            profileDescription = stringResource(R.string.hassn_profile_settings),
+        )
+        Box(Modifier.weight(1f).fillMaxWidth()) {
+            when (tab) {
+                1 -> HassnChatTab(navController, chatRepository, providerRepository, memoryRepository, skillRepository, mcpRepository) { tab = 0 }
+                2 -> HassnFeedTab(chatRepository, openChat)
+                3 -> HassnProjectsTab(chatRepository, openChat)
+                else -> HassnHomeTab(
+                    chatRepository = chatRepository,
+                    openChat = openChat,
+                    openGateway = { navController.safeNavigate(Routes.HASSN_GATEWAY) },
+                    openScheduled = { navController.safeNavigate(Routes.SCHEDULED_TASKS) },
+                    openLedger = { navController.safeNavigate(Routes.HASSN_LEDGER) },
+                )
             }
         }
-        Spacer(Modifier.size(8.dp))
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.85f),
-        ) {
-            IconButton(onClick = onProfile) {
-                Icon(Icons.Outlined.Person, contentDescription = stringResource(R.string.hassn_profile_settings))
-            }
-        }
+    }
+}
+
+/** 聊天 tab: the most recent chat (or a fresh draft) rendered directly under the shell bar. */
+@Composable
+private fun HassnChatTab(
+    navController: NavHostController,
+    chatRepository: ChatRepository,
+    providerRepository: ProviderRepository,
+    memoryRepository: MemoryRepository?,
+    skillRepository: SkillRepository?,
+    mcpRepository: MCPRepository?,
+    onLeave: () -> Unit,
+) {
+    val ctx = LocalContext.current
+    val sessions by remember { chatRepository.observeSessions() }.collectAsState(initial = null)
+    var sessionId by rememberSaveable { mutableStateOf<String?>(null) }
+    val loaded = sessions ?: return
+    if (sessionId == null) {
+        sessionId = loaded.filter { !it.isSubagentSession }.maxByOrNull { it.updatedAt }?.id ?: newDraftSessionId()
+    }
+    val sid = sessionId ?: return
+    val browseProject = { project: ProjectEntity ->
+        val rootfs = com.openminis.app.sandbox.RootfsManager.getInstance(ctx.applicationContext)
+        val hostDir = rootfs.getProjectDir(project.name, project.linuxPath, project.id)
+        com.openminis.app.ui.navigation.FilePreviewHolder.fileBrowserViewModel = com.openminis.app.ui.sandbox.FileBrowserViewModel(
+            rootPath = hostDir,
+            rootLabel = project.name,
+            displayLinuxPrefix = project.linuxPath ?: "/var/hark/projects/${project.name}",
+        )
+        navController.safeNavigate(Routes.FILE_BROWSER)
+    }
+    androidx.compose.runtime.key(sid) {
+        com.openminis.app.ui.chat.ChatScreen(
+            sessionId = sid,
+            chatRepository = chatRepository,
+            providerRepository = providerRepository,
+            memoryRepository = memoryRepository,
+            skillRepository = skillRepository,
+            mcpRepository = mcpRepository,
+            onBack = onLeave,
+            isTwoPane = true, // no back arrow: the shell's tabs are the navigation here
+            onNewChat = { sessionId = newDraftSessionId() },
+            onOpenTerminal = { navController.safeNavigate(Routes.terminal(sessionId = sid)) },
+            onOpenTerminalWithCommand = { cmd -> navController.safeNavigate(Routes.terminal(initCommand = cmd, sessionId = sid)) },
+            onMoveToSession = { target -> sessionId = target },
+            onBrowseChatFiles = { navController.safeNavigate(Routes.chatFiles(sid)) },
+            onBrowseProjectFiles = browseProject,
+            onPreviewAttachment = { item ->
+                com.openminis.app.ui.navigation.FilePreviewHolder.currentItem = item
+                navController.safeNavigate(Routes.FILE_PREVIEW)
+            },
+            onModelGroupsClick = { navController.safeNavigate(Routes.MODEL_GROUPS) },
+            onOpenSubagentSettings = { navController.safeNavigate(Routes.SUBAGENTS) },
+            hassnEmbedded = true,
+        )
     }
 }
 
 private fun fmtTime(ms: Long): String =
     DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(ms))
 
-@Composable
-private fun SectionTitle(text: String) {
-    Text(
-        text,
-        style = MaterialTheme.typography.titleSmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(start = 20.dp, top = 16.dp, bottom = 6.dp),
-    )
-}
+private fun ChatSessionEntity.label(untitled: String): String = title?.takeIf { it.isNotBlank() } ?: untitled
 
-@Composable
-private fun Card(content: @Composable () -> Unit) {
-    Surface(
-        shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp),
-    ) { Column(Modifier.padding(vertical = 6.dp)) { content() } }
-}
-
-@Composable
-private fun Line(title: String, subtitle: String?, trailing: String? = null, onClick: (() -> Unit)? = null) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .let { if (onClick != null) it.clickable(onClick = onClick) else it }
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-    ) {
-        Column(Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (!subtitle.isNullOrBlank()) {
-                Text(
-                    subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-        }
-        if (trailing != null) {
-            Spacer(Modifier.size(8.dp))
-            Text(trailing, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
+private fun dayLabel(ms: Long, today: String, yesterday: String): String {
+    val c = java.util.Calendar.getInstance()
+    val now = java.util.Calendar.getInstance()
+    c.timeInMillis = ms
+    val sameYear = c.get(java.util.Calendar.YEAR) == now.get(java.util.Calendar.YEAR)
+    val dDay = now.get(java.util.Calendar.DAY_OF_YEAR) - c.get(java.util.Calendar.DAY_OF_YEAR)
+    return when {
+        sameYear && dDay == 0 -> today
+        sameYear && dDay == 1 -> yesterday
+        else -> DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(ms))
     }
 }
 
-private fun ChatSessionEntity.label(untitled: String): String = title?.takeIf { it.isNotBlank() } ?: untitled
+private fun shortTime(ms: Long): String = DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(ms))
 
 @Composable
 private fun HassnHomeTab(
@@ -237,6 +220,7 @@ private fun HassnHomeTab(
     openLedger: () -> Unit,
 ) {
     val ctx = LocalContext.current
+    val p = hassn
     remember { com.openminis.app.hassn.ledger.LedgerStore.init(ctx.applicationContext) }
     val ledger by com.openminis.app.hassn.ledger.LedgerStore.state.collectAsState()
     val sessions by remember { chatRepository.observeSessions() }.collectAsState(initial = emptyList())
@@ -246,7 +230,12 @@ private fun HassnHomeTab(
     val modelCount = remember { HassnGateway.cachedModels(ctx).size }
     val untitled = stringResource(R.string.hassn_untitled_chat)
 
-    LazyColumn(contentPadding = PaddingValues(bottom = 24.dp), modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
+    LazyColumn(
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(0.dp),
+        modifier = Modifier.fillMaxSize().navigationBarsPadding(),
+    ) {
+        // status line (mockup: "● 云端大脑在线 · …")
         item {
             val status = when {
                 !hasKey -> stringResource(R.string.hassn_home_gateway_unset)
@@ -258,65 +247,74 @@ private fun HassnHomeTab(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable(onClick = openGateway)
-                    .padding(horizontal = 20.dp, vertical = 6.dp),
+                    .padding(start = 6.dp, end = 6.dp, bottom = 10.dp),
             ) {
-                Box(
-                    Modifier
-                        .size(8.dp)
-                        .clip(CircleShape)
-                        .background(if (hasKey) androidx.compose.ui.graphics.Color(0xFF34C759) else MaterialTheme.colorScheme.outline),
-                )
-                Spacer(Modifier.size(8.dp))
-                Text(status, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                HassnDot(if (hasKey) p.green else p.idle)
+                Spacer(Modifier.width(8.dp))
+                Text(status, fontSize = 13.sp, color = p.text3, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
 
         val upcoming = tasks.mapNotNull { t -> t.nextTriggerMs()?.let { t to it } }.sortedBy { it.second }.take(5)
-        item { SectionTitle(stringResource(R.string.hassn_home_scheduled)) }
         item {
-            Card {
+            GlassCard {
+                Column(Modifier.padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 4.dp)) {
+                    Text(stringResource(R.string.hassn_home_scheduled), fontSize = 16.sp, fontWeight = FontWeight.Bold, color = p.text)
+                }
                 if (upcoming.isEmpty()) {
-                    Line(stringResource(R.string.hassn_home_scheduled_empty), null, onClick = openScheduled)
+                    HassnRow(stringResource(R.string.hassn_home_scheduled_empty), icon = "clock", onClick = openScheduled)
                 } else {
-                    upcoming.forEach { (t, next) ->
-                        Line(t.label, t.lastResultPreview, stringResource(R.string.hassn_next_at, fmtTime(next)), onClick = openScheduled)
+                    upcoming.forEachIndexed { i, (t, next) ->
+                        if (i > 0) HassnDivider()
+                        HassnRow(
+                            title = t.label,
+                            subtitle = t.lastResultPreview,
+                            icon = "clock",
+                            value = stringResource(R.string.hassn_next_at, fmtTime(next)),
+                            chevron = false,
+                            onClick = openScheduled,
+                        )
                     }
                 }
             }
+            Spacer(Modifier.height(12.dp))
         }
 
-        // [Hassn-P1] 临时邮箱台账 entry
-        item { SectionTitle("临时邮箱台账") }
+        item { HassnGroupHeader("临时邮箱台账") }
         item {
             val (nb, np) = com.openminis.app.hassn.ledger.LedgerCore.totals(ledger)
-            Card {
-                Line(
-                    if (nb == 0) "还没有临时邮箱" else "$nb 个邮箱 · $np 个平台",
-                    "密码自动生成存入保管库 · 到期前自动延时",
+            GlassCard {
+                HassnRow(
+                    title = if (nb == 0) "还没有临时邮箱" else "$nb 个邮箱 · $np 个平台",
+                    subtitle = "密码自动生成存入保管库 · 到期前自动延时",
+                    icon = "key",
                     onClick = openLedger,
                 )
             }
+            Spacer(Modifier.height(12.dp))
         }
 
         val recent = sessions.filter { !it.isSubagentSession }.sortedByDescending { it.updatedAt }.take(5)
-        item { SectionTitle(stringResource(R.string.hassn_home_recent)) }
+        item { HassnGroupHeader(stringResource(R.string.hassn_home_recent)) }
         item {
-            Card {
+            GlassCard {
                 if (recent.isEmpty()) {
-                    Line(stringResource(R.string.hassn_home_recent_empty), null, onClick = { openChat(newDraftSessionId()) })
+                    HassnRow(stringResource(R.string.hassn_home_recent_empty), icon = "chat", onClick = { openChat(newDraftSessionId()) })
                 } else {
-                    recent.forEach { s -> Line(s.label(untitled), s.lastMessage, fmtTime(s.updatedAt), onClick = { openChat(s.id) }) }
+                    recent.forEachIndexed { i, s ->
+                        if (i > 0) HassnDivider()
+                        val name = s.label(untitled)
+                        HassnRow(
+                            title = name,
+                            subtitle = s.lastMessage,
+                            value = shortTime(s.updatedAt),
+                            chevron = false,
+                            leading = { HassnLetterAvatar(name) },
+                            onClick = { openChat(s.id) },
+                        )
+                    }
                 }
             }
-        }
-
-        item {
-            Text(
-                stringResource(R.string.hassn_home_later_note),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
-            )
         }
     }
 }
@@ -326,11 +324,14 @@ private data class FeedItem(val at: Long, val title: String, val detail: String?
 @Composable
 private fun HassnFeedTab(chatRepository: ChatRepository, openChat: (String) -> Unit) {
     val ctx = LocalContext.current
+    val p = hassn
     val sessions by remember { chatRepository.observeSessions() }.collectAsState(initial = emptyList())
     val store = remember { ScheduledTaskStore(ctx.applicationContext) }
     val tasks by remember { store.observe() }.collectAsState(initial = emptyList<ScheduledTask>())
     val untitled = stringResource(R.string.hassn_untitled_chat)
     val failed = stringResource(R.string.hassn_feed_failed)
+    val today = "今天"
+    val yesterday = "昨天"
 
     val feedItems = remember(sessions, tasks) {
         val runs = tasks.flatMap { t -> t.runHistory.map { r -> FeedItem(r.firedAt, t.label, r.preview, r.sessionId, r.ok) } }
@@ -340,59 +341,103 @@ private fun HassnFeedTab(chatRepository: ChatRepository, openChat: (String) -> U
 
     if (feedItems.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(stringResource(R.string.hassn_feed_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.hassn_feed_empty), color = p.text3, fontSize = 15.sp)
         }
         return
     }
-    LazyColumn(contentPadding = PaddingValues(top = 8.dp, bottom = 24.dp), modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
-        items(feedItems) { f ->
-            val tag = when (f.ok) {
-                null -> stringResource(R.string.hassn_feed_chat)
-                true -> stringResource(R.string.hassn_feed_scheduled)
-                false -> failed
+    val grouped = feedItems.groupBy { dayLabel(it.at, today, yesterday) }
+    LazyColumn(
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 24.dp),
+        modifier = Modifier.fillMaxSize().navigationBarsPadding(),
+    ) {
+        grouped.forEach { (day, list) ->
+            item(key = "h_$day") {
+                Text(day, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = p.text, modifier = Modifier.padding(start = 6.dp, top = 2.dp, bottom = 10.dp))
             }
-            Card {
-                Line(
-                    title = f.title,
-                    subtitle = f.detail,
-                    trailing = "$tag · ${fmtTime(f.at)}",
-                    onClick = f.sessionId?.let { id -> { openChat(id) } },
-                )
+            items(list) { f ->
+                val tag = when (f.ok) {
+                    null -> stringResource(R.string.hassn_feed_chat)
+                    true -> stringResource(R.string.hassn_feed_scheduled)
+                    false -> failed
+                }
+                GlassCard(Modifier.padding(bottom = 12.dp)) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .let { m -> f.sessionId?.let { id -> m.clickable { openChat(id) } } ?: m }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                    ) {
+                        FeedOrb(if (f.ok == null) "chat" else if (f.ok) "clock" else "info", f.ok)
+                        Spacer(Modifier.width(12.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(f.title, fontSize = 15.5.sp, fontWeight = FontWeight.Bold, color = p.text, lineHeight = 22.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                            if (!f.detail.isNullOrBlank()) {
+                                Text(f.detail, fontSize = 14.sp, color = if (p.dark) p.text3 else Color(0xFF2C2F35), lineHeight = 22.sp, maxLines = 4, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 3.dp))
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 10.dp)) {
+                                HassnIcon("chat", 17.dp, tint = p.text3)
+                                Spacer(Modifier.width(5.dp))
+                                Text(tag, fontSize = 13.5.sp, color = p.text3)
+                                Spacer(Modifier.weight(1f))
+                                Text(shortTime(f.at), fontSize = 12.5.sp, color = p.text2)
+                            }
+                        }
+                    }
+                }
             }
-            Spacer(Modifier.height(8.dp))
         }
     }
 }
 
+/** Glossy orb with a line glyph (mockup 07 `orb`). */
+@Composable
+private fun FeedOrb(icon: String, ok: Boolean?) {
+    val (c1, c2) = when (ok) {
+        null -> Color(0xFF7FB3F0) to Color(0xFF3F74C4)
+        true -> Color(0xFF8FD0A8) to Color(0xFF3F9A68)
+        false -> Color(0xFFF2B84B) to Color(0xFFC9801F)
+    }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(38.dp)
+            .clip(CircleShape)
+            .background(androidx.compose.ui.graphics.Brush.radialGradient(listOf(Color.White.copy(alpha = 0.9f), c1, c2))),
+    ) { HassnIcon(icon, 20.dp, tint = Color.White, stroke = 2.4f) }
+}
+
 @Composable
 private fun HassnProjectsTab(chatRepository: ChatRepository, openChat: (String) -> Unit) {
+    val p = hassn
     val projects by remember { chatRepository.observeProjects() }.collectAsState(initial = emptyList<ProjectEntity>())
     val sessions by remember { chatRepository.observeSessions() }.collectAsState(initial = emptyList())
     val counts = remember(sessions) { sessions.filter { it.projectId != null }.groupingBy { it.projectId!! }.eachCount() }
 
     if (projects.isEmpty()) {
         Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
-            Text(stringResource(R.string.hassn_projects_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.hassn_projects_empty), color = p.text3, fontSize = 15.sp)
         }
         return
     }
-    LazyColumn(contentPadding = PaddingValues(top = 8.dp, bottom = 24.dp), modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
-        items(projects.sortedWith(compareByDescending<ProjectEntity> { it.pinnedAt ?: 0L }.thenByDescending { it.updatedAt }), key = { it.id }) { p ->
+    LazyColumn(contentPadding = PaddingValues(start = 26.dp, end = 26.dp, top = 44.dp, bottom = 24.dp), modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
+        items(projects.sortedWith(compareByDescending<ProjectEntity> { it.pinnedAt ?: 0L }.thenByDescending { it.updatedAt }), key = { it.id }) { pr ->
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .clickable { openChat(newDraftSessionId(p.id)) }
-                    .padding(horizontal = 24.dp, vertical = 14.dp),
+                    .clickable { openChat(newDraftSessionId(pr.id)) }
+                    .padding(bottom = 30.dp),
             ) {
-                Text(p.name, style = MaterialTheme.typography.headlineSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Spacer(Modifier.height(4.dp))
-                val sub = listOfNotNull(
-                    stringResource(R.string.hassn_projects_chats, counts[p.id] ?: 0),
-                    p.description?.takeIf { it.isNotBlank() },
-                ).joinToString(" · ")
-                Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(pr.name, fontSize = 23.sp, fontWeight = FontWeight.Medium, color = p.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Spacer(Modifier.height(10.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    HassnStatusPill(stringResource(R.string.hassn_projects_chats, counts[pr.id] ?: 0), running = false)
+                    val d = pr.description?.takeIf { it.isNotBlank() }
+                    if (d != null) {
+                        Spacer(Modifier.width(10.dp))
+                        Text(d, fontSize = 13.sp, color = p.text3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                }
             }
         }
     }
 }
-

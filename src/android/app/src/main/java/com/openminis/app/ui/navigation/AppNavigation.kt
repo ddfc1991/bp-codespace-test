@@ -91,6 +91,8 @@ object Routes {
     const val SETTINGS = "settings"
     // [Hassn-P1] Settings → 智能网关
     const val HASSN_GATEWAY = "hassn_gateway"
+    // [Hassn-P1] full chat history list (shell menu button)
+    const val HASSN_CHATS = "hassn_chats"
     // [Hassn-P1] 临时邮箱台账 (Settings / 主页)
     const val HASSN_LEDGER = "hassn_ledger"
     const val HASSN_LEDGER_BOX = "hassn_ledger_box/{boxId}"
@@ -617,6 +619,18 @@ fun AppNavigation(
                 onSharedFoldersClick = { navController.safeNavigate(Routes.SHARED_FOLDERS) },
                 onHassnGatewayClick = { navController.safeNavigate(Routes.HASSN_GATEWAY) },
                 onHassnLedgerClick = { navController.safeNavigate(Routes.HASSN_LEDGER) },
+            )
+        }
+
+        composable(Routes.HASSN_CHATS) {
+            ChatSplitScaffoldRoute(
+                initialSessionId = null,
+                navController = navController,
+                chatRepository = chatRepository,
+                providerRepository = providerRepository,
+                memoryRepository = memoryRepository,
+                skillRepository = skillRepository,
+                mcpRepository = mcpRepository,
             )
         }
 

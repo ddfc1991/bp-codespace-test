@@ -48,6 +48,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -150,19 +152,28 @@ fun SettingsScreen(
             },
         )
     }
+    // [Hassn-P1] Hark settings page (official screenshot / mockup 08): the shell's glass tab bar
+    // stays on top (no tab selected); tapping a tab returns to that tab. No 退出登录 row.
+    val hassnTabs = listOf(
+        stringResource(R.string.hassn_tab_home),
+        stringResource(R.string.hassn_tab_chat),
+        stringResource(R.string.hassn_tab_feed),
+        stringResource(R.string.hassn_tab_projects),
+    )
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.settings_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.settings_back),
-                        )
-                    }
-                },
-            )
+            androidx.compose.foundation.layout.Box(Modifier.statusBarsPadding()) {
+                com.openminis.app.hassn.HassnTopBar(
+                    labels = hassnTabs,
+                    selected = -1,
+                    onSelect = { i -> com.openminis.app.hassn.HassnShellState.tab.intValue = i; onBack() },
+                    leftIcon = "back",
+                    onLeft = onBack,
+                    onProfile = {},
+                    profileDescription = stringResource(R.string.settings_title),
+                )
+            }
         },
     ) { padding ->
         Column(
@@ -391,7 +402,7 @@ fun SettingsScreen(
 }
 
 /**
- * A grouped settings section with header and optional footer, matching iOS grouped List sections.
+ * [Hassn-P1] Grouped section in the Hark glass style: plain group header + 26dp glass card.
  */
 @Composable
 private fun SettingsSection(
@@ -402,121 +413,63 @@ private fun SettingsSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 20.dp),
+            .padding(top = 12.dp),
     ) {
-        // Section header
-        Text(
-            text = title.uppercaseForDisplay(),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontWeight = FontWeight.Medium,
-            letterSpacing = 0.5.sp,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
-        )
-
-        // Section card
+        com.openminis.app.hassn.HassnGroupHeader(title)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(color = MaterialTheme.colorScheme.surfaceContainerLow),
+                .clip(RoundedCornerShape(26.dp))
+                .background(color = com.openminis.app.hassn.hassn.card),
         ) {
             content()
         }
-
-        // Section footer
         if (footer != null) {
             Text(
                 text = footer,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp),
-                lineHeight = 16.sp,
+                fontSize = 12.5.sp,
+                color = com.openminis.app.hassn.hassn.text3,
+                modifier = Modifier.padding(horizontal = 22.dp, vertical = 6.dp),
+                lineHeight = 17.sp,
             )
         }
     }
 }
 
 /**
- * A single settings row item with colored icon, title, optional subtitle, and chevron.
- * Styled to match iOS settings rows with SF Symbol-like colored circle icons.
+ * [Hassn-P1] Hark settings row: line icon, 15sp title, small grey subtitle, black chevron,
+ * inset hairline. `iconColor` is kept for call-site compatibility but no longer painted.
  */
 @Composable
 private fun SettingsItem(
     icon: ImageVector,
-    iconColor: Color,
+    @Suppress("UNUSED_PARAMETER") iconColor: Color,
     title: String,
     subtitle: String?,
     onClick: () -> Unit,
     showDivider: Boolean = true,
 ) {
+    val p = com.openminis.app.hassn.hassn
     Column {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .heightIn(min = 54.dp)
                 .clickable(onClick = onClick)
-                .padding(horizontal = 14.dp, vertical = 12.dp),
+                .padding(horizontal = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // Colored circle icon (matching iOS settings style)
-            Box(
-                modifier = Modifier
-                    .size(30.dp)
-                    .background(
-                        color = iconColor,
-                        shape = CircleShape,
-                    ),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(16.dp),
-                )
-            }
-
-            Spacer(Modifier.width(14.dp))
-
-            // Title + subtitle
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(1.dp),
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
+            Icon(imageVector = icon, contentDescription = null, tint = p.text, modifier = Modifier.size(21.dp))
+            Spacer(Modifier.width(13.dp))
+            Column(modifier = Modifier.weight(1f).padding(vertical = 9.dp)) {
+                Text(text = title, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = p.text)
                 if (subtitle != null) {
-                    Text(
-                        text = subtitle,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    Text(text = subtitle, fontSize = 12.5.sp, color = p.text2, lineHeight = 17.sp)
                 }
             }
-
-            // Chevron
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                modifier = Modifier.size(20.dp),
-            )
+            com.openminis.app.hassn.HassnIcon("chev", 15.dp, tint = p.text, stroke = 2f)
         }
-
-        // Divider between items (inset to match icon alignment)
-        if (showDivider) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 58.dp, end = 14.dp)
-                    .height(0.5.dp)
-                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
-            )
-        }
+        if (showDivider) com.openminis.app.hassn.HassnDivider()
     }
 }
-
