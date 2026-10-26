@@ -13,6 +13,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -54,67 +57,62 @@ fun MinisAlertDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true),
     ) {
+        // [Hassn] Hark dialog (spec §6.8): r24, regularSolid, padding 20, gap 20; buttons are the
+        // Hark button recipe — primary ink pill (red for destructive), secondary ink @5 % pill.
+        val p = com.openminis.app.hassn.hassn
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
+            shape = RoundedCornerShape(24.dp),
+            color = p.solid,
+            tonalElevation = 0.dp,
+            shadowElevation = 12.dp,
         ) {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp),
+                    color = p.text,
                 )
                 if (text != null) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = text,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = 24.dp),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = p.text2,
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                val confirmColor = if (isDestructive) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.primary
+                Spacer(modifier = Modifier.height(20.dp))
+                val confirmFill = if (isDestructive) p.red else p.ink
+                val confirmText2 = if (isDestructive) androidx.compose.ui.graphics.Color.White else p.onInk
+                @Composable
+                fun Pill(label: String, fill: androidx.compose.ui.graphics.Color, fg: androidx.compose.ui.graphics.Color, onClick: () -> Unit, m: Modifier) {
+                    androidx.compose.foundation.layout.Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = m
+                            .height(48.dp)
+                            .clip(androidx.compose.foundation.shape.CircleShape)
+                            .background(fill)
+                            .clickable(onClick = onClick)
+                            .padding(horizontal = 16.dp),
+                    ) {
+                        Text(label, style = MaterialTheme.typography.labelLarge, color = fg, maxLines = 2, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                    }
                 }
                 if (neutralText != null && onNeutral != null) {
-                    // Stacked layout. Order runs least-committal first
-                    // (dismiss) down to the most specific action, so the
-                    // primary choice sits closest to the thumb.
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 8.dp),
-                        horizontalAlignment = Alignment.End,
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        MinisTextButton(onClick = onDismiss) {
-                            Text(dismissText)
-                        }
-                        MinisTextButton(onClick = onConfirm) {
-                            Text(text = confirmText, color = confirmColor)
-                        }
-                        MinisTextButton(onClick = onNeutral) {
-                            Text(text = neutralText, color = confirmColor)
-                        }
+                        Pill(confirmText, confirmFill, confirmText2, onConfirm, Modifier.fillMaxWidth())
+                        Pill(neutralText, p.soft, p.text, onNeutral, Modifier.fillMaxWidth())
+                        Pill(dismissText, p.soft, p.text, onDismiss, Modifier.fillMaxWidth())
                     }
                 } else {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        MinisTextButton(onClick = onDismiss) {
-                            Text(dismissText)
-                        }
-                        Spacer(modifier = Modifier.width(4.dp))
-                        MinisTextButton(onClick = onConfirm) {
-                            Text(text = confirmText, color = confirmColor)
-                        }
+                        Pill(dismissText, p.soft, p.text, onDismiss, Modifier.weight(1f))
+                        Pill(confirmText, confirmFill, confirmText2, onConfirm, Modifier.weight(1f))
                     }
                 }
             }

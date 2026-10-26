@@ -87,7 +87,7 @@ object SectionDesign {
      *  `surfaceContainerLow` here gives us the card color iOS Settings expects. */
     @Composable
     @ReadOnlyComposable
-    fun cardColor(): Color = MaterialTheme.colorScheme.surfaceContainerLow
+    fun cardColor(): Color = com.openminis.app.hassn.hassn.card // [Hassn] regularSurface
 
     /** Section background (the gray behind the cards) — match iOS systemGroupedBackground.
      *  Pairs with [cardColor]: this token is the dimmer page-level surface
@@ -100,12 +100,12 @@ object SectionDesign {
     /** Inner-card divider color — match iOS systemFill α 0.3. */
     @Composable
     @ReadOnlyComposable
-    fun dividerColor(): Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+    fun dividerColor(): Color = com.openminis.app.hassn.hassn.divider // [Hassn] strokeSecondary
 
     /** Footer caption color (gray text below cards). */
     @Composable
     @ReadOnlyComposable
-    fun footerColor(): Color = MaterialTheme.colorScheme.onSurfaceVariant
+    fun footerColor(): Color = com.openminis.app.hassn.hassn.text2
 }
 
 /**

@@ -26,6 +26,14 @@ import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -63,7 +71,7 @@ fun MinisMenu(
     // Launcher shortcut popup's plumper corner language the user asked us to
     // mirror (the launcher itself sits near 28dp, but that reads bloated on a
     // dense 8-item list menu).
-    shape: Shape = RoundedCornerShape(20.dp),
+    shape: Shape = RoundedCornerShape(24.dp), // [Hassn] Hark menu r24
     // [T-android-popup-dark-bg] In dark mode bare `surface` is nearly the same
     // as the chat/list background, so these popups (session-row long-press menu,
     // top-bar tools menu, message-bubble menu) read as near-invisible light
@@ -71,8 +79,9 @@ fun MinisMenu(
     // in dark, a subtle shade in light) so the menu pops out — same fix already
     // validated on the text-selection toolbar (T-android-text-toolbar-dark-
     // visibility). The dark-mode `border` below adds the extra edge definition.
-    containerColor: Color = if (ChatColors.isDark) MaterialTheme.colorScheme.surfaceContainerHigh else Color.White,
-    tonalElevation: Dp = 3.dp,
+    // [Hassn] Hark menu fill: regularSolid (white / ink @96 %) — a popup window cannot blur behind.
+    containerColor: Color = com.openminis.app.hassn.hassn.solid,
+    tonalElevation: Dp = 0.dp,
     // [T-android-menu-launcher-shadow] Analyzed against the Pixel Launcher
     // long-press popup (screenshot sample): its shadow is a WIDE, very
     // diffuse, low-opacity halo with no tight dark edge — i.e. a large
@@ -82,15 +91,11 @@ fun MinisMenu(
     // Modifier.shadow with alpha-reduced ambient/spot colors (API 28+;
     // colors are ignored on 26/27, which just fall back to the default
     // tint at the same blur). Surface's own shadowElevation is left at 0.
-    shadowElevation: Dp = 24.dp,
+    shadowElevation: Dp = 20.dp, // [Hassn] Hark floating glass shadow 0 8 40 ink @12 %
     // Light mode now also gets a hairline (was null): with the launcher-style
     // soft halo replacing the old tight shadow, the popup's edge needs a
     // subtle line of its own to stay crisply bounded on light surfaces.
-    border: BorderStroke? = if (ChatColors.isDark) {
-        BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
-    } else {
-        BorderStroke(0.5.dp, Color.Black.copy(alpha = 0.05f))
-    },
+    border: BorderStroke? = BorderStroke(0.5.dp, com.openminis.app.hassn.hassn.divider),
     minWidth: Dp = 180.dp,
     // T238: when true, anchor the menu's RIGHT edge to the anchor box's
     // right edge instead of Material3 DropdownMenu's default left-anchor
@@ -182,8 +187,8 @@ fun MinisMenu(
                         elevation = shadowElevation,
                         shape = shape,
                         clip = false,
-                        ambientColor = Color.Black.copy(alpha = 0.35f),
-                        spotColor = Color.Black.copy(alpha = 0.35f),
+                        ambientColor = Color(0xFF1D1D1F).copy(alpha = 0.12f),
+                        spotColor = Color(0xFF1D1D1F).copy(alpha = 0.12f),
                     ),
                 shape = shape,
                 color = containerColor,
@@ -195,7 +200,8 @@ fun MinisMenu(
                 // Column inside the surface (scrollState preserved from the old
                 // DropdownMenu branch so long menus still scroll).
                 Column(
-                    modifier = Modifier.verticalScroll(scrollState),
+                    modifier = Modifier.verticalScroll(scrollState).padding(vertical = 8.dp),
+                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(2.dp),
                     content = content,
                 )
             }
@@ -215,9 +221,9 @@ fun MinisMenu(
 fun MinisMenuDivider(modifier: Modifier = Modifier) {
     val tint = if (ChatColors.isDark) Color.White else Color.Black
     HorizontalDivider(
-        modifier = modifier.padding(horizontal = 14.dp, vertical = 4.dp),
+        modifier = modifier.padding(horizontal = 20.dp, vertical = 4.dp),
         thickness = 1.dp,
-        color = tint.copy(alpha = 0.12f),
+        color = tint.copy(alpha = 0.07f), // [Hassn] strokeSecondary
     )
 }
 
@@ -227,7 +233,7 @@ fun MinisMenuDivider(modifier: Modifier = Modifier) {
  * that matches the iOS context-menu look.
  */
 object MinisMenuDefaults {
-    val ItemPadding: PaddingValues = PaddingValues(horizontal = 14.dp, vertical = 0.dp)
+    val ItemPadding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
 
     @Composable
     fun itemColors(
@@ -245,5 +251,78 @@ object MinisMenuDefaults {
         textColor = MaterialTheme.colorScheme.error,
         leadingIconColor = MaterialTheme.colorScheme.error,
         trailingIconColor = MaterialTheme.colorScheme.error,
+    )
+}
+
+
+/**
+ * [Hassn] Hark menu item (spec §6.8): min 44dp, 12dp inner padding, r16 highlight inset 8dp in the
+ * menu, labelLarge 15 w500, 20dp leading icon. Same parameters as Material3 DropdownMenuItem —
+ * files import it `as DropdownMenuItem`, so call sites stay unchanged.
+ */
+@Composable
+fun HarkDropdownMenuItem(
+    text: @Composable () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
+    colors: MenuItemColors = MenuDefaults.itemColors(
+        textColor = com.openminis.app.hassn.hassn.text,
+        leadingIconColor = com.openminis.app.hassn.hassn.text,
+        trailingIconColor = com.openminis.app.hassn.hassn.text2,
+    ),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp),
+    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource? = null,
+) {
+    val textC = if (enabled) colors.textColor else colors.disabledTextColor
+    val leadC = if (enabled) colors.leadingIconColor else colors.disabledLeadingIconColor
+    val trailC = if (enabled) colors.trailingIconColor else colors.disabledTrailingIconColor
+    androidx.compose.foundation.layout.Row(
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+            .fillMaxWidth()
+            .widthIn(min = 112.dp)
+            .heightIn(min = 44.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(
+                enabled = enabled,
+                onClick = onClick,
+                interactionSource = interactionSource,
+                indication = androidx.compose.material3.ripple(color = com.openminis.app.hassn.hassn.text),
+            )
+            .padding(contentPadding),
+    ) {
+        if (leadingIcon != null) {
+            CompositionLocalProvider(LocalContentColor provides leadC) {
+                androidx.compose.foundation.layout.Box(Modifier.size(20.dp), contentAlignment = androidx.compose.ui.Alignment.Center) { leadingIcon() }
+            }
+            androidx.compose.foundation.layout.Spacer(Modifier.width(12.dp))
+        }
+        androidx.compose.foundation.layout.Box(Modifier.weight(1f)) {
+            CompositionLocalProvider(LocalContentColor provides textC) {
+                ProvideTextStyle(MaterialTheme.typography.labelLarge.copy(color = textC)) { text() }
+            }
+        }
+        if (trailingIcon != null) {
+            androidx.compose.foundation.layout.Spacer(Modifier.width(12.dp))
+            CompositionLocalProvider(LocalContentColor provides trailC) {
+                androidx.compose.foundation.layout.Box(Modifier.heightIn(max = 24.dp), contentAlignment = androidx.compose.ui.Alignment.Center) { trailingIcon() }
+            }
+        }
+    }
+}
+
+
+/** [Hassn] Small grey header inside a menu (mockup 14c: 「Moakt 域名 · 14」). */
+@Composable
+fun MinisMenuHeader(text: String) {
+    androidx.compose.material3.Text(
+        text,
+        style = MaterialTheme.typography.bodySmall,
+        color = com.openminis.app.hassn.hassn.text2,
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 4.dp),
     )
 }

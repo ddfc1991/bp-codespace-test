@@ -33,10 +33,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material.icons.outlined.Share
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Download
+import com.openminis.app.hassn.icons.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -322,7 +322,7 @@ fun FullscreenImageViewer(
                                 if (bmp != null) {
                                     val saved = saveToGallery(context, bmp)
                                     val msg = if (saved) savedToAlbumMsg else saveFailedMsg
-                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                                    com.openminis.app.hassn.HassnToast.show(context, msg, long = false)
                                 }
                             }
                         },
@@ -426,11 +426,11 @@ internal fun copyBitmapToClipboard(
             withContext(Dispatchers.Main) {
                 val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 cm.setPrimaryClip(clip)
-                Toast.makeText(context, context.getString(R.string.image_copied_toast), Toast.LENGTH_SHORT).show()
+                com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.image_copied_toast), long = false)
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(context, context.getString(R.string.image_copy_failed_toast, e.message ?: ""), Toast.LENGTH_SHORT).show()
+                com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.image_copy_failed_toast, e.message ?: ""), long = false)
             }
         }
     }
@@ -445,7 +445,7 @@ internal suspend fun shareImage(context: Context, model: Any) {
     try {
         val bmp = loadBitmap(context, model) ?: run {
             withContext(Dispatchers.Main) {
-                Toast.makeText(context, context.getString(R.string.image_load_failed_toast), Toast.LENGTH_SHORT).show()
+                com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.image_load_failed_toast), long = false)
             }
             return
         }
@@ -475,7 +475,7 @@ internal suspend fun shareImage(context: Context, model: Any) {
         }
     } catch (e: Exception) {
         withContext(Dispatchers.Main) {
-            Toast.makeText(context, context.getString(R.string.image_share_failed_toast, e.message ?: ""), Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.image_share_failed_toast, e.message ?: ""), long = false)
         }
     }
 }

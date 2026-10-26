@@ -23,16 +23,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ArrowCircleDown
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Layers
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.GraphicEq
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ArrowCircleDown
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.Layers
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Bolt
+import com.openminis.app.hassn.icons.GraphicEq
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -330,7 +330,7 @@ fun UnifiedModelPickerSheet(
                                     if (groupSelected) Icons.Default.CheckCircle
                                     else Icons.Default.RadioButtonUnchecked,
                                     contentDescription = null,
-                                    tint = if (groupSelected) Color(0xFF34C759)
+                                    tint = if (groupSelected) Color(0xFF00A665)
                                     else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
                                     modifier = Modifier.size(22.dp),
                                 )
@@ -338,7 +338,7 @@ fun UnifiedModelPickerSheet(
                                 Icon(
                                     Icons.Default.Layers,
                                     contentDescription = null,
-                                    tint = Color(0xFF007AFF),
+                                    tint = Color(0xFF8E8E93),
                                     modifier = Modifier.size(18.dp),
                                 )
                                 Spacer(Modifier.width(10.dp))
@@ -492,10 +492,10 @@ fun UnifiedModelPickerSheet(
                                                 fontSize = 9.sp,
                                                 lineHeight = 11.sp,
                                                 fontWeight = FontWeight.Medium,
-                                                color = Color(0xFF34C759),
+                                                color = Color(0xFF00A665),
                                                 modifier = Modifier
                                                     .background(
-                                                        Color(0xFF34C759).copy(alpha = 0.1f),
+                                                        Color(0xFF00A665).copy(alpha = 0.1f),
                                                         RoundedCornerShape(50),
                                                     )
                                                     .padding(horizontal = 5.dp, vertical = 1.dp),
@@ -585,10 +585,10 @@ fun UnifiedModelPickerSheet(
                                             fontSize = 9.sp,
                                             lineHeight = 11.sp,
                                             fontWeight = FontWeight.Medium,
-                                            color = Color(0xFF34C759),
+                                            color = Color(0xFF00A665),
                                             modifier = Modifier
                                                 .background(
-                                                    Color(0xFF34C759).copy(alpha = 0.1f),
+                                                    Color(0xFF00A665).copy(alpha = 0.1f),
                                                     RoundedCornerShape(50),
                                                 )
                                                 .padding(horizontal = 5.dp, vertical = 1.dp),
@@ -831,7 +831,7 @@ private fun SelectionMark(selected: Boolean) {
     Icon(
         if (selected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
         contentDescription = null,
-        tint = if (selected) Color(0xFF007AFF)
+        tint = if (selected) Color(0xFF8E8E93)
         else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
         modifier = Modifier.size(20.dp),
     )

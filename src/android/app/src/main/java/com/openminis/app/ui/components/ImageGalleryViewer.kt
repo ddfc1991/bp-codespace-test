@@ -22,10 +22,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material.icons.outlined.Share
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Download
+import com.openminis.app.hassn.icons.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -313,7 +313,7 @@ fun ImageGalleryViewer(
                                         if (bmp != null) {
                                             val saved = saveToGallery(context, bmp)
                                             val msg = if (saved) savedToAlbumMsg else saveFailedMsg
-                                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                                            com.openminis.app.hassn.HassnToast.show(context, msg, long = false)
                                         }
                                     }
                                 },

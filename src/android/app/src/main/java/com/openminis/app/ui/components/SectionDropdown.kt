@@ -1,13 +1,14 @@
 package com.openminis.app.ui.components
 
+import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.hassn.icons.ArrowDropDown
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -120,7 +121,7 @@ fun <T> SectionDropdown(
                     )
                 },
             )
-            ExposedDropdownMenu(
+            ExposedDropdownMenu(shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp), containerColor = com.openminis.app.hassn.hassn.solid, tonalElevation = 0.dp, shadowElevation = 20.dp, 
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
             ) {

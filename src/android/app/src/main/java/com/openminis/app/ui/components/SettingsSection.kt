@@ -34,20 +34,14 @@ fun SettingsSection(
 ) {
     Column(modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
         Text(
-            text = title.uppercaseForDisplay(),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
+            text = title,
+            style = MaterialTheme.typography.labelMedium,
+            color = com.openminis.app.hassn.hassn.text2,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 8.dp),
         )
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 0.dp,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Column(content = content)
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+        // [Hassn] Hark group card: r24 glass (blur 32 + regularSurface).
+        com.openminis.app.hassn.GlassCard(content = content)
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 

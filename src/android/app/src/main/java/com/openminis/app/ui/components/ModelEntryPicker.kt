@@ -17,13 +17,13 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Bolt
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Bolt
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Icon
@@ -417,7 +417,7 @@ private fun SelectionDot(isSelected: Boolean) {
     Icon(
         if (isSelected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
         contentDescription = null,
-        tint = if (isSelected) Color(0xFF007AFF)
+        tint = if (isSelected) Color(0xFF8E8E93)
         else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
         modifier = Modifier.size(20.dp),
     )
@@ -476,16 +476,16 @@ fun ModalityBadge(badge: String) {
 /** Provider color dot — same RGB across ChatScreen, AddModelsToGroup, and
  *  the agent-loop sheets so the visual cue stays consistent everywhere. */
 fun providerDotColor(providerType: ProviderType?): Color = when (providerType) {
-    ProviderType.anthropic -> Color(0xFFAB47BC)
-    ProviderType.gemini -> Color(0xFF42A5F5)
-    ProviderType.openAI -> Color(0xFF4CAF50)
-    ProviderType.openRouter -> Color(0xFF00BCD4)
-    ProviderType.xAI -> Color(0xFFFF7043)
-    ProviderType.kimiCode -> Color(0xFF5C6BC0) // indigo — Kimi accent
+    ProviderType.anthropic -> Color(0xFF8E8E93)
+    ProviderType.gemini -> Color(0xFF8E8E93)
+    ProviderType.openAI -> Color(0xFF00A665)
+    ProviderType.openRouter -> Color(0xFF8E8E93)
+    ProviderType.xAI -> Color(0xFFFF4D00)
+    ProviderType.kimiCode -> Color(0xFF8E8E93) // indigo — Kimi accent
     // [T-android-provider-type-parity] Responses API instances are
     // OpenAI under the hood — same green dot. Undrivable types share
     // the neutral gray used for "no provider".
-    ProviderType.openAIResponses -> Color(0xFF4CAF50)
+    ProviderType.openAIResponses -> Color(0xFF00A665)
     ProviderType.antigravity,
     ProviderType.unsupported -> Color(0xFF8E8E93)
     null -> Color(0xFF8E8E93)

@@ -24,15 +24,15 @@ import androidx.compose.ui.unit.dp
  * - Border: 0.75dp hairline in outlineVariant
  * - Content padding: 16dp gutter
  */
-val HarkCardCorner = 16.dp
+val HarkCardCorner = 24.dp // [Hassn] Hark extraLarge
 val HarkDenseCardCorner = 12.dp
 
 @Composable
 fun HarkCard(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(HarkCardCorner),
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
-    borderColor: Color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
+    backgroundColor: Color = com.openminis.app.hassn.hassn.card, // [Hassn] regularSurface
+    borderColor: Color = Color.Transparent, // [Hassn] Hark cards: no border
     borderWidth: Dp = 0.75.dp,
     contentPadding: Dp = 16.dp,
     content: @Composable ColumnScope.() -> Unit
