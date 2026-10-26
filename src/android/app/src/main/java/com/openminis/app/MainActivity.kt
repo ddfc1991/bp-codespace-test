@@ -18,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import android.app.AlertDialog
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -585,6 +586,10 @@ class MainActivity : ComponentActivity() {
                     onDispose { job.cancel() }
                 }
 
+                // [Hassn-P1] One weather sky behind every screen; the Hassn theme's background
+                // and surface are transparent so Scaffolds show it (Hark glass look).
+                androidx.compose.foundation.layout.Box(androidx.compose.ui.Modifier.fillMaxSize()) {
+                com.openminis.app.hassn.HassnSkyBackground(androidx.compose.ui.Modifier.fillMaxSize())
                 AppNavigation(
                     chatRepository = app.chatRepository,
                     providerRepository = app.providerRepository,
@@ -595,6 +600,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     initialDeepLink = launchDeepLink,
                 )
+                }
 
                 // T-config: root-level hark-config confirm dialog.
                 // Bound to ConfigConfirmationGate.pending — the gate

@@ -154,7 +154,7 @@ fun HassnWeatherLayer(modifier: Modifier = Modifier) {
             }
         }
     }
-    val dark = MaterialTheme.colorScheme.background.luminance() < 0.5f
+    val dark = hassn.dark // background is transparent in the Hassn theme
     Canvas(modifier) {
         val t = time.floatValue
         val w = size.width

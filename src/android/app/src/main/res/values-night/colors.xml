@@ -6,4 +6,5 @@
       @color/ic_launcher_background (#2C3034). See values/colors.xml.
     -->
     <color name="shortcut_icon_fg">#E6E8EB</color>
+    <color name="hassn_window_bg">#14161B</color>
 </resources>

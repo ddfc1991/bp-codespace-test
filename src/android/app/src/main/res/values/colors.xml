@@ -11,4 +11,6 @@
       can't resolve the app's ?attr tints.
     -->
     <color name="shortcut_icon_fg">#1F2933</color>
+    <!-- [Hassn-P1] sky tint behind the first frame (no white flash before the sky draws) -->
+    <color name="hassn_window_bg">#9FB0C8</color>
 </resources>
