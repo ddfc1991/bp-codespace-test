@@ -30,27 +30,27 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AlternateEmail
-import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Fingerprint
-import androidx.compose.material.icons.outlined.Link
-import androidx.compose.material.icons.outlined.MailOutline
-import androidx.compose.material.icons.outlined.Refresh
-import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Shield
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.AlternateEmail
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.Fingerprint
+import com.openminis.app.hassn.icons.Link
+import com.openminis.app.hassn.icons.MailOutline
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Schedule
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.Shield
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -64,6 +64,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import com.openminis.app.hassn.harkGlass
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -94,29 +95,30 @@ import java.time.ZoneId
  * empty ledger says so.
  */
 
-private val Green = Color(0xFF2E7D32)
-private val Amber = Color(0xFFB26A00)
-private val Red = Color(0xFFC62828)
-private val Blue = Color(0xFF1A56C4)
+// [Hassn] mockup 14 / 14b colours on Hark tokens
+private val Green = Color(0xFF00A665)
+private val Amber = Color(0xFFB45309)
+private val Red = Color(0xFFDA2F35)
+private val Blue = Color(0xFF2C5BC4)
 
 @Composable
 private fun LedgerCard(content: @Composable () -> Unit) {
-    Surface(
-        shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f),
-        tonalElevation = 1.dp,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
-    ) { Column(Modifier.padding(vertical = 4.dp)) { content() } }
+    // [Hassn] one r24 glass card (blur 32 + regularSurface), 16dp side margin — mockup 14/14b
+    com.openminis.app.hassn.GlassCard(Modifier.padding(horizontal = 16.dp)) { content() }
 }
 
 @Composable
+private fun LedgerDivider() = com.openminis.app.hassn.HassnDivider()
+
+@Composable
 private fun SectionHeader(text: String, trailing: String? = null) {
+    val p = com.openminis.app.hassn.hassn
     Row(
-        Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 6.dp),
+        Modifier.fillMaxWidth().padding(start = 22.dp, end = 22.dp, top = 22.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-        if (trailing != null) Text(trailing, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(text, style = MaterialTheme.typography.bodyLarge, color = p.text.copy(alpha = 0.8f), modifier = Modifier.weight(1f))
+        if (trailing != null) Text(trailing, style = MaterialTheme.typography.bodyMedium, color = p.text2)
     }
 }
 
@@ -124,7 +126,7 @@ private fun SectionHeader(text: String, trailing: String? = null) {
 private fun Chip(text: String, fg: Color, bg: Color) {
     Text(
         text,
-        style = MaterialTheme.typography.labelMedium,
+        style = MaterialTheme.typography.bodySmall,
         color = fg,
         maxLines = 1,
         modifier = Modifier.clip(RoundedCornerShape(50)).background(bg).padding(horizontal = 8.dp, vertical = 2.dp),
@@ -134,7 +136,7 @@ private fun Chip(text: String, fg: Color, bg: Color) {
 @Composable
 private fun SourceChip(source: Source) {
     if (source == Source.GMAIL_ALIAS) Chip(source.tag, Blue, Blue.copy(alpha = 0.12f))
-    else Chip(source.tag, MaterialTheme.colorScheme.onSurfaceVariant, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.07f))
+    else Chip(source.tag, com.openminis.app.hassn.hassn.text2, com.openminis.app.hassn.hassn.tag)
 }
 
 @Composable
@@ -155,7 +157,7 @@ private fun copy(c: Context, text: String, sensitive: Boolean, toast: String) {
         clip.description.extras = PersistableBundle().apply { putBoolean("android.content.extra.IS_SENSITIVE", true) }
     }
     cm.setPrimaryClip(clip)
-    Toast.makeText(c, toast, Toast.LENGTH_SHORT).show()
+    com.openminis.app.hassn.HassnToast.show(c, toast, long = false)
 }
 
 private fun zone(): ZoneId = ZoneId.systemDefault()
@@ -180,6 +182,12 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
     var message by remember { mutableStateOf<String?>(null) }
     var askGmail by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        if (com.openminis.app.hassn.HassnShellState.ledgerDropdownPending) {
+            com.openminis.app.hassn.HassnShellState.ledgerDropdownPending = false
+            delay(600); domMenu = true
+        }
+    }
     LaunchedEffect(source) {
         domains = when (source) {
             Source.MAILTM -> withContext(Dispatchers.IO) { MailTmSource.domains() }
@@ -209,13 +217,13 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
                 Column {
                     OutlinedTextField(value = draft, onValueChange = { draft = it.trim() }, singleLine = true, placeholder = { Text("name@gmail.com") })
                     Spacer(Modifier.height(6.dp))
-                    Text("别名会是 name+标签@gmail.com，邮件仍进你的 Gmail。", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("别名会是 name+标签@gmail.com，邮件仍进你的 Gmail。", style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2)
                 }
             },
             confirmButton = {
                 TextButton(onClick = {
                     if (LedgerCore.gmailAlias(draft, "x") == null) {
-                        Toast.makeText(ctx, "请填 Gmail 地址", Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(ctx, "请填 Gmail 地址", long = false)
                     } else {
                         LedgerStore.setGmailBase(ctx, draft); askGmail = false; register()
                     }
@@ -241,24 +249,36 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
             modifier = Modifier.fillMaxSize().padding(padding).navigationBarsPadding(),
         ) {
             item {
-                OutlinedTextField(
-                    value = query,
-                    onValueChange = { query = it },
-                    singleLine = true,
-                    leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
-                    placeholder = { Text("搜索邮箱或平台") },
-                    shape = RoundedCornerShape(28.dp),
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
-                )
+                // [Hassn] search pill: 48dp glass capsule (blur 50 + thinBg), 16dp search glyph
+                val p = com.openminis.app.hassn.hassn
+                Row(
+                    Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).height(48.dp)
+                        .harkGlass(RoundedCornerShape(24.dp), p.glassButton)
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    com.openminis.app.hassn.HassnIcon("search", 18.dp, tint = p.text)
+                    Spacer(Modifier.width(12.dp))
+                    Box(Modifier.weight(1f)) {
+                        if (query.isEmpty()) Text("搜索邮箱或平台", style = MaterialTheme.typography.bodyLarge, color = p.text3rd)
+                        androidx.compose.foundation.text.BasicTextField(
+                            value = query,
+                            onValueChange = { query = it },
+                            singleLine = true,
+                            textStyle = MaterialTheme.typography.bodyLarge.copy(color = p.text),
+                            cursorBrush = androidx.compose.ui.graphics.SolidColor(p.text),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                }
             }
             item {
-                Surface(
-                    shape = RoundedCornerShape(32.dp),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f),
-                    tonalElevation = 1.dp,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
+                // [Hassn] one glass selector bar: 来源 · 域名 · black 注册 (mockup 14)
+                Box(
+                    Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp)
+                        .harkGlass(RoundedCornerShape(30.dp), com.openminis.app.hassn.hassn.card),
                 ) {
-                    Row(Modifier.padding(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.padding(5.dp), verticalAlignment = Alignment.CenterVertically) {
                         Box(Modifier.weight(1.1f)) {
                             SelectorPill("来源", source.label) { srcMenu = true }
                             DropdownMenu(expanded = srcMenu, onDismissRequest = { srcMenu = false }) {
@@ -276,12 +296,7 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
                         Box(Modifier.weight(1f)) {
                             SelectorPill("域名", if (domain.isBlank()) "—" else "@$domain") { if (domains.size > 1) domMenu = true }
                             DropdownMenu(expanded = domMenu, onDismissRequest = { domMenu = false }) {
-                                Text(
-                                    "${source.label.substringAfter("· ")} 域名 · ${domains.size}",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
-                                )
+                                com.openminis.app.ui.components.MinisMenuHeader("${source.label.substringAfter("· ")} 域名 · ${domains.size}")
                                 domains.forEach { d ->
                                     DropdownMenuItem(
                                         text = { Text("@$d", fontWeight = if (d == domain) FontWeight.SemiBold else FontWeight.Normal) },
@@ -292,23 +307,25 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
                             }
                         }
                         Spacer(Modifier.width(6.dp))
-                        Button(
-                            onClick = { register() },
-                            enabled = !busy && source.ready,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF111111), contentColor = Color.White),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                        val pp = com.openminis.app.hassn.hassn
+                        Box(
+                            Modifier.height(40.dp).clip(RoundedCornerShape(20.dp))
+                                .background(if (!busy && source.ready) pp.ink else pp.ink.copy(alpha = 0.4f))
+                                .clickable(enabled = !busy && source.ready) { register() }
+                                .padding(horizontal = 18.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
-                            if (busy) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = Color.White)
-                            else Text("注册", fontWeight = FontWeight.SemiBold)
+                            if (busy) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = pp.onInk)
+                            else Text("注册", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = pp.onInk)
                         }
                     }
                 }
             }
             item {
-                Row(Modifier.padding(horizontal = 24.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Outlined.Shield, contentDescription = null, modifier = Modifier.size(14.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(Modifier.width(6.dp))
-                    Text("密码自动生成存入保管库 · 到期前自动延时", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Row(Modifier.padding(horizontal = 26.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                    com.openminis.app.hassn.HassnIcon("shield", 12.dp, tint = com.openminis.app.hassn.hassn.text2)
+                    Spacer(Modifier.width(8.dp))
+                    Text("密码自动生成存入保管库 · 到期前自动延时", style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2)
                 }
             }
             message?.let { m ->
@@ -320,14 +337,14 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
                     if (rows.isEmpty()) {
                         Text(
                             if (state.boxes.isEmpty()) "还没有邮箱。选好来源点「注册」，或在聊天里说「用临时邮箱注册 …」。" else "没有匹配的邮箱",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(16.dp),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = com.openminis.app.hassn.hassn.text2,
+                            modifier = Modifier.padding(20.dp),
                         )
                     }
                     rows.forEachIndexed { i, row ->
                         BoxRowItem(row, LedgerCore.whenLabel(row.lastAt, now, zone())) { onOpenBox(row.box.id) }
-                        if (i < rows.size - 1) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                        if (i < rows.size - 1) LedgerDivider()
                     }
                 }
             }
@@ -337,42 +354,44 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
 
 @Composable
 private fun SelectorPill(label: String, value: String, onClick: () -> Unit) {
+    val p = com.openminis.app.hassn.hassn
     Row(
-        Modifier.fillMaxWidth().clip(RoundedCornerShape(28.dp)).background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f))
-            .clickable(onClick = onClick).padding(horizontal = 12.dp, vertical = 12.dp),
+        Modifier.fillMaxWidth().height(40.dp).clip(RoundedCornerShape(20.dp)).background(p.soft)
+            .clickable(onClick = onClick).padding(start = 12.dp, end = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(label, style = MaterialTheme.typography.bodySmall, color = p.text2)
         Spacer(Modifier.width(6.dp))
-        Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
-        Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null, modifier = Modifier.size(18.dp))
+        Text(value, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold, color = p.text, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+        com.openminis.app.hassn.HassnIcon("down", 12.dp, tint = p.text)
     }
 }
 
 @Composable
 private fun BoxRowItem(row: LedgerCore.BoxRow, whenText: String, onClick: () -> Unit) {
+    val p = com.openminis.app.hassn.hassn
     Row(
-        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
+        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 20.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val icon: ImageVector = if (row.box.source == Source.GMAIL_ALIAS) Icons.Outlined.AlternateEmail else Icons.Outlined.MailOutline
-        Icon(icon, contentDescription = null)
-        Spacer(Modifier.width(14.dp))
+        com.openminis.app.hassn.HassnIcon(if (row.box.source == Source.GMAIL_ALIAS) "at" else "mail", 18.dp, tint = p.text)
+        Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
-            Text(LedgerCore.maskBox(row.box.address), style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Spacer(Modifier.height(4.dp))
+            Text(LedgerCore.maskBox(row.box.address), style = MaterialTheme.typography.bodyLarge, fontSize = androidx.compose.ui.unit.TextUnit(16f, androidx.compose.ui.unit.TextUnitType.Sp), color = p.text, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Spacer(Modifier.height(6.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 SourceChip(row.box.source)
                 Spacer(Modifier.width(8.dp))
                 Text(
                     "${row.platforms} 个平台" + (if (whenText.isNotBlank()) " · $whenText" else ""),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = p.text2,
                     maxLines = 1,
                 )
             }
         }
-        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(Modifier.width(8.dp))
+        com.openminis.app.hassn.HassnIcon("chev", 14.dp, tint = p.text)
     }
 }
 
@@ -446,7 +465,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                     OutlinedTextField(value = url, onValueChange = { url = it.trim() }, singleLine = true, label = { Text("网址") })
                     Spacer(Modifier.height(8.dp))
                     Text("会生成一个强密码存进保管库。也可以在聊天里说「用这个临时邮箱注册 …」，Hassn 会自己填写。",
-                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2)
                 }
             },
             confirmButton = {
@@ -468,24 +487,29 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
         },
         bottomBar = {
             Row(
-                Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp),
+                Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 16.dp, vertical = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Button(
-                    onClick = { confirmDelete = true },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface, contentColor = Red),
-                    modifier = Modifier.weight(1f).height(52.dp),
+                // [Hassn] mockup 14b: white glass 删除 (red) · black 新注册平台
+                val bp = com.openminis.app.hassn.hassn
+                Row(
+                    Modifier.weight(1f).height(48.dp).clip(RoundedCornerShape(24.dp))
+                        .background(Color.White.copy(alpha = if (bp.dark) 0.12f else 0.85f))
+                        .clickable { confirmDelete = true },
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(Icons.Outlined.Delete, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(6.dp)); Text("删除", fontWeight = FontWeight.SemiBold)
+                    com.openminis.app.hassn.HassnIcon("trash", 16.dp, tint = Red)
+                    Spacer(Modifier.width(8.dp)); Text("删除", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = Red)
                 }
-                Button(
-                    onClick = { addPlatform = true },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF111111), contentColor = Color.White),
-                    modifier = Modifier.weight(2f).height(52.dp),
+                Row(
+                    Modifier.weight(2f).height(48.dp).clip(RoundedCornerShape(24.dp)).background(bp.ink)
+                        .clickable { addPlatform = true },
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(Icons.Outlined.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(6.dp)); Text("新注册平台", fontWeight = FontWeight.SemiBold)
+                    com.openminis.app.hassn.HassnIcon("plus", 16.dp, tint = bp.onInk)
+                    Spacer(Modifier.width(8.dp)); Text("新注册平台", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = bp.onInk)
                 }
             }
         },
@@ -494,8 +518,8 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
             // box card
             item {
                 LedgerCard {
-                    Row(Modifier.padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(if (box.source == Source.GMAIL_ALIAS) Icons.Outlined.AlternateEmail else Icons.Outlined.MailOutline, contentDescription = null)
+                    Row(Modifier.padding(start = 20.dp, end = 20.dp, top = 14.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        com.openminis.app.hassn.HassnIcon(if (box.source == Source.GMAIL_ALIAS) "at" else "mail", 18.dp)
                         Spacer(Modifier.width(14.dp))
                         Column(Modifier.weight(1f)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -503,19 +527,19 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                                 val exp = LedgerCore.expiryLine(box.expiresAt, now)
                                 if (exp.isNotBlank()) {
                                     Spacer(Modifier.width(8.dp))
-                                    Text(exp, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(exp, style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2)
                                 }
                             }
                             Spacer(Modifier.height(4.dp))
-                            Text(LedgerCore.maskBox(box.address), style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(LedgerCore.maskBox(box.address), style = MaterialTheme.typography.bodyLarge, fontSize = androidx.compose.ui.unit.TextUnit(16f, androidx.compose.ui.unit.TextUnitType.Sp), maxLines = 1, overflow = TextOverflow.Ellipsis)
                         }
                         if (box.autoExtend && box.source.extendable) {
                             Text(if (box.lastNote.isBlank()) "保活中" else "保活异常", style = MaterialTheme.typography.bodySmall,
                                 color = if (box.lastNote.isBlank()) Green else Amber)
                         }
                     }
-                    HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
-                    Row(Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    LedgerDivider()
+                    Row(Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                         SmallAction(Icons.Outlined.ContentCopy, "复制") { copy(ctx, box.address, false, "已复制邮箱地址") }
                         Spacer(Modifier.width(8.dp))
                         SmallAction(Icons.Outlined.Refresh, if (refreshing) "收码中…" else "重新收码") {
@@ -529,14 +553,14 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                             }
                         }
                         Spacer(Modifier.weight(1f))
-                        Text("创建于 " + LedgerCore.whenLabel(box.createdAt, now, zone()), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("创建于 " + LedgerCore.whenLabel(box.createdAt, now, zone()), style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2)
                     }
                     if (box.lastNote.isNotBlank()) {
                         Text(box.lastNote, style = MaterialTheme.typography.bodySmall, color = Amber, modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp))
                     }
                 }
             }
-            message?.let { m -> item { Text(m, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 24.dp, vertical = 6.dp)) } }
+            message?.let { m -> item { Text(m, style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2, modifier = Modifier.padding(horizontal = 24.dp, vertical = 6.dp)) } }
 
             // platforms
             item { SectionHeader("已注册平台 · ${signups.size}") }
@@ -544,11 +568,11 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                 LedgerCard {
                     if (signups.isEmpty()) {
                         Text("还没有平台。点下面「新注册平台」，或让 Hassn 用这个邮箱去注册。", style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(16.dp))
+                            color = com.openminis.app.hassn.hassn.text2, modifier = Modifier.padding(16.dp))
                     }
                     signups.forEachIndexed { i, su ->
                         val title = LedgerCore.platformTitle(su.platform, su.url)
-                        Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                             Box(
                                 Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(tileColor(title)),
                                 contentAlignment = Alignment.Center,
@@ -563,7 +587,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                                 Text(
                                     listOf(su.host, LedgerCore.whenLabel(su.createdAt, now, zone()) + "注册").filter { it.isNotBlank() }.joinToString(" · ") +
                                         (if (su.note.isNotBlank()) " · " + su.note else ""),
-                                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2,
                                     maxLines = 1, overflow = TextOverflow.Ellipsis,
                                 )
                                 if (revealed == su.id) {
@@ -575,13 +599,16 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                                 }
                             }
                             if (su.hasPassword) {
-                                if (revealed != su.id) Text(LedgerCore.PASSWORD_DOTS, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                IconButton(onClick = { askReveal(su.id) }) {
-                                    Icon(Icons.Outlined.Fingerprint, contentDescription = "查看密码")
-                                }
+                                if (revealed != su.id) Text(LedgerCore.PASSWORD_DOTS, color = com.openminis.app.hassn.hassn.text2)
+                                Spacer(Modifier.width(10.dp))
+                                Box(
+                                    Modifier.size(40.dp).clip(androidx.compose.foundation.shape.CircleShape)
+                                        .background(com.openminis.app.hassn.hassn.soft).clickable { askReveal(su.id) },
+                                    contentAlignment = Alignment.Center,
+                                ) { com.openminis.app.hassn.HassnIcon("fingerprint", 16.dp) }
                             }
                         }
-                        if (i < signups.size - 1) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                        if (i < signups.size - 1) LedgerDivider()
                     }
                 }
             }
@@ -592,7 +619,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                 item {
                     LedgerCard {
                         received.forEachIndexed { i, r ->
-                            Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Icon(if (r.kind == LedgerCore.Kind.CODE) Icons.Outlined.Shield else Icons.Outlined.Link, contentDescription = null)
                                 Spacer(Modifier.width(14.dp))
                                 Column(Modifier.weight(1f)) {
@@ -602,7 +629,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                                     )
                                     Text(
                                         listOf(LedgerCore.whenLabel(r.at, now, zone()), r.from.substringBefore('<').trim().take(24)).filter { it.isNotBlank() }.joinToString(" · "),
-                                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1,
+                                        style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2, maxLines = 1,
                                     )
                                 }
                                 when {
@@ -616,7 +643,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                                     }
                                 }
                             }
-                            if (i < received.size - 1) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                            if (i < received.size - 1) LedgerDivider()
                         }
                     }
                 }
@@ -637,7 +664,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                         checked = box.autoExtend && box.source.extendable,
                         enabled = box.source.extendable,
                     ) { LedgerStore.setKeepAlive(ctx, box.id, autoExtend = it) }
-                    HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    LedgerDivider()
                     SwitchRow(
                         icon = Icons.Outlined.Refresh,
                         title = "探针保活",
@@ -645,24 +672,24 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
                         checked = box.probe && box.source.readable,
                         enabled = box.source.readable,
                     ) { LedgerStore.setKeepAlive(ctx, box.id, probe = it) }
-                    HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    LedgerDivider()
                     Row(
                         Modifier.fillMaxWidth()
                             .clickable(enabled = box.source.readable) { LedgerStore.setKeepAlive(ctx, box.id, probeEveryH = LedgerCore.cycleProbeHours(box.probeEveryH)) }
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                            .padding(horizontal = 20.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(Icons.Outlined.Refresh, contentDescription = null)
+                        com.openminis.app.hassn.HassnIcon("refresh", 18.dp)
                         Spacer(Modifier.width(14.dp))
                         Column(Modifier.weight(1f)) {
                             Text("间隔", style = MaterialTheme.typography.bodyLarge)
                             Text(
                                 if (box.lastProbeAt == 0L) "还没有探活" else "上次 " + LedgerCore.whenLabel(box.lastProbeAt, now, zone()) + " · " + (if (box.lastProbeOk) "正常" else "失败"),
-                                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.bodySmall, color = com.openminis.app.hassn.hassn.text2,
                             )
                         }
-                        Text("每 ${box.probeEveryH} 小时", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("每 ${box.probeEveryH} 小时", style = MaterialTheme.typography.bodyMedium, color = com.openminis.app.hassn.hassn.text2)
+                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = com.openminis.app.hassn.hassn.text2)
                     }
                 }
             }
@@ -672,27 +699,35 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
 
 @Composable
 private fun SmallAction(icon: ImageVector, label: String, onClick: () -> Unit) {
+    val p = com.openminis.app.hassn.hassn
     Row(
-        Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.06f))
-            .clickable(onClick = onClick).padding(horizontal = 12.dp, vertical = 8.dp),
+        Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(p.soft)
+            .clickable(onClick = onClick).padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(icon, contentDescription = null, modifier = Modifier.size(16.dp))
+        Icon(icon, contentDescription = null, modifier = Modifier.size(16.dp), tint = p.text)
         Spacer(Modifier.width(6.dp))
-        Text(label, style = MaterialTheme.typography.bodyMedium)
+        Text(label, style = MaterialTheme.typography.bodyLarge, color = p.text)
     }
 }
 
 @Composable
 private fun SwitchRow(icon: ImageVector, title: String, subtitle: String, checked: Boolean, enabled: Boolean, onChange: (Boolean) -> Unit) {
-    Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, contentDescription = null)
-        Spacer(Modifier.width(14.dp))
+    val p = com.openminis.app.hassn.hassn
+    Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp), tint = p.text)
+        Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyLarge)
-            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(title, style = MaterialTheme.typography.bodyLarge, color = p.text)
+            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = p.text2)
         }
-        Switch(checked = checked, onCheckedChange = onChange, enabled = enabled)
+        Switch(
+            checked = checked, onCheckedChange = onChange, enabled = enabled,
+            colors = androidx.compose.material3.SwitchDefaults.colors(
+                checkedTrackColor = p.ink, checkedThumbColor = p.onInk, checkedBorderColor = p.ink,
+                uncheckedTrackColor = p.soft, uncheckedThumbColor = Color.White, uncheckedBorderColor = p.stroke,
+            ),
+        )
     }
 }
 

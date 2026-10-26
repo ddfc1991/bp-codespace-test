@@ -21,7 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Person
+import com.openminis.app.hassn.icons.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -97,6 +97,15 @@ fun HassnShell(
             HassnShellState.demoChatPending = true
             tab = 1
             intent.removeExtra("hassn_demo_chat")
+        }
+        // CI shots: sample ledger in memory (never saved) + open the domain dropdown
+        if (intent.getBooleanExtra("hassn_demo_ledger", false)) {
+            com.openminis.app.hassn.ledger.LedgerStore.seedDemo(ctx.applicationContext)
+            intent.removeExtra("hassn_demo_ledger")
+        }
+        if (intent.getBooleanExtra("hassn_ledger_dropdown", false)) {
+            HassnShellState.ledgerDropdownPending = true
+            intent.removeExtra("hassn_ledger_dropdown")
         }
         val open = intent.getStringExtra("hassn_open")
         val route = when (open) {
@@ -281,15 +290,15 @@ private fun HassnHomeTab(
             ) {
                 HassnDot(if (hasKey) p.green else p.idle)
                 Spacer(Modifier.width(8.dp))
-                Text(status, fontSize = 13.sp, color = p.text3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(status, style = MaterialTheme.typography.bodySmall, color = p.text2, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
 
         val upcoming = tasks.mapNotNull { t -> t.nextTriggerMs()?.let { t to it } }.sortedBy { it.second }.take(5)
         item {
             GlassCard {
-                Column(Modifier.padding(start = 18.dp, end = 18.dp, top = 12.dp, bottom = 4.dp)) {
-                    Text(stringResource(R.string.hassn_home_scheduled), fontSize = 16.sp, fontWeight = FontWeight.Bold, color = p.text)
+                Column(Modifier.padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 2.dp)) {
+                    Text(stringResource(R.string.hassn_home_scheduled), style = MaterialTheme.typography.titleLarge, color = p.text)
                 }
                 if (upcoming.isEmpty()) {
                     HassnRow(stringResource(R.string.hassn_home_scheduled_empty), icon = "clock", onClick = openScheduled)
@@ -370,8 +379,8 @@ private fun HassnFeedTab(chatRepository: ChatRepository, openChat: (String) -> U
     }
 
     if (feedItems.isEmpty()) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(stringResource(R.string.hassn_feed_empty), color = p.text3, fontSize = 15.sp)
+        Column(Modifier.fillMaxSize().padding(top = 20.dp)) {
+            HassnEmptyText(stringResource(R.string.hassn_feed_empty))
         }
         return
     }
@@ -382,7 +391,7 @@ private fun HassnFeedTab(chatRepository: ChatRepository, openChat: (String) -> U
     ) {
         grouped.forEach { (day, list) ->
             item(key = "h_$day") {
-                Text(day, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = p.text, modifier = Modifier.padding(start = 6.dp, top = 2.dp, bottom = 10.dp))
+                Text(day, style = MaterialTheme.typography.titleLarge, color = p.text, modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 12.dp))
             }
             items(list) { f ->
                 val tag = when (f.ok) {
@@ -395,21 +404,19 @@ private fun HassnFeedTab(chatRepository: ChatRepository, openChat: (String) -> U
                         Modifier
                             .fillMaxWidth()
                             .let { m -> f.sessionId?.let { id -> m.clickable { openChat(id) } } ?: m }
-                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                            .padding(horizontal = 20.dp, vertical = 18.dp),
                     ) {
-                        FeedOrb(if (f.ok == null) "chat" else if (f.ok) "clock" else "info", f.ok)
+                        FeedOrb(if (f.ok == null) "chat" else if (f.ok) "check" else "alert", f.ok)
                         Spacer(Modifier.width(12.dp))
                         Column(Modifier.weight(1f)) {
-                            Text(f.title, fontSize = 15.5.sp, fontWeight = FontWeight.Bold, color = p.text, lineHeight = 22.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                            Text(f.title, style = MaterialTheme.typography.titleMedium, color = p.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
                             if (!f.detail.isNullOrBlank()) {
-                                Text(f.detail, fontSize = 14.sp, color = if (p.dark) p.text3 else Color(0xFF2C2F35), lineHeight = 22.sp, maxLines = 4, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 3.dp))
+                                Text(f.detail, style = MaterialTheme.typography.bodyLarge, color = p.text2, maxLines = 4, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 4.dp))
                             }
                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 10.dp)) {
-                                HassnIcon("chat", 17.dp, tint = p.text3)
-                                Spacer(Modifier.width(5.dp))
-                                Text(tag, fontSize = 13.5.sp, color = p.text3)
+                                Text(tag, style = MaterialTheme.typography.bodySmall, color = p.text2)
                                 Spacer(Modifier.weight(1f))
-                                Text(shortTime(f.at), fontSize = 12.5.sp, color = p.text2)
+                                Text(shortTime(f.at), style = MaterialTheme.typography.bodySmall, color = p.text2)
                             }
                         }
                     }
@@ -419,21 +426,15 @@ private fun HassnFeedTab(chatRepository: ChatRepository, openChat: (String) -> U
     }
 }
 
-/** Glossy orb with a line glyph (mockup 07 `orb`). */
+/** Hark status glyph (spec §8 feed): 16dp line icon in a soft disc; ok = systemGreen, fail = systemRed. */
 @Composable
 private fun FeedOrb(icon: String, ok: Boolean?) {
-    val (c1, c2) = when (ok) {
-        null -> Color(0xFF7FB3F0) to Color(0xFF3F74C4)
-        true -> Color(0xFF8FD0A8) to Color(0xFF3F9A68)
-        false -> Color(0xFFF2B84B) to Color(0xFFC9801F)
-    }
+    val p = hassn
+    val tint = when (ok) { null -> p.text; true -> p.green; false -> p.red }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(38.dp)
-            .clip(CircleShape)
-            .background(androidx.compose.ui.graphics.Brush.radialGradient(listOf(Color.White.copy(alpha = 0.9f), c1, c2))),
-    ) { HassnIcon(icon, 20.dp, tint = Color.White, stroke = 2.4f) }
+        modifier = Modifier.padding(top = 1.dp).size(28.dp).clip(CircleShape).background(p.soft),
+    ) { HassnIcon(icon, 16.dp, tint = tint) }
 }
 
 @Composable
@@ -444,27 +445,27 @@ private fun HassnProjectsTab(chatRepository: ChatRepository, openChat: (String) 
     val counts = remember(sessions) { sessions.filter { it.projectId != null }.groupingBy { it.projectId!! }.eachCount() }
 
     if (projects.isEmpty()) {
-        Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
-            Text(stringResource(R.string.hassn_projects_empty), color = p.text3, fontSize = 15.sp)
+        Column(Modifier.fillMaxSize().padding(top = 20.dp)) {
+            HassnEmptyText(stringResource(R.string.hassn_projects_empty))
         }
         return
     }
-    LazyColumn(contentPadding = PaddingValues(start = 26.dp, end = 26.dp, top = 44.dp, bottom = 24.dp), modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
+    LazyColumn(contentPadding = PaddingValues(start = 24.dp, end = 24.dp, top = 32.dp, bottom = 24.dp), modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         items(projects.sortedWith(compareByDescending<ProjectEntity> { it.pinnedAt ?: 0L }.thenByDescending { it.updatedAt }), key = { it.id }) { pr ->
             Column(
                 Modifier
                     .fillMaxWidth()
                     .clickable { openChat(newDraftSessionId(pr.id)) }
-                    .padding(bottom = 30.dp),
+                    .padding(bottom = 28.dp),
             ) {
-                Text(pr.name, fontSize = 23.sp, fontWeight = FontWeight.Medium, color = p.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Spacer(Modifier.height(10.dp))
+                Text(pr.name, style = MaterialTheme.typography.titleLarge, color = p.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Spacer(Modifier.height(8.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     HassnStatusPill(stringResource(R.string.hassn_projects_chats, counts[pr.id] ?: 0), running = false)
                     val d = pr.description?.takeIf { it.isNotBlank() }
                     if (d != null) {
                         Spacer(Modifier.width(10.dp))
-                        Text(d, fontSize = 13.sp, color = p.text3, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(d, style = MaterialTheme.typography.bodySmall, color = p.text2, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }

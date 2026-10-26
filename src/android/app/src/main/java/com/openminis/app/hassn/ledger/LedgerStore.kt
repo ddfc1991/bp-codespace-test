@@ -54,6 +54,40 @@ object LedgerStore {
 
     private fun p(c: Context): SharedPreferences { init(c); return prefs!! }
 
+    /** CI screenshots only (launch extra hassn_demo_ledger): sample ledger in memory, never saved. */
+    @Volatile var demo = false
+        private set
+
+    fun seedDemo(c: Context) {
+        init(c)
+        demo = true
+        val now = System.currentTimeMillis()
+        val h = 3_600_000L
+        val d = 24 * h
+        fun b(id: String, a: String, s: Source, at: Long) = LedgerCore.Box(id = id, address = a, source = s, createdAt = at - 5 * d, expiresAt = if (s == Source.MAILTM) now + 26 * d else 0L, lastMailAt = at, probe = true)
+        val boxes = listOf(
+            b("demo1", "hsnq7w3e7k2d@indigobook.com", Source.MAILTM, now - 2 * h),
+            b("demo2", "deningyang740+ai@gmail.com", Source.GMAIL_ALIAS, now - 3 * h),
+            b("demo3", "mineh2kq543@drmail.in", Source.MOAKT, now - d),
+            b("demo4", "tmpz9ex81c@teml.net", Source.MOAKT, now - 6 * d),
+        )
+        fun su(id: String, box: String, n: String, u: String, st: LedgerCore.PStatus, at: Long) =
+            LedgerCore.Signup(id = id, boxId = box, platform = n, url = u, status = st, createdAt = at, hasPassword = true)
+        val signups = listOf(
+            su("s1", "demo1", "OpenRouter", "https://openrouter.ai", LedgerCore.PStatus.VERIFIED, now - 2 * d),
+            su("s2", "demo1", "Groq", "https://console.groq.com", LedgerCore.PStatus.VERIFIED, now - 6 * d),
+            su("s3", "demo1", "Kimi", "https://platform.moonshot.cn", LedgerCore.PStatus.PENDING, now - 2 * h),
+            su("s4", "demo1", "Cloudflare", "https://dash.cloudflare.com", LedgerCore.PStatus.VERIFIED, now - 17 * d),
+            su("s5", "demo2", "GitHub", "https://github.com", LedgerCore.PStatus.VERIFIED, now - 3 * h),
+            su("s6", "demo3", "Vercel", "https://vercel.com", LedgerCore.PStatus.VERIFIED, now - d),
+        )
+        val received = listOf(
+            LedgerCore.Received("demo1", LedgerCore.Kind.CODE, "482913", "Kimi <noreply@moonshot.cn>", "验证码", now - 2 * h),
+            LedgerCore.Received("demo1", LedgerCore.Kind.LINK, "https://openrouter.ai/verify", "OpenRouter", "Verify", now - 3 * h, used = true),
+        )
+        _state.value = State(boxes, signups, received)
+    }
+
     fun secrets(c: Context): LedgerSecrets {
         val sp = p(c)
         return object : LedgerSecrets {
@@ -69,7 +103,7 @@ object LedgerStore {
         val sp = p(c)
         val n = f(_state.value)
         _state.value = n
-        sp.edit().putString(KEY_STATE, LedgerCore.toJson(n)).apply()
+        if (!demo) sp.edit().putString(KEY_STATE, LedgerCore.toJson(n)).apply()
         return n
     }
 
