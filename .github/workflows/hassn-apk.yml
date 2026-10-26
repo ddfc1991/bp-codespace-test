@@ -110,3 +110,57 @@ jobs:
           name: hassn-apk-${{ inputs.build_type || 'debug' }}
           path: out/*.apk
           retention-days: 14
+
+  # [Hassn-P1] Real screenshots of the debug APK on an API 34 x86_64 emulator (ARM translation
+  # runs the arm64-only APK). Shell tabs / pages are opened with the launch extras HassnShell
+  # reads: hassn_tab 0..3, hassn_open settings|ledger.
+  shots:
+    needs: apk
+    if: ${{ (inputs.build_type || 'debug') == 'debug' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: hassn-apk-debug, path: apk }
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Write screenshot script
+        run: |
+          cat > shots.sh <<'SH'
+          set -x
+          mkdir -p shots
+          APK=$(ls apk/*.apk | head -1)
+          adb install -r -g "$APK" || { echo "::error::install failed"; exit 1; }
+          adb shell pm grant com.hassn.app android.permission.POST_NOTIFICATIONS || true
+          A=com.hassn.app/com.openminis.app.MainActivity
+          shot() { sleep "${2:-9}"; adb exec-out screencap -p > "shots/$1.png"; ls -la "shots/$1.png"; }
+          adb shell am start -W -n $A; shot 00_first_launch 20
+          adb shell am start -S -W -n $A --ei hassn_tab 0; shot 01_home
+          adb shell am start -S -W -n $A --ei hassn_tab 1; shot 02_chat 12
+          adb shell am start -S -W -n $A --ei hassn_tab 2; shot 03_feed
+          adb shell am start -S -W -n $A --ei hassn_tab 3; shot 04_projects
+          adb shell am start -S -W -n $A --es hassn_open settings; shot 05_settings
+          adb shell input swipe 540 1800 540 600 400; shot 05b_settings_scrolled 3
+          adb shell am start -S -W -n $A --es hassn_open ledger; shot 06_ledger
+          adb shell cmd uimode night yes; adb shell am start -S -W -n $A --ei hassn_tab 0; shot 07_home_dark
+          adb shell cmd uimode night no
+          adb logcat -d -t 3000 > shots/logcat.txt || true
+          SH
+      - name: Emulator screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -skin 1080x2400
+          disable-animations: true
+          script: bash shots.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hassn-shots
+          path: shots/
+          retention-days: 14
