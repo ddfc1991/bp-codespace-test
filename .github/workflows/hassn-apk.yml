@@ -184,6 +184,7 @@ jobs:
             T 60 adb shell am start -S -W -n $A "$@"
             shot "$n" "$w"
           }
+          T 20 adb shell wm size 1080x2400; T 20 adb shell wm density 420
           go 00_first_launch 25
           go 01_home 14 --ei hassn_tab 0
           go 02_chat 16 --ei hassn_tab 1

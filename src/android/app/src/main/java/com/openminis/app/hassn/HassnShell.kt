@@ -111,8 +111,14 @@ fun HassnShell(
             else -> null
         }
         // sub-pages open on top of 设置 so back behaves like a real visit
-        if (route != null && route != Routes.SETTINGS && route != Routes.HASSN_CHATS) navController.safeNavigate(Routes.SETTINGS)
-        if (route != null) navController.safeNavigate(route)
+        if (route != null) {
+            // wait until the start destination is RESUMED; safeNavigate drops calls before that
+            kotlinx.coroutines.delay(1200)
+            runCatching {
+                if (route != Routes.SETTINGS && route != Routes.HASSN_CHATS) navController.navigate(Routes.SETTINGS)
+                navController.navigate(route)
+            }
+        }
         intent.removeExtra("hassn_tab")
         intent.removeExtra("hassn_open")
     }
