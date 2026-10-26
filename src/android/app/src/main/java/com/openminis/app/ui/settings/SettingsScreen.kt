@@ -30,8 +30,6 @@ import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Backup
-import androidx.compose.material.icons.outlined.Badge
-import androidx.compose.material.icons.outlined.Hub
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.FolderShared
 import androidx.compose.material.icons.outlined.Info
@@ -174,14 +172,14 @@ fun SettingsScreen(
             // -- Hassn [Hassn-P1] --
             SettingsSection(title = stringResource(R.string.hassn_section)) {
                 SettingsItem(
-                    icon = Icons.Outlined.Badge,
+                    icon = Icons.Outlined.AutoAwesome,
                     iconColor = Color(0xFF34C759),
                     title = stringResource(R.string.hassn_name_title),
                     subtitle = hassnName,
                     onClick = { showRename = true },
                 )
                 SettingsItem(
-                    icon = Icons.Outlined.Hub,
+                    icon = Icons.Outlined.Dashboard,
                     iconColor = Color(0xFF34C759),
                     title = stringResource(R.string.hassn_gateway_title),
                     subtitle = stringResource(R.string.hassn_gateway_subtitle),
