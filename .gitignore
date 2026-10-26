@@ -147,3 +147,6 @@ src/android/app/libs/rclone.aar
 # build-time secrets (private repo only, see docs/PUBLISH_POLICY.md)
 src/android/app/provider-customization.properties
 src/android/local.properties
+
+# [Hassn] fixed TEST signing key (public, non-secret password) so CI builds install over each other
+!src/android/app/hassn-test.keystore
