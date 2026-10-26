@@ -7,10 +7,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.os.Debug
 import android.widget.Toast
 import com.openminis.app.logging.AppLogger
-import java.io.File
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
@@ -22,8 +20,7 @@ import java.security.MessageDigest
  *    (Official QQ Group: 338431075, Official GitHub: https://github.com/Minglink/hark-agent-mobile).
  * 2. Real-time SHA-256 integrity hash verification. Any in-memory tampering or bytecode
  *    hook triggers instant fallback to immutable constant channels.
- * 3. Runtime APK signing certificate fingerprint validation to block repackaging & piracy.
- * 4. Anti-Hooking & Debugging environment detection.
+ * (Hassn: the unused anti-debug / anti-hook environment check was removed; no signature check is done.)
  * 5. Safe intent launch with automatic clipboard fallback.
  */
 object HarkIntegrityGuard {
@@ -122,26 +119,6 @@ object HarkIntegrityGuard {
             AppLogger.warning(TAG, "QQ Group integrity check mismatch, defaulting to immutable source")
             OFFICIAL_QQ_GROUP
         }
-    }
-
-    /**
-     * Checks if the runtime environment exhibits suspicious tampering/debugging indicators.
-     */
-    fun isEnvironmentCompromised(context: Context): Boolean {
-        if (Debug.isDebuggerConnected() || Debug.waitingForDebugger()) {
-            return true
-        }
-        // Known hook injection artifacts
-        val suspiciousPaths = arrayOf(
-            "/system/bin/frida-server",
-            "/data/local/tmp/frida-server",
-            "/system/lib/libfrida-gadget.so",
-            "/data/local/tmp/re.frida.server"
-        )
-        for (path in suspiciousPaths) {
-            if (File(path).exists()) return true
-        }
-        return false
     }
 
     /**
