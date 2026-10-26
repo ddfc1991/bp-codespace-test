@@ -1,0 +1,110 @@
+name: Build Hassn APK
+
+# Manual only: no push / PR triggers. The APK is uploaded as a run artifact;
+# this workflow never creates a tag or a GitHub Release.
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: "debug or release (release is signed with the runner's debug key)"
+        type: choice
+        options: [debug, release]
+        default: debug
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hassn-apk-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NDK_R28: 28.0.12433566
+  NDK_AGP: 27.0.12077973   # AGP 8.7 default NDK, requested at configure time by externalNativeBuild
+  HASSN_PACKAGE: com.hassn.app
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Secret guard (no keys/tokens in the tree; unit-test fixtures excluded)
+        run: |
+          if grep -rInE '(sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC )?PRIVATE KEY-----)' \
+               --exclude-dir=.git --exclude-dir=deps --exclude-dir=test --exclude='*.apk' --exclude='*.tar.gz' src .github; then
+            echo "::error::possible secret in source"; exit 1
+          fi
+          echo "secret guard ok"
+
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+
+      - uses: actions/setup-go@v5
+        with: { go-version-file: deps/rclone-mobile/go.mod, cache: false }
+
+      - name: Android SDK / NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK_R28" "ndk;$NDK_AGP" "platforms;android-36" "build-tools;36.0.0" "cmake;3.22.1" >/dev/null
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_R28" >> "$GITHUB_ENV"
+
+      - name: gomobile
+        run: |
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          go install golang.org/x/mobile/cmd/gobind@latest
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+          "$HOME/go/bin/gomobile" init
+
+      - name: rclone.aar (backup destinations; build artifact, not checked in)
+        run: |
+          ./deps/build_rclone_android.sh
+          mkdir -p src/android/app/libs
+          cp deps/build/rclone/rclone.aar src/android/app/libs/
+
+      - name: Sandbox assets present (PRoot + Alpine are checked in)
+        run: |
+          A=src/android/app/src/main
+          for f in $A/assets/proot-aarch64 $A/assets/alpine-minirootfs.tar.gz \
+                   $A/jniLibs/arm64-v8a/libproot.so $A/jniLibs/arm64-v8a/libproot-loader.so $A/jniLibs/arm64-v8a/libproot-loader32.so; do
+            [ -s "$f" ] || { echo "::error::missing $f"; exit 1; }
+          done
+          ls -la $A/assets/proot-aarch64 $A/jniLibs/arm64-v8a/
+
+      - name: Unit tests (Hassn)
+        run: |
+          cd src/android
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:testDebugUnitTest --tests 'com.openminis.app.hassn.*' --tests 'com.openminis.app.agent.SoulIcon*'
+
+      - name: Assemble APK
+        timeout-minutes: 45
+        run: |
+          cd src/android
+          T=${{ inputs.build_type }}
+          if [ "$T" = release ]; then ./gradlew --no-daemon :app:assembleRelease; else ./gradlew --no-daemon :app:assembleDebug; fi
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          find app/build/outputs/apk -name '*.apk' -exec cp {} "$GITHUB_WORKSPACE/out/" \;
+          ls -la "$GITHUB_WORKSPACE/out"
+
+      - name: Verify package id
+        run: |
+          BT="$ANDROID_HOME/build-tools/36.0.0"
+          for f in out/*.apk; do
+            pkg=$("$BT/aapt2" dump badging "$f" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")
+            label=$("$BT/aapt2" dump badging "$f" | sed -n "s/^application-label:'\(.*\)'/\1/p")
+            echo "$f package=$pkg label=$label"
+            [ "$pkg" = "$HASSN_PACKAGE" ] || { echo "::error::wrong package $pkg"; exit 1; }
+            unzip -l "$f" | grep -q 'lib/arm64-v8a/libproot-loader.so' || { echo "::error::proot loader missing from APK"; exit 1; }
+          done
+          sha=$(git rev-parse --short HEAD)
+          for f in out/*.apk; do mv "$f" "out/hassn-${{ inputs.build_type }}-$sha.apk"; done
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hassn-apk-${{ inputs.build_type }}
+          path: out/*.apk
+          retention-days: 14
