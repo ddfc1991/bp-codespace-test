@@ -80,13 +80,13 @@ fun HarkTopBar(
         ) {
             if (showBrandLogo) {
                 Text(
-                    text = "HARK",
+                    text = "HASSN",
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp,
                     color = MaterialTheme.colorScheme.primary
                 )
-                if (title != "Hark" && title.isNotBlank()) {
+                if (title != "Hassn" && title.isNotBlank()) {
                     Spacer(Modifier.width(8.dp))
                     Text(
                         text = "·",
@@ -97,7 +97,7 @@ fun HarkTopBar(
                 }
             }
 
-            if (title != "Hark" || !showBrandLogo) {
+            if (title != "Hassn" || !showBrandLogo) {
                 Text(
                     text = title,
                     fontSize = 17.sp,

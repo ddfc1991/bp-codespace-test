@@ -369,7 +369,7 @@
             android:excludeFromRecents="false"
             android:theme="@style/Theme.Minis">
             <intent-filter>
-                <action android:name="com.hark.app.action.OPEN_WEBAPP" />
+                <action android:name="com.hassn.app.action.OPEN_WEBAPP" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

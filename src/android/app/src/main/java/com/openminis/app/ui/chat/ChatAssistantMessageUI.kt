@@ -1190,7 +1190,7 @@ internal fun AssistantActionBar(
                     if (markdown.isNotBlank()) {
                         haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
                         val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                        val clip = android.content.ClipData.newPlainText("Hark", markdown)
+                        val clip = android.content.ClipData.newPlainText("Hassn", markdown)
                         clipboard.setPrimaryClip(clip)
                         copied = true
                         android.widget.Toast.makeText(context, "已复制全文", android.widget.Toast.LENGTH_SHORT).show()

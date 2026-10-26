@@ -46,7 +46,7 @@ data class SandboxMetricsState(
     val externalFreeGb: Double = 0.0,
     val externalTotalGb: Double = 0.0,
 
-    // 内部私有存储 (Internal Storage，/data/data/com.hark.app，Alpine 系统与核心依赖)
+    // 内部私有存储 (Internal Storage，/data/data/com.hassn.app，Alpine 系统与核心依赖)
     val internalFreeGb: Double = 0.0,
     val internalTotalGb: Double = 0.0,
 
@@ -155,7 +155,7 @@ object SandboxMetricsCollector {
             AppLogger.warning(TAG, "Failed to read external storage StatFs: ${e.message}")
         }
 
-        // 2. 内部私有存储 (/data/user/0/com.hark.app/files，Alpine Rootfs 所在地)
+        // 2. 内部私有存储 (/data/user/0/com.hassn.app/files，Alpine Rootfs 所在地)
         var internalFreeGb = 0.0
         var internalTotalGb = 0.0
         try {

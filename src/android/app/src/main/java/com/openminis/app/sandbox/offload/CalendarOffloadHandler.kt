@@ -106,7 +106,7 @@ class CalendarOffloadHandler(private val context: Context) : NativeOffloadHandle
                     OffloadPermissionManager.SettingsGateRequest(
                         id = settingsId,
                         title = "Calendar permission needed",
-                        message = "Hark needs $humanLabel permission to $humanLabel your calendar. Open Settings to allow it.",
+                        message = "Hassn needs $humanLabel permission to $humanLabel your calendar. Open Settings to allow it.",
                         settingsAction = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                         requiresPackageUri = true,
                         positiveLabel = "Open Settings",

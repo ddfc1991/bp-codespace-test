@@ -34,7 +34,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.hark.app"
+        applicationId = "com.hassn.app"
         minSdk = 26
         targetSdk = 35
         versionCode = 38

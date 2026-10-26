@@ -181,7 +181,7 @@ class SoulIconConfigEdgeTest {
             val back = SoulMDParser.parse(text)
             assertEquals(v, back.metadata.icon)
             // The other keys must survive untouched.
-            assertEquals("Hark", back.metadata.name)
+            assertEquals("Hassn", back.metadata.name)
             assertEquals("auto", back.metadata.lang)
             assertEquals("body", back.body.trim())
         }

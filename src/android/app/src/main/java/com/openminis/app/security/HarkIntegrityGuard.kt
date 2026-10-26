@@ -188,7 +188,7 @@ object HarkIntegrityGuard {
     fun copyToClipboard(context: Context, text: String, toastMessage: String) {
         try {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-            cm?.setPrimaryClip(ClipData.newPlainText("Hark", text))
+            cm?.setPrimaryClip(ClipData.newPlainText("Hassn", text))
             Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
         } catch (ignored: Exception) {
         }
