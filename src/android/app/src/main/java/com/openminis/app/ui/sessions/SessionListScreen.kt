@@ -807,7 +807,7 @@ fun SessionListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            com.openminis.app.hassn.HassnAppBar(
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = Color.Transparent,
@@ -867,17 +867,12 @@ fun SessionListScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
+                            // [Hassn] history page title (the shell owns the brand)
                             Text(
-                                stringResource(R.string.app_name),
+                                "聊天记录",
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 21.sp,
-                                letterSpacing = (-0.5).sp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .size(7.dp)
-                                    .background(ObsidianTokens.TerminalGreen, CircleShape),
+                                fontSize = 18.sp,
+                                color = com.openminis.app.hassn.hassn.text,
                             )
                         }
                     }
@@ -895,8 +890,10 @@ fun SessionListScreen(
                             Icon(Icons.Default.Close, contentDescription = stringResource(R.string.sessionlist_dismiss))
                         }
                     } else {
-                        IconButton(onClick = onSettingsClick) {
-                            Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.sessionlist_settings))
+                        // [Hassn] list is a pushed page (hassn_chats): round glass back.
+                        val backOwner = androidx.activity.compose.LocalOnBackPressedDispatcherOwner.current
+                        IconButton(onClick = { backOwner?.onBackPressedDispatcher?.onBackPressed() ?: onSettingsClick() }) {
+                            Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = "Back")
                         }
                     }
                 },
@@ -931,17 +928,17 @@ fun SessionListScreen(
                         }
                         // 3. One-tap Search
                         IconButton(onClick = { viewModel.isSearchActive.value = true }) {
-                            Icon(Icons.Outlined.Search, contentDescription = stringResource(R.string.sessionlist_search_action))
+                            Icon(com.openminis.app.hassn.HassnIcons.get("search", 2f), contentDescription = stringResource(R.string.sessionlist_search_action))
                         }
                         // 4. Overflow menu for Rootfs, Schedule, Multi-select, Browser, New Project
                         Box {
                             IconButton(onClick = { showOverflowMenu = true }) {
                                 if (scheduledTaskCount > 0) {
                                     BadgedBox(badge = { Badge { Text("$scheduledTaskCount") } }) {
-                                        Icon(Icons.Default.MoreVert, contentDescription = null)
+                                        Icon(com.openminis.app.hassn.HassnIcons.get("more", 2.8f), contentDescription = null)
                                     }
                                 } else {
-                                    Icon(Icons.Default.MoreVert, contentDescription = null)
+                                    Icon(com.openminis.app.hassn.HassnIcons.get("more", 2.8f), contentDescription = null)
                                 }
                             }
                             MinisMenu(
@@ -1880,7 +1877,7 @@ private fun SectionHeader(title: String) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 22.dp, vertical = 7.dp)
             .padding(top = 4.dp),
     ) {
         if (isPinned) {
@@ -1896,10 +1893,9 @@ private fun SectionHeader(title: String) {
         }
         Text(
             text = title,
-            fontSize = 12.5.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f),
-            letterSpacing = 0.4.sp,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium,
+            color = if (com.openminis.app.hassn.hassn.dark) com.openminis.app.hassn.hassn.text3 else Color(0xFF3A404B),
         )
     }
 }
@@ -2221,10 +2217,10 @@ private enum class FolderSegment { LONE, TOP, MIDDLE, BOTTOM }
  * iOS `folderEdgeHighlight` verbatim.
  */
 @Composable
-private fun folderEdgeColor(): Color = MaterialTheme.colorScheme.outlineVariant
+private fun folderEdgeColor(): Color = Color.Transparent
 
 @Composable
-private fun folderFillColor(): Color = MaterialTheme.colorScheme.surfaceVariant
+private fun folderFillColor(): Color = com.openminis.app.hassn.hassn.card
 
 private fun Modifier.folderSurface(
     segment: FolderSegment,
@@ -2752,23 +2748,19 @@ private fun SessionRow(
             .pressScaleEffect(0.975f, interactionSource = pressInteractions)
             .then(
                 if (!inFolder) {
+                    // [Hassn] glass row card, r22, no hairline border
                     Modifier
-                        .padding(horizontal = 8.dp, vertical = 3.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                        .clip(RoundedCornerShape(22.dp))
                         .background(
                             if (selectionTint != null) Color.Transparent
-                            else rowBackground ?: MaterialTheme.colorScheme.surfaceVariant,
-                        )
-                        .border(
-                            0.5.dp,
-                            MaterialTheme.colorScheme.outlineVariant,
-                            RoundedCornerShape(16.dp),
+                            else rowBackground ?: com.openminis.app.hassn.hassn.card,
                         )
                 } else {
                     Modifier
                         .background(
                             if (selectionTint != null) Color.Transparent
-                            else rowBackground ?: MaterialTheme.colorScheme.surfaceVariant,
+                            else rowBackground ?: Color.Transparent,
                         )
                 }
             )
@@ -3794,10 +3786,10 @@ private fun ProjectCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .clip(RoundedCornerShape(26.dp))
+            .background(com.openminis.app.hassn.hassn.card)
             .clickable { onToggleExpand() }
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .padding(horizontal = 18.dp, vertical = 12.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(

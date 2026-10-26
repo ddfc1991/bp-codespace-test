@@ -193,7 +193,8 @@ fun TerminalScreen(
     // imePadding does the right thing without any custom tracking.
     val accessoryBarHeightDp = 40.dp
 
-    Box(modifier = Modifier.fillMaxSize().background(TerminalBg)) {
+    // [Hassn] sky shows around a rounded black terminal card; Hark glass top bar.
+    Box(modifier = Modifier.fillMaxSize()) {
         // Main content: top bar + canvas. imePadding() lifts the canvas
         // above the keyboard so it's never covered.
         Column(
@@ -203,8 +204,16 @@ fun TerminalScreen(
                 .imePadding()
                 .padding(bottom = accessoryBarHeightDp),
         ) {
-            Spacer(modifier = Modifier.height(52.dp))
-            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(66.dp))
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                    .clip(RoundedCornerShape(26.dp))
+                    .background(TerminalBg)
+                    .padding(8.dp),
+            ) {
                 // T194 part-2: native Android View backing gives us long-press
                 // selection + ActionMode + ClipboardManager copy. The old
                 // TerminalCanvasView is left in the package as a Compose-only
@@ -244,8 +253,7 @@ fun TerminalScreen(
                 .fillMaxWidth()
                 .align(Alignment.TopStart)
                 .windowInsetsPadding(WindowInsets.systemBars)
-                .height(52.dp)
-                .background(TerminalBg),
+                .height(66.dp),
         ) {
             TerminalTopBar(
                 onClose = {
@@ -321,36 +329,18 @@ private fun TerminalTopBar(
     onClose: () -> Unit,
     onClear: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(TerminalBg)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        CircularIconButton(
-            icon = Icons.Default.Close,
-            contentDescription = stringResource(R.string.common_close),
-            tint = TerminalFg,
-            onClick = onClose,
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            stringResource(R.string.terminal_title),
-            color = TerminalFg,
-            style = TextStyle(
-                fontFamily = JetBrainsMonoFontFamily,
-                fontSize = 16.sp,
-            ),
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        CircularIconButton(
-            icon = Icons.Default.Brush,
-            contentDescription = stringResource(R.string.terminal_clear),
-            tint = TerminalGreen,
-            onClick = onClear,
-        )
-    }
+    // [Hassn] Hark sub-page bar: glass close, centred title, glass clear.
+    com.openminis.app.hassn.HassnSubTopBar(
+        title = stringResource(R.string.terminal_title),
+        onBack = onClose,
+        right = {
+            com.openminis.app.hassn.GlassCircleButton(
+                "trash",
+                onClear,
+                contentDescription = stringResource(R.string.terminal_clear),
+            )
+        },
+    )
 }
 
 @Composable

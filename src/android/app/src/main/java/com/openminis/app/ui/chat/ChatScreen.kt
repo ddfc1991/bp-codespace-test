@@ -2604,10 +2604,10 @@ fun ChatScreen(
                             }
                             Text(
                                 text = displayTitle,
-                                fontSize = 16.sp,
-                                lineHeight = 19.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = ChatColors.primaryText,
+                                fontSize = 17.sp,
+                                lineHeight = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = com.openminis.app.hassn.hassn.text,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = noFontPad,
@@ -2650,7 +2650,12 @@ fun ChatScreen(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center,
-                                modifier = Modifier.padding(top = 1.dp),
+                                modifier = Modifier
+                                    .padding(top = 3.dp)
+                                    // [Hassn] one glass capsule holds model pill + thinking + context
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .background(com.openminis.app.hassn.hassn.glassButton)
+                                    .padding(horizontal = 6.dp, vertical = 3.dp),
                             ) {
                                 // 1. Model & Group Selector Pill (owns clickable to showModelPicker, weighted to yield space)
                                 Row(
@@ -2658,7 +2663,7 @@ fun ChatScreen(
                                     horizontalArrangement = Arrangement.spacedBy(3.dp),
                                     modifier = Modifier
                                         .weight(1f, fill = false)
-                                        .clip(RoundedCornerShape(6.dp))
+                                        .clip(RoundedCornerShape(12.dp))
                                         .clickable(
                                             interactionSource = modelPickerInteraction,
                                             indication = ripple(),
@@ -2694,21 +2699,16 @@ fun ChatScreen(
                                     if (modelLabel.isNotEmpty()) {
                                         Text(
                                             text = modelLabel,
-                                            fontSize = 11.sp,
-                                            lineHeight = 13.sp,
-                                            fontWeight = FontWeight.Medium,
-                                            color = ChatColors.secondaryText,
+                                            fontSize = 12.sp,
+                                            lineHeight = 14.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = com.openminis.app.hassn.hassn.text,
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis,
                                             style = noFontPad,
                                             modifier = Modifier.weight(1f, fill = false),
                                         )
-                                        Icon(
-                                            Icons.Default.KeyboardArrowDown,
-                                            contentDescription = null,
-                                            tint = ChatColors.tertiaryText,
-                                            modifier = Modifier.size(12.dp),
-                                        )
+                                        com.openminis.app.hassn.HassnIcon("down", 13.dp, stroke = 2.2f)
                                     }
                                 }
 
@@ -2755,8 +2755,11 @@ fun ChatScreen(
                 navigationIcon = {
                     // [T-android-tablet-split] See `isTwoPane`.
                     if (!isTwoPane) {
-                        IconButton(onClick = onBack) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        IconButton(
+                            onClick = onBack,
+                            modifier = Modifier.size(44.dp).clip(CircleShape).background(com.openminis.app.hassn.hassn.glassButton),
+                        ) {
+                            Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = "Back")
                         }
                     } else if (onToggleSidebar != null) {
                         // [T-android-tablet-sidebar-collapse] The slot the back
@@ -2860,8 +2863,12 @@ fun ChatScreen(
                     }
                     // iOS: "..." circle button → dropdown menu
                     Box {
-                        IconButton(onClick = { showChatMenu = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "More")
+                        // [Hassn] glass ⋯ circle (Hark chat header)
+                        IconButton(
+                            onClick = { showChatMenu = true },
+                            modifier = Modifier.size(44.dp).clip(CircleShape).background(com.openminis.app.hassn.hassn.glassButton),
+                        ) {
+                            Icon(com.openminis.app.hassn.HassnIcons.get("more", 2.8f), contentDescription = "More", tint = com.openminis.app.hassn.hassn.text)
                         }
                         MinisMenu(
                             expanded = showChatMenu,
@@ -3156,7 +3163,7 @@ fun ChatScreen(
                 // user-configured font scale on xhdpi/xxhdpi without
                 // re-clipping (T-topbar-model-row-clip regression check).
                 // Font sizes + lineHeights stay untouched per spec.
-                expandedHeight = 64.dp,
+                expandedHeight = 70.dp,
             )
             HorizontalDivider(
                 thickness = 0.5.dp,
