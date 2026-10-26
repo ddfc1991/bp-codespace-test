@@ -1,8 +1,10 @@
 name: Build Hassn APK
 
-# Manual only: no push / PR triggers. The APK is uploaded as a run artifact;
-# this workflow never creates a tag or a GitHub Release.
+# Manual dispatch, plus pushes to the build mirror branch hassn-build. The APK is
+# uploaded as a run artifact; this workflow never creates a tag or a GitHub Release.
 on:
+  push:
+    branches: [hassn-build]
   workflow_dispatch:
     inputs:
       build_type:
@@ -59,7 +61,7 @@ jobs:
 
       - name: rclone.aar (backup destinations; build artifact, not checked in)
         run: |
-          ./deps/build_rclone_android.sh
+          bash ./deps/build_rclone_android.sh
           mkdir -p src/android/app/libs
           cp deps/build/rclone/rclone.aar src/android/app/libs/
 
@@ -83,7 +85,7 @@ jobs:
         timeout-minutes: 45
         run: |
           cd src/android
-          T=${{ inputs.build_type }}
+          T=${{ inputs.build_type || 'debug' }}
           if [ "$T" = release ]; then ./gradlew --no-daemon :app:assembleRelease; else ./gradlew --no-daemon :app:assembleDebug; fi
           mkdir -p "$GITHUB_WORKSPACE/out"
           find app/build/outputs/apk -name '*.apk' -exec cp {} "$GITHUB_WORKSPACE/out/" \;
@@ -100,11 +102,11 @@ jobs:
             unzip -l "$f" | grep -q 'lib/arm64-v8a/libproot-loader.so' || { echo "::error::proot loader missing from APK"; exit 1; }
           done
           sha=$(git rev-parse --short HEAD)
-          for f in out/*.apk; do mv "$f" "out/hassn-${{ inputs.build_type }}-$sha.apk"; done
+          for f in out/*.apk; do mv "$f" "out/hassn-${{ inputs.build_type || 'debug' }}-$sha.apk"; done
           ls -la out
 
       - uses: actions/upload-artifact@v4
         with:
-          name: hassn-apk-${{ inputs.build_type }}
+          name: hassn-apk-${{ inputs.build_type || 'debug' }}
           path: out/*.apk
           retention-days: 14
