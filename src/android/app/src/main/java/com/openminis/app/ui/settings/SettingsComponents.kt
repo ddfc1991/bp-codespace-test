@@ -47,7 +47,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.openminis.app.i18n.uppercaseForDisplay
+import com.openminis.app.hassn.HassnAppBar
+import com.openminis.app.hassn.HassnIcon
+import com.openminis.app.hassn.HassnIcons
+import com.openminis.app.hassn.hassn
 import com.openminis.app.ui.components.pressScaleEffect
 import com.openminis.app.ui.theme.UiCraftTokens
 
@@ -89,39 +92,19 @@ fun SettingsScaffold(
 ) {
     Scaffold(
         topBar = {
-            val titleSlot: @Composable () -> Unit = {
-                Text(
-                    title,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
-            val navigationSlot: @Composable () -> Unit = {
-                when {
-                    navigation != null -> navigation()
-                    onBack != null -> IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            // [Hassn] Hark sub-page bar: round glass back, centred title, glass action capsule.
+            HassnAppBar(
+                title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                navigationIcon = {
+                    when {
+                        navigation != null -> navigation()
+                        onBack != null -> IconButton(onClick = onBack) {
+                            Icon(HassnIcons.get("back", 2f), contentDescription = "Back")
+                        }
                     }
-                }
-            }
-            if (centerTitle) {
-                CenterAlignedTopAppBar(
-                    title = titleSlot,
-                    navigationIcon = navigationSlot,
-                    actions = { actions?.invoke() },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                    ),
-                )
-            } else {
-                TopAppBar(
-                    title = titleSlot,
-                    navigationIcon = navigationSlot,
-                    actions = { actions?.invoke() },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                    ),
-                )
-            }
+                },
+                actions = { actions?.invoke() },
+            )
         },
         floatingActionButton = { floatingActionButton?.invoke() },
         containerColor = MaterialTheme.colorScheme.background,
@@ -222,11 +205,10 @@ fun SettingsSection(
     ) {
         if (header != null) {
             Text(
-                text = header.uppercaseForDisplay(),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                text = header,
+                fontSize = 13.sp,
+                color = if (hassn.dark) hassn.text3 else Color(0xFF3A404B),
                 fontWeight = FontWeight.Medium,
-                letterSpacing = 0.5.sp,
                 // [T-android-settings-ui-md3] #5 header→card gap = 8dp (was 6dp,
                 // off-grid). Horizontal stays 32dp to align the header text with
                 // the inset card's content.
@@ -248,8 +230,8 @@ fun SettingsSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(UiCraftTokens.CardCornerRadius))
-                .background(MaterialTheme.colorScheme.surfaceContainerLow),
+                .clip(RoundedCornerShape(26.dp))
+                .background(hassn.card),
             content = content,
         )
         if (footer != null) {
@@ -308,26 +290,20 @@ fun SettingsRow(
                             .clickable(onClick = onClick)
                     } else Modifier
                 )
-                .padding(horizontal = 14.dp, vertical = 12.dp),
+                .padding(horizontal = 18.dp, vertical = 12.dp),
             // #10 keep the trailing control (Switch/value) vertically centered
             // against the title — already centered, kept explicit.
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (icon != null) {
-                Box(
-                    modifier = Modifier
-                        .size(30.dp)
-                        .background(iconColor, RoundedCornerShape(8.dp)),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(18.dp),
-                    )
-                }
-                Spacer(Modifier.width(14.dp))
+                // [Hassn] monochrome glyph, no coloured tile (Hark rows)
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = hassn.text,
+                    modifier = Modifier.size(21.dp),
+                )
+                Spacer(Modifier.width(13.dp))
             }
 
             Column(
@@ -359,23 +335,18 @@ fun SettingsRow(
 
             if (showChevron) {
                 Spacer(Modifier.width(4.dp))
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                    modifier = Modifier.size(20.dp),
-                )
+                HassnIcon("chev", 15.dp, tint = hassn.text, stroke = 2f)
             }
         }
 
         if (showDivider) {
-            val insetStart = if (icon != null) 58.dp else 14.dp
+            val insetStart = 18.dp
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = insetStart, end = 14.dp)
-                    .height(0.5.dp)
-                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
+                    .padding(start = insetStart, end = 18.dp)
+                    .height(1.dp)
+                    .background(hassn.divider),
             )
         }
     }
@@ -475,21 +446,16 @@ fun SettingsChoiceRow(
                 modifier = Modifier.weight(1f),
             )
             if (selected) {
-                Icon(
-                    Icons.Default.Check,
-                    contentDescription = "Selected",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp),
-                )
+                HassnIcon("check", 20.dp, tint = hassn.text, stroke = 2.2f)
             }
         }
         if (showDivider) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 14.dp)
-                    .height(0.5.dp)
-                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
+                    .padding(start = 18.dp, end = 18.dp)
+                    .height(1.dp)
+                    .background(hassn.divider),
             )
         }
     }

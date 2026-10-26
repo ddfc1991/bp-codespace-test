@@ -21,7 +21,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -160,6 +172,11 @@ object HassnIcons {
         "mic" to "M12 3.5h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h-0a3 3 0 0 1 -3 -3v-5a3 3 0 0 1 3 -3zM5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21",
         "back" to "M14.5 6l-6 6 6 6",
         "chev" to "M9.5 6.5l5.5 5.5-5.5 5.5",
+        "down" to "M7 10l5 5 5-5",
+        "more" to "M5.5 12h.01M12 12h.01M18.5 12h.01",
+        "close" to "M6.5 6.5l11 11M17.5 6.5l-11 11",
+        "folder" to "M3.5 7.5a2 2 0 012-2h4l2 2.2h7a2 2 0 012 2v7.8a2 2 0 01-2 2h-13a2 2 0 01-2-2z",
+        "file" to "M7 3.5h6.5l4.5 4.5v12.5H7zM13.5 3.5V8H18",
         "check" to "M5 12.5l4.5 4.5L19 7.5",
         "trash" to "M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12M10.5 10.5v6M13.5 10.5v6",
         "user" to "M8.2 8.5a3.8 3.8 0 1 0 7.6 0a3.8 3.8 0 1 0 -7.6 0zM4.5 20a7.5 7.5 0 0 1 15 0",
@@ -497,5 +514,81 @@ fun HassnChipButton(label: String, primary: Boolean, onClick: () -> Unit) {
             .padding(horizontal = 14.dp),
     ) {
         Text(label, fontSize = 13.sp, fontWeight = if (primary) FontWeight.SemiBold else FontWeight.Normal, color = if (primary) p.onInk else p.text)
+    }
+}
+
+/**
+ * Drop-in replacement for Material `TopAppBar` / `CenterAlignedTopAppBar` on upstream sub-pages:
+ * same parameter names, Hark look — navigation in a round glass button, centred 18sp bold title,
+ * actions in one glass capsule. `colors` / `scrollBehavior` are accepted and ignored on purpose.
+ * Empty slots draw nothing (the glass wraps the content's own size).
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HassnAppBar(
+    title: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {},
+    expandedHeight: Dp = 66.dp,
+    windowInsets: WindowInsets = WindowInsets.statusBars,
+    colors: TopAppBarColors? = null,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+) {
+    val p = hassn
+    CompositionLocalProvider(LocalContentColor provides p.text) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(windowInsets)
+                .heightIn(min = if (expandedHeight < 56.dp) 56.dp else expandedHeight)
+                .padding(horizontal = 12.dp),
+        ) {
+            Box(Modifier.widthIn(min = 48.dp), contentAlignment = Alignment.CenterStart) {
+                Box(Modifier.clip(CircleShape).background(p.glassButton)) { navigationIcon() }
+            }
+            Box(Modifier.weight(1f).padding(horizontal = 8.dp), contentAlignment = Alignment.Center) {
+                ProvideTextStyle(TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold, color = p.text, textAlign = TextAlign.Center)) {
+                    title()
+                }
+            }
+            Box(Modifier.widthIn(min = 48.dp), contentAlignment = Alignment.CenterEnd) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clip(RoundedCornerShape(24.dp)).background(p.glassButton),
+                    content = actions,
+                )
+            }
+        }
+    }
+}
+
+/** Glass capsule chip (chat header model pill / menu): 40dp, glass fill, optional leading line icon. */
+@Composable
+fun HassnGlassChip(
+    label: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: String? = null,
+    trailingIcon: String? = null,
+    enabled: Boolean = true,
+) {
+    val p = hassn
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .height(40.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(p.glassButton)
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = if (label == null) 10.dp else 14.dp),
+    ) {
+        if (icon != null) HassnIcon(icon, 20.dp, stroke = 2f)
+        if (label != null) {
+            if (icon != null) Spacer(Modifier.width(6.dp))
+            Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = p.text, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 180.dp))
+        }
+        if (trailingIcon != null) { Spacer(Modifier.width(4.dp)); HassnIcon(trailingIcon, 14.dp, stroke = 2.2f) }
     }
 }
