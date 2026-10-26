@@ -73,7 +73,8 @@ import java.util.Date
  * button opens the full chat history list.
  *
  * Launch extras (used by the CI screenshot job, harmless otherwise): `hassn_tab` 0..3 picks a
- * tab, `hassn_open` = settings | ledger opens that page.
+ * tab, `hassn_open` = settings | ledger | ledger_box | providers | model_groups | skills | mcp | memory |
+ * scheduled | chats | gateway opens that page.
  */
 @Composable
 fun HassnShell(
@@ -91,10 +92,27 @@ fun HassnShell(
         val intent = (ctx as? android.app.Activity)?.intent ?: return@LaunchedEffect
         val t = intent.getIntExtra("hassn_tab", -1)
         if (t in 0..3) tab = t
-        when (intent.getStringExtra("hassn_open")) {
-            "settings" -> navController.safeNavigate(Routes.SETTINGS)
-            "ledger" -> navController.safeNavigate(Routes.HASSN_LEDGER)
+        val open = intent.getStringExtra("hassn_open")
+        val route = when (open) {
+            "settings" -> Routes.SETTINGS
+            "ledger" -> Routes.HASSN_LEDGER
+            // first saved mailbox; with none the detail page shows its empty state
+            "ledger_box" -> Routes.hassnLedgerBox(
+                com.openminis.app.hassn.ledger.LedgerStore.state.value.boxes.firstOrNull()?.id ?: "none",
+            )
+            "providers" -> Routes.PROVIDER_LIST
+            "model_groups" -> Routes.MODEL_GROUPS
+            "skills" -> Routes.SKILLS
+            "mcp" -> Routes.MCP
+            "memory" -> Routes.MEMORY
+            "scheduled" -> Routes.SCHEDULED_TASKS
+            "chats" -> Routes.HASSN_CHATS
+            "gateway" -> Routes.HASSN_GATEWAY
+            else -> null
         }
+        // sub-pages open on top of 设置 so back behaves like a real visit
+        if (route != null && route != Routes.SETTINGS && route != Routes.HASSN_CHATS) navController.safeNavigate(Routes.SETTINGS)
+        if (route != null) navController.safeNavigate(route)
         intent.removeExtra("hassn_tab")
         intent.removeExtra("hassn_open")
     }

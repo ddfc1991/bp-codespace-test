@@ -118,7 +118,7 @@ jobs:
     needs: apk
     if: ${{ (inputs.build_type || 'debug') == 'debug' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/download-artifact@v4
         with: { name: hassn-apk-debug, path: apk }
@@ -129,24 +129,86 @@ jobs:
       - name: Write screenshot script
         run: |
           cat > shots.sh <<'SH'
+          # No `set -e`: every step has its own timeout, one hang must not kill the rest.
           set -x
           mkdir -p shots
-          APK=$(ls apk/*.apk | head -1)
-          adb install -r -g "$APK" || { echo "::error::install failed"; exit 1; }
-          adb shell pm grant com.hassn.app android.permission.POST_NOTIFICATIONS || true
-          A=com.hassn.app/com.openminis.app.MainActivity
-          shot() { sleep "${2:-9}"; adb exec-out screencap -p > "shots/$1.png"; ls -la "shots/$1.png"; }
-          adb shell am start -W -n $A; shot 00_first_launch 20
-          adb shell am start -S -W -n $A --ei hassn_tab 0; shot 01_home
-          adb shell am start -S -W -n $A --ei hassn_tab 1; shot 02_chat 12
-          adb shell am start -S -W -n $A --ei hassn_tab 2; shot 03_feed
-          adb shell am start -S -W -n $A --ei hassn_tab 3; shot 04_projects
-          adb shell am start -S -W -n $A --es hassn_open settings; shot 05_settings
-          adb shell input swipe 540 1800 540 600 400; shot 05b_settings_scrolled 3
-          adb shell am start -S -W -n $A --es hassn_open ledger; shot 06_ledger
-          adb shell cmd uimode night yes; adb shell am start -S -W -n $A --ei hassn_tab 0; shot 07_home_dark
-          adb shell cmd uimode night no
-          adb logcat -d -t 3000 > shots/logcat.txt || true
+          P=com.hassn.app
+          A=$P/com.openminis.app.MainActivity
+          T() { timeout "$@"; }
+          dismiss() {
+            T 10 adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
+            # an ANR/crash dialog that still shows: its default button is "Wait"/"Close app" → ENTER
+            if T 10 adb shell dumpsys window 2>/dev/null | grep -E "mCurrentFocus=.*(Application Not Responding|Error|aerr|anr)" ; then
+              T 5 adb shell input keyevent KEYCODE_ENTER
+            fi
+          }
+          wait_boot() { for i in $(seq 1 90); do [ "$(T 5 adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && return 0; sleep 2; done; return 1; }
+          # system hardening against launcher/ANR stalls under ARM translation
+          T 20 adb shell settings put global hide_error_dialogs 1
+          T 20 adb shell settings put global anr_show_background 0
+          T 20 adb shell settings put global window_animation_scale 0
+          T 20 adb shell settings put global transition_animation_scale 0
+          T 20 adb shell settings put global animator_duration_scale 0
+          T 20 adb shell settings put system screen_off_timeout 1800000
+          T 20 adb shell svc power stayon true
+          T 30 adb shell pm disable-user --user 0 com.google.android.apps.nexuslauncher
+          T 30 adb shell pm disable-user --user 0 com.android.launcher3
+          # Chinese UI: system locale (needs root + soft restart), plus per-app locale as a fallback
+          if T 20 adb root; then
+            sleep 3; T 20 adb wait-for-device
+            T 10 adb shell setprop persist.sys.locale zh-CN
+            T 10 adb shell setprop ctl.restart zygote
+            sleep 10; T 30 adb wait-for-device; wait_boot
+          fi
+          T 15 adb shell input keyevent KEYCODE_WAKEUP
+          T 15 adb shell wm dismiss-keyguard
+          T 180 adb install -r -g apk/*.apk || { echo "::error::install failed"; exit 1; }
+          T 20 adb shell cmd locale set-app-locales $P --user 0 --locales zh-CN
+          T 20 adb shell pm grant $P android.permission.POST_NOTIFICATIONS
+          T 20 adb shell getprop persist.sys.locale
+          shot() { # name wait-seconds
+            sleep "${2:-10}"; dismiss
+            for try in 1 2 3; do
+              T 30 adb exec-out screencap -p > "shots/$1.png"
+              [ "$(stat -c %s "shots/$1.png" 2>/dev/null || echo 0)" -gt 20000 ] && break
+              T 30 adb shell screencap -p /sdcard/s.png && T 30 adb pull /sdcard/s.png "shots/$1.png"
+              [ "$(stat -c %s "shots/$1.png" 2>/dev/null || echo 0)" -gt 20000 ] && break
+              dismiss; sleep 8
+            done
+            ls -la "shots/$1.png"
+            T 10 adb shell dumpsys window | grep mCurrentFocus | tee -a shots/focus.txt
+          }
+          go() { # name wait extras...
+            n=$1; w=$2; shift 2
+            dismiss
+            T 60 adb shell am start -S -W -n $A "$@"
+            shot "$n" "$w"
+          }
+          go 00_first_launch 25
+          go 01_home 14 --ei hassn_tab 0
+          go 02_chat 16 --ei hassn_tab 1
+          go 03_feed 12 --ei hassn_tab 2
+          go 04_projects 12 --ei hassn_tab 3
+          go 05_settings 12 --es hassn_open settings
+          T 20 adb shell input swipe 540 1800 540 500 500; shot 05b_settings_scrolled 4
+          T 20 adb shell input swipe 540 1800 540 500 500; shot 05c_settings_bottom 4
+          go 06_ledger 12 --es hassn_open ledger
+          go 06b_ledger_box 12 --es hassn_open ledger_box
+          go 08_chats 14 --es hassn_open chats
+          go 09_model_groups 12 --es hassn_open model_groups
+          go 10_providers 12 --es hassn_open providers
+          go 11_skills 14 --es hassn_open skills
+          go 12_mcp 12 --es hassn_open mcp
+          go 13_memory 12 --es hassn_open memory
+          go 14_scheduled 12 --es hassn_open scheduled
+          go 15_gateway 12 --es hassn_open gateway
+          T 20 adb shell cmd uimode night yes
+          go 07_home_dark 14 --ei hassn_tab 0
+          go 07b_settings_dark 12 --es hassn_open settings
+          T 20 adb shell cmd uimode night no
+          T 60 adb logcat -d -t 4000 > shots/logcat.txt
+          T 30 adb shell dumpsys activity processes | grep -i -E "anr|crash|not responding" > shots/anr.txt
+          exit 0
           SH
       - name: Emulator screenshots
         uses: reactivecircus/android-emulator-runner@v2
@@ -155,9 +217,12 @@ jobs:
           target: google_apis
           arch: x86_64
           ram-size: 4096M
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -skin 1080x2400
+          cores: 4
+          disk-size: 6G
+          emulator-boot-timeout: 900
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -skin 1080x2400 -memory 4096
           disable-animations: true
-          script: bash shots.sh
+          script: timeout 2700 bash shots.sh || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
