@@ -31,12 +31,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Fullscreen
-import androidx.compose.material.icons.outlined.FullscreenExit
-import androidx.compose.material.icons.outlined.OpenInBrowser
-import androidx.compose.material.icons.outlined.Refresh
-import androidx.compose.material.icons.outlined.Share
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.Fullscreen
+import com.openminis.app.hassn.icons.FullscreenExit
+import com.openminis.app.hassn.icons.OpenInBrowser
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -421,7 +421,7 @@ class WebAppActivity : ComponentActivity() {
      */
     private fun openInExternalBrowser(context: android.content.Context, file: File) {
         val uri = stagedShareUri(context, file) ?: run {
-            Toast.makeText(context, R.string.webapp_no_browser_app, Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, R.string.webapp_no_browser_app, long = false)
             return
         }
         val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -432,13 +432,13 @@ class WebAppActivity : ComponentActivity() {
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             AppLogger.warning(logTag, "No browser app for WebApp preview: ${e.message}")
-            Toast.makeText(context, R.string.webapp_no_browser_app, Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, R.string.webapp_no_browser_app, long = false)
         }
     }
 
     private fun shareWebAppFile(context: android.content.Context, file: File) {
         val uri = stagedShareUri(context, file) ?: run {
-            Toast.makeText(context, R.string.webapp_no_browser_app, Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, R.string.webapp_no_browser_app, long = false)
             return
         }
         val send = Intent(Intent.ACTION_SEND).apply {
@@ -520,11 +520,7 @@ class WebAppActivity : ComponentActivity() {
                 if (scheme == "https" && host == ASSET_LOADER_HOST) return false
                 if (scheme == "about") return false
                 AppLogger.info(logTag, "Blocked external navigation: $url")
-                Toast.makeText(
-                    this@WebAppActivity,
-                    R.string.webapp_external_nav_blocked,
-                    Toast.LENGTH_SHORT,
-                ).show()
+                com.openminis.app.hassn.HassnToast.show(this@WebAppActivity, R.string.webapp_external_nav_blocked, long = false)
                 return true
             }
         }

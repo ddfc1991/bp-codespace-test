@@ -18,8 +18,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Folder
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Folder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -101,7 +101,7 @@ fun SharedFolderDetailScreen(
                     Icon(
                         imageVector = Icons.Outlined.Folder,
                         contentDescription = null,
-                        tint = Color(0xFF007AFF),
+                        tint = Color(0xFF8E8E93),
                     )
                     Text(
                         text = stringResource(R.string.shared_folder_browse_files),
@@ -170,9 +170,9 @@ private fun HeaderCard(folder: SharedFolderEntry) {
 @Composable
 private fun AccessBadge(writable: Boolean) {
     val (textRes, color) = if (writable) {
-        R.string.mount_badge_rw to Color(0xFF34C759)
+        R.string.mount_badge_rw to Color(0xFF00A665)
     } else {
-        R.string.mount_badge_readonly to Color(0xFFFF9500)
+        R.string.mount_badge_readonly to Color(0xFFFF4D00)
     }
     Surface(
         shape = RoundedCornerShape(8.dp),

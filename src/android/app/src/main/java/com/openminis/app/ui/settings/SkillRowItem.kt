@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Inventory2
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.outlined.ChatBubble
-import androidx.compose.material.icons.outlined.Description
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Inventory2
+import com.openminis.app.hassn.icons.Link
+import com.openminis.app.hassn.icons.ChatBubble
+import com.openminis.app.hassn.icons.Description
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -128,8 +128,8 @@ fun SkillRowItem(
  * stay consistent between Settings and the in-chat sheet.
  */
 fun sourceIconAndColor(source: SkillRepository.ImportSource): Pair<ImageVector, Color> = when (source) {
-    SkillRepository.ImportSource.URL -> Icons.Default.Link to Color(0xFF007AFF)
-    SkillRepository.ImportSource.FILE -> Icons.Outlined.Description to Color(0xFFFF9500)
-    SkillRepository.ImportSource.BUNDLED -> Icons.Default.Inventory2 to Color(0xFF34C759)
-    SkillRepository.ImportSource.SESSION -> Icons.Outlined.ChatBubble to Color(0xFFAF52DE)
+    SkillRepository.ImportSource.URL -> Icons.Default.Link to Color(0xFF8E8E93)
+    SkillRepository.ImportSource.FILE -> Icons.Outlined.Description to Color(0xFFFF4D00)
+    SkillRepository.ImportSource.BUNDLED -> Icons.Default.Inventory2 to Color(0xFF00A665)
+    SkillRepository.ImportSource.SESSION -> Icons.Outlined.ChatBubble to Color(0xFF8E8E93)
 }

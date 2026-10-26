@@ -22,12 +22,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Schedule
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.History
+import com.openminis.app.hassn.icons.Schedule
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -252,17 +252,17 @@ private fun ScheduledTaskRow(
             expanded = menuExpanded,
             onDismissRequest = { menuExpanded = false },
         ) {
-            androidx.compose.material3.DropdownMenuItem(
+            com.openminis.app.ui.components.HarkDropdownMenuItem(
                 text = { Text(stringResource(R.string.scheduled_task_menu_edit)) },
                 leadingIcon = { Icon(Icons.Filled.Edit, contentDescription = null) },
                 onClick = { menuExpanded = false; onEdit() },
             )
-            androidx.compose.material3.DropdownMenuItem(
+            com.openminis.app.ui.components.HarkDropdownMenuItem(
                 text = { Text(stringResource(R.string.scheduled_task_menu_runs)) },
                 leadingIcon = { Icon(Icons.Outlined.History, contentDescription = null) },
                 onClick = { menuExpanded = false; onViewRuns() },
             )
-            androidx.compose.material3.DropdownMenuItem(
+            com.openminis.app.ui.components.HarkDropdownMenuItem(
                 text = {
                     Text(
                         stringResource(R.string.scheduled_task_menu_delete),

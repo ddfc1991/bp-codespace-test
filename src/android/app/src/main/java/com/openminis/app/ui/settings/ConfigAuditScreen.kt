@@ -16,8 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.History
+import com.openminis.app.hassn.icons.ArrowForward
+import com.openminis.app.hassn.icons.History
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -279,7 +279,7 @@ private fun AuditRow(entry: ConfigAuditEntry, onRevert: () -> Unit) {
                     onClick = onRevert,
                     label = { Text(stringResource(R.string.logs_config_revert_chip)) },
                     colors = AssistChipDefaults.assistChipColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                     ),
                 )
             }
@@ -287,7 +287,7 @@ private fun AuditRow(entry: ConfigAuditEntry, onRevert: () -> Unit) {
                 Text(
                     text = stringResource(R.string.logs_config_reverted_label),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color(0xFF8E5CD9),
+                    color = Color(0xFF8E8E93),
                 )
             }
             else -> Unit
@@ -314,8 +314,8 @@ private fun StatusBadge(status: ConfigAuditStatus) {
     val color = when (status) {
         ConfigAuditStatus.APPLIED -> Color(0xFF388E3C)
         ConfigAuditStatus.REJECTED -> Color(0xFF757575)
-        ConfigAuditStatus.TIMEOUT -> Color(0xFFE65100)
-        ConfigAuditStatus.REVERTED -> Color(0xFF8E5CD9)
+        ConfigAuditStatus.TIMEOUT -> Color(0xFFFF4D00)
+        ConfigAuditStatus.REVERTED -> Color(0xFF8E8E93)
     }
     val label = when (status) {
         ConfigAuditStatus.APPLIED -> stringResource(R.string.logs_config_status_applied)

@@ -20,7 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import com.openminis.app.hassn.icons.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -116,13 +116,13 @@ fun StorageManagementScreen(
                 showDivider = true,
             )
             StorageOverviewRow(
-                color = Color(0xFF007AFF),
+                color = Color(0xFF8E8E93),
                 label = stringResource(R.string.storage_overview_database),
                 value = Formatter.formatFileSize(context, dbSize),
                 showDivider = true,
             )
             StorageOverviewRow(
-                color = Color(0xFF5856D6),
+                color = Color(0xFF8E8E93),
                 label = stringResource(R.string.storage_overview_sessions),
                 value = Formatter.formatFileSize(context, totalSessionSize),
                 showDivider = false,

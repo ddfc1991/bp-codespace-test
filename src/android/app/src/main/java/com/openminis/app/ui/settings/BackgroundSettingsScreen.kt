@@ -21,12 +21,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.BatteryFull
-import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.Layers
-import androidx.compose.material.icons.outlined.NotificationsActive
-import androidx.compose.material.icons.outlined.PhoneAndroid
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.BatteryFull
+import com.openminis.app.hassn.icons.Bolt
+import com.openminis.app.hassn.icons.Layers
+import com.openminis.app.hassn.icons.NotificationsActive
+import com.openminis.app.hassn.icons.PhoneAndroid
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -159,7 +159,7 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
             BgSectionTitle(stringResource(R.string.settings_section_notifications))
             BgToggleRow(
                 icon = Icons.Outlined.NotificationsActive,
-                iconColor = Color(0xFF007AFF),
+                iconColor = Color(0xFF8E8E93),
                 title = stringResource(R.string.settings_task_notifications),
                 checked = taskNotificationsEnabled,
                 onCheckedChange = { backgroundRepo.setTaskNotificationsEnabled(it) },
@@ -174,7 +174,7 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
             Spacer(Modifier.size(8.dp))
             BgToggleRow(
                 icon = Icons.Outlined.Layers,
-                iconColor = Color(0xFF5856D6),
+                iconColor = Color(0xFF8E8E93),
                 title = stringResource(R.string.settings_bg_overlay),
                 // [T-android-overlay-toggle-reflects-intent] Reflect the user's
                 // PERSISTED intent, not the derived ready-state. Previously this
@@ -230,7 +230,7 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
             Spacer(Modifier.size(8.dp))
             BgToggleRow(
                 icon = Icons.Outlined.Bolt,
-                iconColor = Color(0xFF34C759),
+                iconColor = Color(0xFF00A665),
                 title = stringResource(R.string.settings_dynamic_island),
                 checked = dynamicIslandEnabled && dynamicIslandCapable,
                 enabled = dynamicIslandCapable,
@@ -248,7 +248,7 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
             BgSectionTitle(stringResource(R.string.battery_opt_section_title))
             BgRow(
                 icon = Icons.Outlined.BatteryFull,
-                iconColor = if (ignoringOptimizations) Color(0xFF34C759) else Color(0xFFFF9500),
+                iconColor = if (ignoringOptimizations) Color(0xFF00A665) else Color(0xFFFF4D00),
                 title = stringResource(R.string.battery_opt_row_title),
                 subtitle = if (ignoringOptimizations) {
                     stringResource(R.string.battery_opt_already_exempt)
@@ -268,7 +268,7 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
                 BgSectionTitle(stringResource(R.string.rom_autostart_section_title))
                 BgRow(
                     icon = Icons.Outlined.PhoneAndroid,
-                    iconColor = Color(0xFFFF9500),
+                    iconColor = Color(0xFFFF4D00),
                     title = stringResource(R.string.rom_autostart_row_title),
                     subtitle = stringResource(
                         R.string.rom_autostart_row_subtitle,

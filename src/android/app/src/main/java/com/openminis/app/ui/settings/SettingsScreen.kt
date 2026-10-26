@@ -19,27 +19,26 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.outlined.Article
-import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.Article
-import androidx.compose.material.icons.outlined.BarChart
-import androidx.compose.material.icons.outlined.BatteryFull
-import androidx.compose.material.icons.outlined.Dashboard
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Extension
-import androidx.compose.material.icons.outlined.Backup
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.FolderShared
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Inventory2
-import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.Psychology
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.Terminal
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Article
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.BarChart
+import com.openminis.app.hassn.icons.BatteryFull
+import com.openminis.app.hassn.icons.Dashboard
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Extension
+import com.openminis.app.hassn.icons.Backup
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.FolderShared
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.Inventory2
+import com.openminis.app.hassn.icons.Lock
+import com.openminis.app.hassn.icons.Palette
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.Settings
+import com.openminis.app.hassn.icons.Shield
+import com.openminis.app.hassn.icons.Terminal
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -53,6 +52,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import com.openminis.app.hassn.harkGlass
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -186,21 +186,21 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.hassn_section)) {
                 SettingsItem(
                     icon = Icons.Outlined.AutoAwesome,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = stringResource(R.string.hassn_name_title),
                     subtitle = hassnName,
                     onClick = { showRename = true },
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Dashboard,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = stringResource(R.string.hassn_gateway_title),
                     subtitle = stringResource(R.string.hassn_gateway_subtitle),
                     onClick = onHassnGatewayClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Lock,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = "临时邮箱台账",
                     subtitle = "临时邮箱 · 注册过的平台 · 验证码",
                     onClick = onHassnLedgerClick,
@@ -215,21 +215,21 @@ fun SettingsScreen(
             ) {
                 SettingsItem(
                     icon = Icons.Outlined.Lock,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_manage_providers),
                     subtitle = stringResource(R.string.settings_manage_providers_subtitle),
                     onClick = onProvidersClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Settings,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_model_groups),
                     subtitle = stringResource(R.string.settings_model_groups_subtitle),
                     onClick = onModelGroupsClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.BarChart,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_token_usage),
                     subtitle = stringResource(R.string.settings_token_usage_subtitle),
                     onClick = onUsageClick,
@@ -241,7 +241,7 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.settings_section_appearance)) {
                 SettingsItem(
                     icon = Icons.Outlined.Palette,
-                    iconColor = Color(0xFF5856D6),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_section_appearance),
                     subtitle = stringResource(R.string.settings_appearance_subtitle),
                     onClick = onAppearanceClick,
@@ -253,14 +253,14 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.settings_section_agent_runtime)) {
                 SettingsItem(
                     icon = Icons.Outlined.Psychology,
-                    iconColor = Color(0xFFFF2D55),
+                    iconColor = Color(0xFF8E8E93),
                     title = "子代理协同 (Subagents)",
                     subtitle = "多智能体团队、MoA混合专家与模型调度白名单",
                     onClick = onSubagentsClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Extension,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_skills),
                     subtitle = stringResource(R.string.settings_skills_subtitle),
                     onClick = onSkillsClick,
@@ -268,7 +268,7 @@ fun SettingsScreen(
                 // [T-soul-md] insertion between Skills and Memory per spec.
                 SettingsItem(
                     icon = Icons.Outlined.AutoAwesome,
-                    iconColor = Color(0xFFFF9500),
+                    iconColor = Color(0xFFFF4D00),
                     title = stringResource(R.string.settings_soul),
                     subtitle = stringResource(R.string.settings_soul_subtitle),
                     onClick = onSoulClick,
@@ -279,14 +279,14 @@ fun SettingsScreen(
                 // Agent Runtime section's dominant accent.
                 SettingsItem(
                     icon = Icons.AutoMirrored.Outlined.Article,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_sysprompt),
                     subtitle = stringResource(R.string.settings_sysprompt_subtitle),
                     onClick = onSystemPromptClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Psychology,
-                    iconColor = Color(0xFF5856D6),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_memory),
                     subtitle = stringResource(R.string.settings_memory_subtitle),
                     onClick = onMemoryClick,
@@ -297,14 +297,14 @@ fun SettingsScreen(
                 // the grid reads as "multiple composed blocks/servers". teal unchanged.
                 SettingsItem(
                     icon = Icons.Outlined.Dashboard,
-                    iconColor = Color(0xFF30B0C7),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_mcp),
                     subtitle = stringResource(R.string.settings_mcp_subtitle),
                     onClick = onMcpClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Terminal,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = stringResource(R.string.settings_env_vars),
                     subtitle = stringResource(R.string.settings_env_vars_subtitle),
                     onClick = onEnvVarsClick,
@@ -316,28 +316,28 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.settings_section_storage)) {
                 SettingsItem(
                     icon = Icons.Outlined.Inventory2,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_section_storage),
                     subtitle = stringResource(R.string.settings_storage_subtitle),
                     onClick = onRootfsClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Folder,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = stringResource(R.string.settings_shared_folders),
                     subtitle = stringResource(R.string.settings_shared_folders_subtitle),
                     onClick = onSharedFoldersClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.FolderShared,
-                    iconColor = Color(0xFFFF9500),
+                    iconColor = Color(0xFFFF4D00),
                     title = stringResource(R.string.settings_mount_external_folders),
                     subtitle = stringResource(R.string.settings_mount_external_folders_subtitle),
                     onClick = onMountedFoldersClick,
                 )
                 SettingsItem(
                     icon = Icons.Outlined.Backup,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = stringResource(R.string.settings_backup_restore),
                     subtitle = stringResource(R.string.settings_backup_restore_subtitle),
                     onClick = onBackupClick,
@@ -349,7 +349,7 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.settings_section_permissions)) {
                 SettingsItem(
                     icon = Icons.Outlined.Shield,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_section_permissions),
                     subtitle = stringResource(R.string.settings_permissions_subtitle),
                     onClick = onPermissionsClick,
@@ -364,7 +364,7 @@ fun SettingsScreen(
             ) {
                 SettingsItem(
                     icon = Icons.Outlined.BatteryFull,
-                    iconColor = Color(0xFFFF9500),
+                    iconColor = Color(0xFFFF4D00),
                     title = stringResource(R.string.bg_section_header),
                     subtitle = stringResource(R.string.bg_section_subtitle),
                     onClick = onBackgroundClick,
@@ -376,7 +376,7 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.settings_section_logs)) {
                 SettingsItem(
                     icon = Icons.Outlined.Description,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_section_logs),
                     subtitle = stringResource(R.string.settings_logs_subtitle),
                     onClick = onLogsClick,
@@ -388,7 +388,7 @@ fun SettingsScreen(
             SettingsSection(title = stringResource(R.string.settings_section_about)) {
                 SettingsItem(
                     icon = Icons.Outlined.Info,
-                    iconColor = Color(0xFF007AFF),
+                    iconColor = Color(0xFF8E8E93),
                     title = stringResource(R.string.settings_about_minis),
                     subtitle = stringResource(R.string.settings_about_subtitle),
                     onClick = onAboutClick,
@@ -402,7 +402,8 @@ fun SettingsScreen(
 }
 
 /**
- * [Hassn-P1] Grouped section in the Hark glass style: plain group header + 26dp glass card.
+ * [Hassn] Hark settings group (spec §6.5): optional quiet header, r24 glass card (blur 32 +
+ * regularSurface), 12dp between groups.
  */
 @Composable
 private fun SettingsSection(
@@ -415,31 +416,34 @@ private fun SettingsSection(
             .fillMaxWidth()
             .padding(top = 12.dp),
     ) {
-        com.openminis.app.hassn.HassnGroupHeader(title)
+        com.openminis.app.hassn.HassnGroupHeader(title, Modifier.padding(start = 16.dp, top = 8.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(26.dp))
-                .background(color = com.openminis.app.hassn.hassn.card),
+                .then(
+                    with(com.openminis.app.hassn.HarkBlur) {
+                        Modifier.harkGlass(RoundedCornerShape(24.dp), com.openminis.app.hassn.hassn.card, Card)
+                    },
+                ),
         ) {
             content()
         }
         if (footer != null) {
             Text(
                 text = footer,
-                fontSize = 12.5.sp,
-                color = com.openminis.app.hassn.hassn.text3,
-                modifier = Modifier.padding(horizontal = 22.dp, vertical = 6.dp),
-                lineHeight = 17.sp,
+                style = MaterialTheme.typography.bodySmall,
+                color = com.openminis.app.hassn.hassn.text2,
+                modifier = Modifier.padding(horizontal = 36.dp, vertical = 8.dp),
             )
         }
     }
 }
 
 /**
- * [Hassn-P1] Hark settings row: line icon, 15sp title, small grey subtitle, black chevron,
- * inset hairline. `iconColor` is kept for call-site compatibility but no longer painted.
+ * [Hassn] Hark settings row (spec §6.5): 56dp, padding 20 / 18, 16dp line icon, gap 12,
+ * titleMedium 15/18 w500, 16dp chevron, inset hairline. Like Hark's own settings page the hub
+ * shows titles only (a short `subtitle` becomes a trailing value; `iconColor` kept for call-site compatibility, not drawn).
  */
 @Composable
 private fun SettingsItem(
@@ -455,20 +459,21 @@ private fun SettingsItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 54.dp)
+                .heightIn(min = 56.dp)
                 .clickable(onClick = onClick)
-                .padding(horizontal = 18.dp),
+                .padding(horizontal = 20.dp, vertical = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(imageVector = icon, contentDescription = null, tint = p.text, modifier = Modifier.size(21.dp))
-            Spacer(Modifier.width(13.dp))
-            Column(modifier = Modifier.weight(1f).padding(vertical = 9.dp)) {
-                Text(text = title, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = p.text)
-                if (subtitle != null) {
-                    Text(text = subtitle, fontSize = 12.5.sp, color = p.text2, lineHeight = 17.sp)
-                }
+            Icon(imageVector = icon, contentDescription = null, tint = p.text, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(12.dp))
+            Text(text = title, style = MaterialTheme.typography.titleMedium, color = p.text, modifier = Modifier.weight(1f))
+            // a short subtitle is a value (e.g. the assistant's name) → trailing textSecondary
+            if (subtitle != null && subtitle.length <= 12) {
+                Spacer(Modifier.width(12.dp))
+                Text(text = subtitle, style = MaterialTheme.typography.bodyLarge, color = p.text2, maxLines = 1)
             }
-            com.openminis.app.hassn.HassnIcon("chev", 15.dp, tint = p.text, stroke = 2f)
+            Spacer(Modifier.width(12.dp))
+            com.openminis.app.hassn.HassnIcon("chev", 16.dp, tint = p.text)
         }
         if (showDivider) com.openminis.app.hassn.HassnDivider()
     }

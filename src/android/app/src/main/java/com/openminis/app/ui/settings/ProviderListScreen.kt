@@ -19,11 +19,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.FileDownload
-import androidx.compose.material.icons.outlined.GraphicEq
-import androidx.compose.material.icons.outlined.VpnKey
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.FileDownload
+import com.openminis.app.hassn.icons.GraphicEq
+import com.openminis.app.hassn.icons.VpnKey
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -52,8 +52,8 @@ import androidx.compose.runtime.key
 import sh.calvin.reorderable.ReorderableColumn
 import com.openminis.app.data.model.ProviderInstance
 import com.openminis.app.data.repository.ProviderRepository
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Delete
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.Delete
 import com.openminis.app.ui.components.MinisAlertDialog
 import com.openminis.app.ui.components.SwipeRowAction
 import com.openminis.app.ui.components.SwipeRowActions
@@ -99,11 +99,11 @@ fun ProviderListScreen(
                     context = context,
                     uri = uri,
                     onImportSingle = { jsonStr -> providerRepository.importInstanceJSON(jsonStr) },
-                    onExtractFailed = { Toast.makeText(context, toastFailed, Toast.LENGTH_SHORT).show() },
-                    onNoSupported = { Toast.makeText(context, toastNoSupported, Toast.LENGTH_SHORT).show() },
+                    onExtractFailed = { com.openminis.app.hassn.HassnToast.show(context, toastFailed, long = false) },
+                    onNoSupported = { com.openminis.app.hassn.HassnToast.show(context, toastNoSupported, long = false) },
                     onSummary = { ok, total ->
                         val msg = context.getString(R.string.import_zip_summary, ok, total)
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, msg, long = false)
                     },
                 )
             } else {
@@ -111,14 +111,14 @@ fun ProviderListScreen(
                 if (jsonStr != null) {
                     val label = providerRepository.importInstanceJSON(jsonStr)
                     if (label != null) {
-                        Toast.makeText(context, "Imported provider \"$label\"", Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, "Imported provider \"$label\"", long = false)
                     } else {
-                        Toast.makeText(context, "Invalid provider configuration file", Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, "Invalid provider configuration file", long = false)
                     }
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Failed to read file", Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, "Failed to read file", long = false)
         }
     }
 
@@ -406,7 +406,7 @@ private fun ProviderInstanceRow(
             modifier = Modifier
                 .size(8.dp)
                 .background(
-                    color = if (isActive) Color(0xFF34C759) else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.25f),
+                    color = if (isActive) Color(0xFF00A665) else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.25f),
                     shape = CircleShape,
                 ),
         )

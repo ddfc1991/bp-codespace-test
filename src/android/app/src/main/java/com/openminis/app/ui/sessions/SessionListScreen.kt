@@ -53,69 +53,62 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import com.openminis.app.ui.chat.ChatViewModelStore
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.CreateNewFolder
-import androidx.compose.material.icons.filled.AddComment
-import androidx.compose.material.icons.filled.FolderSpecial
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.DriveFileMove
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.FolderOff
-import androidx.compose.material.icons.filled.FolderOpen
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.outlined.AddComment
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.FolderOff
-import androidx.compose.material.icons.outlined.PushPin
-import androidx.compose.material.icons.outlined.BarChart
-import androidx.compose.material.icons.outlined.Book
-import androidx.compose.material.icons.outlined.Brush
-import androidx.compose.material.icons.outlined.Calculate
-import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.ChecklistRtl
-import androidx.compose.material.icons.outlined.Circle
-import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Forum
-import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Map
-import androidx.compose.material.icons.outlined.MoreHoriz
-import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.Payments
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Translate
-import androidx.compose.material.icons.outlined.SmartToy
-import androidx.compose.material.icons.outlined.ExpandLess
-import androidx.compose.material.icons.outlined.ExpandMore
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.CreateNewFolder
+import com.openminis.app.hassn.icons.AddComment
+import com.openminis.app.hassn.icons.FolderSpecial
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.DriveFileMove
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.FolderOff
+import com.openminis.app.hassn.icons.FolderOpen
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.Pause
+import com.openminis.app.hassn.icons.PushPin
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Settings
+import com.openminis.app.hassn.icons.Share
+import com.openminis.app.hassn.icons.BarChart
+import com.openminis.app.hassn.icons.Book
+import com.openminis.app.hassn.icons.Brush
+import com.openminis.app.hassn.icons.Calculate
+import com.openminis.app.hassn.icons.CalendarMonth
+import com.openminis.app.hassn.icons.ChecklistRtl
+import com.openminis.app.hassn.icons.Circle
+import com.openminis.app.hassn.icons.Code
+import com.openminis.app.hassn.icons.Schedule
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Favorite
+import com.openminis.app.hassn.icons.Forum
+import com.openminis.app.hassn.icons.GridView
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.Map
+import com.openminis.app.hassn.icons.MoreHoriz
+import com.openminis.app.hassn.icons.Palette
+import com.openminis.app.hassn.icons.Payments
+import com.openminis.app.hassn.icons.Search
+import com.openminis.app.hassn.icons.LightMode
+import com.openminis.app.hassn.icons.DarkMode
+import com.openminis.app.hassn.icons.Translate
+import com.openminis.app.hassn.icons.SmartToy
+import com.openminis.app.hassn.icons.ExpandLess
+import com.openminis.app.hassn.icons.ExpandMore
 import android.content.Intent
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.Surface
 import com.openminis.app.ui.components.MinisAlertDialog
 import com.openminis.app.ui.components.MinisOutlinedButton
@@ -220,19 +213,19 @@ private data class CategoryStyle(val icon: ImageVector, val color: Color)
 // 16 categories matching iOS (ContentView.swift:1897-1916)
 private fun categoryStyle(category: String?): CategoryStyle {
     return when (category?.lowercase()) {
-        "code"         -> CategoryStyle(Icons.Outlined.Code, Color(0xFFF09A37))
-        "writing"      -> CategoryStyle(Icons.Outlined.Description, Color(0xFF3478F6))
-        "research"     -> CategoryStyle(Icons.Outlined.Language, Color(0xFF30B0C7))
-        "analysis"     -> CategoryStyle(Icons.Outlined.BarChart, Color(0xFF5856D6))
-        "creative"     -> CategoryStyle(Icons.Outlined.Brush, Color(0xFFFF2D55))
-        "chat"         -> CategoryStyle(Icons.Outlined.Forum, Color(0xFF34C759))
-        "math"         -> CategoryStyle(Icons.Outlined.Calculate, Color(0xFF9B59B6))
-        "translation"  -> CategoryStyle(Icons.Outlined.Translate, Color(0xFF00BCD4))
-        "health"       -> CategoryStyle(Icons.Outlined.Favorite, Color(0xFFFF3B30))
+        "code"         -> CategoryStyle(Icons.Outlined.Code, Color(0xFFFF4D00))
+        "writing"      -> CategoryStyle(Icons.Outlined.Description, Color(0xFF8E8E93))
+        "research"     -> CategoryStyle(Icons.Outlined.Language, Color(0xFF8E8E93))
+        "analysis"     -> CategoryStyle(Icons.Outlined.BarChart, Color(0xFF8E8E93))
+        "creative"     -> CategoryStyle(Icons.Outlined.Brush, Color(0xFF8E8E93))
+        "chat"         -> CategoryStyle(Icons.Outlined.Forum, Color(0xFF00A665))
+        "math"         -> CategoryStyle(Icons.Outlined.Calculate, Color(0xFF8E8E93))
+        "translation"  -> CategoryStyle(Icons.Outlined.Translate, Color(0xFF8E8E93))
+        "health"       -> CategoryStyle(Icons.Outlined.Favorite, Color(0xFFDA2F35))
         "finance"      -> CategoryStyle(Icons.Outlined.Payments, Color(0xFF00C7BE))
-        "travel"       -> CategoryStyle(Icons.Outlined.Map, Color(0xFFF09A37))
-        "education"    -> CategoryStyle(Icons.Outlined.Book, Color(0xFF3478F6))
-        "design"       -> CategoryStyle(Icons.Outlined.Palette, Color(0xFFFF2D55))
+        "travel"       -> CategoryStyle(Icons.Outlined.Map, Color(0xFFFF4D00))
+        "education"    -> CategoryStyle(Icons.Outlined.Book, Color(0xFF8E8E93))
+        "design"       -> CategoryStyle(Icons.Outlined.Palette, Color(0xFF8E8E93))
         "productivity" -> CategoryStyle(Icons.Outlined.CalendarMonth, Color(0xFFFFCC00))
         "support"      -> CategoryStyle(Icons.Outlined.Settings, Color(0xFF8B6914))
         "other"        -> CategoryStyle(Icons.Outlined.GridView, Color(0xFF8E8E93))
@@ -2013,7 +2006,7 @@ private fun SessionItemContent(
                 Box(
                     modifier = Modifier
                         .matchParentSize()
-                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)),
+                        .background(MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.7f)),
                     contentAlignment = Alignment.Center,
                 ) {
                     Row(
@@ -3103,12 +3096,12 @@ private fun SessionBadgeOverlay(
                     .background(
                         // Solid system-orange. Picked over yellow so the
                         // alert reads as "attention" rather than "info".
-                        color = Color(0xFFFF9500),
+                        color = Color(0xFFFF4D00),
                         shape = CircleShape,
                     )
                     .border(
                         width = 1.5.dp,
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
                         shape = CircleShape,
                     ),
                 contentAlignment = Alignment.Center,
@@ -3144,7 +3137,7 @@ private fun OnboardingLanding(
 ) {
     val isDark = ChatColors.isDark
     val titleColor = if (isDark) Color(0xFFF8FAFC) else Color(0xFF0F172A)
-    val subtitleColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF3B82F6)
+    val subtitleColor = if (isDark) Color(0xFF94A3B8) else Color(0xFF8E8E93)
 
     Column(
         modifier = Modifier
@@ -3267,7 +3260,7 @@ private fun SetupStepCard(
         else -> Color.White
     }
     val borderColor = when {
-        isEnabled -> Color(0xFF3B82F6)
+        isEnabled -> Color(0xFF8E8E93)
         isDone -> Color(0xFF93C5FD)
         isDark -> Color(0xFF1E3A8A)
         else -> Color(0xFFDBEAFE)
@@ -3275,14 +3268,14 @@ private fun SetupStepCard(
     val borderWidth = if (isEnabled) 1.5.dp else 1.dp
     val badgeBg = when {
         isDone -> Color(0xFF1D4ED8)
-        isEnabled -> Color(0xFF2563EB)
+        isEnabled -> Color(0xFF8E8E93)
         isDark -> Color(0xFF1E3A8A)
         else -> Color(0xFFDBEAFE)
     }
     val badgeFg = when {
         isDone || isEnabled -> Color.White
         isDark -> Color(0xFF93C5FD)
-        else -> Color(0xFF2563EB)
+        else -> Color(0xFF8E8E93)
     }
     val titleColor = when {
         isDark && isEnabled -> Color(0xFFF8FAFC)
@@ -3293,7 +3286,7 @@ private fun SetupStepCard(
     }
     val subtitleColor = when {
         isDone -> if (isDark) Color(0xFF60A5FA) else Color(0xFF1D4ED8)
-        isEnabled -> if (isDark) Color(0xFF93C5FD) else Color(0xFF2563EB)
+        isEnabled -> if (isDark) Color(0xFF93C5FD) else Color(0xFF8E8E93)
         else -> if (isDark) Color(0xFF64748B) else Color(0xFF64748B)
     }
 
@@ -3377,7 +3370,7 @@ private fun SetupStepCard(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = null,
-                        tint = if (isDark) Color(0xFF93C5FD) else Color(0xFF2563EB),
+                        tint = if (isDark) Color(0xFF93C5FD) else Color(0xFF8E8E93),
                         modifier = Modifier.size(18.dp),
                     )
                 }
@@ -3590,11 +3583,7 @@ private fun exportSession(
             ).apply { addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) }
             context.startActivity(chooser)
         } catch (t: Throwable) {
-            android.widget.Toast.makeText(
-                context,
-                context.getString(R.string.export_progress_failed),
-                android.widget.Toast.LENGTH_LONG,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.export_progress_failed), long = true)
         }
     }
 }
@@ -4305,9 +4294,9 @@ private fun ProjectDeleteDialog(
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true),
     ) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
+            shape = RoundedCornerShape(24.dp),
+            color = com.openminis.app.hassn.hassn.solid,
+            tonalElevation = 0.dp,
         ) {
             Column(
                 modifier = Modifier

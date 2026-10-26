@@ -25,14 +25,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Inventory2
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material.icons.filled.Terrain
-import androidx.compose.material.icons.outlined.Javascript
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Bolt
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Inventory2
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.Terrain
+import com.openminis.app.hassn.icons.Javascript
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -98,9 +98,9 @@ enum class MirrorCategory(
 
     val iconColor: Color
         get() = when (this) {
-            ALPINE -> Color(0xFF007AFF)
-            PIP -> Color(0xFF34C759)
-            NPM -> Color(0xFFFF3B30)
+            ALPINE -> Color(0xFF8E8E93)
+            PIP -> Color(0xFF00A665)
+            NPM -> Color(0xFFDA2F35)
         }
 }
 
@@ -505,7 +505,7 @@ fun MirrorsSectionView(onNavigate: (MirrorCategory) -> Unit) {
     ListItem(
         headlineContent = { Text(if (vm.isTesting) stringResource(R.string.mirror_test_speed_testing) else stringResource(R.string.mirror_detect_fast_label)) },
         leadingContent = {
-            CircleIconBadge(icon = Icons.Filled.Bolt, tint = Color(0xFFFF9500))
+            CircleIconBadge(icon = Icons.Filled.Bolt, tint = Color(0xFFFF4D00))
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -590,9 +590,9 @@ private fun CircleIconBadge(icon: ImageVector, tint: Color) {
 @Composable
 private fun LatencyBadge(ms: Int) {
     val color = when {
-        ms < 200 -> Color(0xFF34C759)
-        ms < 500 -> Color(0xFFFF9500)
-        else -> Color(0xFFFF3B30)
+        ms < 200 -> Color(0xFF00A665)
+        ms < 500 -> Color(0xFFFF4D00)
+        else -> Color(0xFFDA2F35)
     }
     Box(
         modifier = Modifier
@@ -733,7 +733,7 @@ fun MirrorCategoryDetailScreen(
             ListItem(
                 headlineContent = { Text(if (vm.isTesting) stringResource(R.string.mirror_test_speed_testing) else stringResource(R.string.mirror_test_speed_label)) },
                 leadingContent = {
-                    CircleIconBadge(icon = Icons.Filled.Bolt, tint = Color(0xFFFF9500))
+                    CircleIconBadge(icon = Icons.Filled.Bolt, tint = Color(0xFFFF4D00))
                 },
                 modifier = Modifier
                     .fillMaxWidth()

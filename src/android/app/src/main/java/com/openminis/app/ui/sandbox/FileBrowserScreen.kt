@@ -23,39 +23,39 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Archive
-import androidx.compose.material.icons.filled.AudioFile
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.AppShortcut
-import androidx.compose.material.icons.filled.ContentCopy
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Archive
+import com.openminis.app.hassn.icons.AudioFile
+import com.openminis.app.hassn.icons.Code
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.AppShortcut
+import com.openminis.app.hassn.icons.ContentCopy
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.automirrored.filled.Sort
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material.icons.filled.CreateNewFolder
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.automirrored.filled.NoteAdd
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.Sort
+import com.openminis.app.hassn.icons.ArrowDownward
+import com.openminis.app.hassn.icons.ArrowUpward
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.PictureAsPdf
+import com.openminis.app.hassn.icons.Storage
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.VideoFile
+import com.openminis.app.hassn.icons.Visibility
+import com.openminis.app.hassn.icons.VisibilityOff
+import com.openminis.app.hassn.icons.CreateNewFolder
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.NoteAdd
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -542,11 +542,7 @@ private fun FileItemRow(
                     )
                     // Android 13+ shows its own clipboard confirmation chip;
                     // add a Toast for < 13 and as explicit feedback.
-                    android.widget.Toast.makeText(
-                        context,
-                        context.getString(R.string.filebrowser_copy_abs_path_toast),
-                        android.widget.Toast.LENGTH_SHORT,
-                    ).show()
+                    com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.filebrowser_copy_abs_path_toast), long = false)
                 },
             )
             DropdownMenuItem(

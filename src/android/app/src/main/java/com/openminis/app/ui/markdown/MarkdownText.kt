@@ -26,14 +26,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Audiotrack
+import com.openminis.app.hassn.icons.Audiotrack
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.PlayCircleFilled
-import androidx.compose.material.icons.filled.Videocam
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.Pause
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.PlayCircleFilled
+import com.openminis.app.hassn.icons.Videocam
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -273,7 +273,7 @@ private fun BlockquoteView(
     // blockquote uses the app systemOrange (0xFFFF9500) at full opacity.
     // The previous primary @ 0.5 alpha disappeared into theme purple on the
     // dark palette and didn't read as a quote at all in some compositions.
-    val barColor = Color(0xFFFF9500)
+    val barColor = Color(0xFFFF4D00)
     Box(
         modifier = Modifier
             .fillMaxWidth()

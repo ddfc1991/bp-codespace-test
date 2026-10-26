@@ -20,9 +20,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Check
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Check
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,6 +51,8 @@ import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.hassn.HassnIcon
 import com.openminis.app.hassn.HassnIcons
 import com.openminis.app.hassn.hassn
+import com.openminis.app.hassn.harkGlass
+import com.openminis.app.hassn.HarkBlur
 import com.openminis.app.ui.components.pressScaleEffect
 import com.openminis.app.ui.theme.UiCraftTokens
 
@@ -201,18 +203,17 @@ fun SettingsSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 24.dp),
+            .padding(top = 12.dp), // [Hassn] Hark 12dp between group cards
     ) {
         if (header != null) {
             Text(
                 text = header,
-                fontSize = 13.sp,
-                color = if (hassn.dark) hassn.text3 else Color(0xFF3A404B),
-                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.labelMedium,
+                color = hassn.text2,
                 // [T-android-settings-ui-md3] #5 header→card gap = 8dp (was 6dp,
                 // off-grid). Horizontal stays 32dp to align the header text with
                 // the inset card's content.
-                modifier = Modifier.padding(start = 32.dp, end = 32.dp, bottom = 8.dp),
+                modifier = Modifier.padding(start = 36.dp, end = 36.dp, top = 8.dp, bottom = 8.dp),
             )
         }
         // [T-android-settings-section-symmetry] The card carries NO vertical
@@ -230,20 +231,19 @@ fun SettingsSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(26.dp))
-                .background(hassn.card),
+                .harkGlass(RoundedCornerShape(24.dp), hassn.card, HarkBlur.Card),
             content = content,
         )
         if (footer != null) {
             Text(
                 text = footer,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = hassn.text2,
                 // [T-android-settings-ui-md3] #6 explanatory footer: 8dp below the
                 // card, 4dp before the next section (the parent's 24dp top padding
                 // already provides separation, so keep the footer's own bottom
                 // tight at 4dp).
-                modifier = Modifier.padding(start = 32.dp, end = 32.dp, top = 8.dp, bottom = 4.dp),
+                modifier = Modifier.padding(start = 36.dp, end = 36.dp, top = 8.dp, bottom = 4.dp),
                 lineHeight = 16.sp,
             )
         }
@@ -290,7 +290,7 @@ fun SettingsRow(
                             .clickable(onClick = onClick)
                     } else Modifier
                 )
-                .padding(horizontal = 18.dp, vertical = 12.dp),
+                .padding(horizontal = 20.dp, vertical = if (subtitle == null) 18.dp else 14.dp), // [Hassn] Hark 20/18
             // #10 keep the trailing control (Switch/value) vertically centered
             // against the title — already centered, kept explicit.
             verticalAlignment = Alignment.CenterVertically,
@@ -301,9 +301,9 @@ fun SettingsRow(
                     imageVector = icon,
                     contentDescription = null,
                     tint = hassn.text,
-                    modifier = Modifier.size(21.dp),
+                    modifier = Modifier.size(20.dp), // [Hassn] Material-sized vector ≈ Hark 16dp glyph
                 )
-                Spacer(Modifier.width(13.dp))
+                Spacer(Modifier.width(12.dp))
             }
 
             Column(
@@ -312,7 +312,7 @@ fun SettingsRow(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = titleColor,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -320,8 +320,8 @@ fun SettingsRow(
                 if (subtitle != null) {
                     Text(
                         text = subtitle,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = hassn.text2,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -329,23 +329,23 @@ fun SettingsRow(
             }
 
             if (trailing != null) {
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(12.dp))
                 trailing()
             }
 
             if (showChevron) {
-                Spacer(Modifier.width(4.dp))
-                HassnIcon("chev", 15.dp, tint = hassn.text, stroke = 2f)
+                Spacer(Modifier.width(12.dp))
+                HassnIcon("chev", 16.dp, tint = hassn.text)
             }
         }
 
         if (showDivider) {
-            val insetStart = 18.dp
+            val insetStart = 20.dp
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = insetStart, end = 18.dp)
-                    .height(1.dp)
+                    .padding(start = 20.dp, end = 20.dp)
+                    .height(hairline())
                     .background(hassn.divider),
             )
         }
@@ -406,7 +406,7 @@ fun SettingsValueRow(
         trailing = {
             Text(
                 value,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = valueColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -432,7 +432,7 @@ fun SettingsChoiceRow(
                 // choice/radio rows line up with toggle/value rows in mixed lists.
                 .heightIn(min = 56.dp)
                 .clickable(onClick = onSelect)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(horizontal = 20.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (leading != null) {
@@ -441,20 +441,20 @@ fun SettingsChoiceRow(
             }
             Text(
                 title,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.titleMedium,
+                color = hassn.text,
                 modifier = Modifier.weight(1f),
             )
             if (selected) {
-                HassnIcon("check", 20.dp, tint = hassn.text, stroke = 2.2f)
+                HassnIcon("check", 16.dp, tint = hassn.text)
             }
         }
         if (showDivider) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 18.dp, end = 18.dp)
-                    .height(1.dp)
+                    .padding(start = 20.dp, end = 20.dp)
+                    .height(hairline())
                     .background(hassn.divider),
             )
         }
@@ -472,8 +472,13 @@ fun SettingsCardBlock(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 20.dp, vertical = 14.dp)
             .fillMaxWidth(),
         content = content,
     )
 }
+
+
+/** 1 physical pixel, Hark's hairline divider. */
+@Composable
+private fun hairline(): Dp = with(androidx.compose.ui.platform.LocalDensity.current) { 1f.toDp() }

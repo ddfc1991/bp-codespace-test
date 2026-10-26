@@ -182,7 +182,7 @@ fun SystemPromptSettingsScreen(onBack: () -> Unit) {
                         stringResource(R.string.sysprompt_count, length, SystemPromptStore.BODY_CHAR_LIMIT)
                     },
                     fontSize = 12.sp,
-                    color = if (overLimit) Color(0xFFFF3B30) else MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = if (overLimit) Color(0xFFDA2F35) else MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(Modifier.height(10.dp))
                 MinisOutlinedButton(

@@ -216,7 +216,7 @@ class ShareReceiverActivity : ComponentActivity() {
     }
 
     private fun toast(msg: String) {
-        android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show()
+        com.openminis.app.hassn.HassnToast.show(this, msg, long = false)
     }
 
     private fun handleSingleSend(intent: Intent, out: MutableList<PendingShare.Item>) {

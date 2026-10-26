@@ -18,9 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.FolderShared
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.FolderShared
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -191,7 +191,7 @@ fun MountDetailScreen(
             Spacer(Modifier.height(20.dp))
             ActionRow(
                 icon = Icons.Outlined.Folder,
-                tint = Color(0xFF007AFF),
+                tint = Color(0xFF8E8E93),
                 label = stringResource(R.string.mount_detail_browse_files),
                 onClick = onBrowseFiles,
             )
@@ -252,7 +252,7 @@ private fun HeaderCard(entry: MountedFoldersStore.Entry) {
                 modifier = Modifier
                     .size(36.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color(0xFFFF9500)),
+                    .background(Color(0xFFFF4D00)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(

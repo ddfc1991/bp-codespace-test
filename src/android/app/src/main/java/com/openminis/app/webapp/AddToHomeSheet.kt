@@ -31,16 +31,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AppShortcut
-import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.Insights
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.SportsEsports
-import androidx.compose.material.icons.filled.VideoLibrary
-import androidx.compose.material.icons.filled.Web
+import com.openminis.app.hassn.icons.AppShortcut
+import com.openminis.app.hassn.icons.Apps
+import com.openminis.app.hassn.icons.Book
+import com.openminis.app.hassn.icons.Insights
+import com.openminis.app.hassn.icons.MusicNote
+import com.openminis.app.hassn.icons.PhotoLibrary
+import com.openminis.app.hassn.icons.Public
+import com.openminis.app.hassn.icons.SportsEsports
+import com.openminis.app.hassn.icons.VideoLibrary
+import com.openminis.app.hassn.icons.Web
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -404,11 +404,7 @@ fun AddToHomeSheet(
                             }
                             val ok = ShortcutPinner.pin(context, entity, iconBitmap)
                             if (ok) {
-                                Toast.makeText(
-                                    context,
-                                    R.string.webapp_pin_success,
-                                    Toast.LENGTH_SHORT,
-                                ).show()
+                                com.openminis.app.hassn.HassnToast.show(context, R.string.webapp_pin_success, long = false)
                             }
                             onDismiss()
                         }
@@ -440,7 +436,7 @@ private fun IconOption(
                 color = borderColor,
                 shape = RoundedCornerShape(10.dp),
             )
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest, RoundedCornerShape(10.dp))
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {

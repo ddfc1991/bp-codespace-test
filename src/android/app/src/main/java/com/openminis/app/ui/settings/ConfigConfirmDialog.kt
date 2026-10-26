@@ -15,8 +15,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Warning
+import com.openminis.app.hassn.icons.ArrowForward
+import com.openminis.app.hassn.icons.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -192,7 +192,7 @@ private fun ConfirmRow(item: PendingConfigChangeItem, onToggle: (Boolean) -> Uni
             )
             ConfigRisk.SENSITIVE -> RiskHint(
                 text = "Reversible, but worth a quick look.",
-                color = Color(0xFFE65100),
+                color = Color(0xFFFF4D00),
             )
             else -> Unit
         }
@@ -206,7 +206,7 @@ private fun VerbBadge(verb: String) {
         "add", "create" -> Color(0xFF388E3C)
         "hide" -> MaterialTheme.colorScheme.outline
         "show" -> Color(0xFF1976D2)
-        "revert" -> Color(0xFF8E5CD9)
+        "revert" -> Color(0xFF8E8E93)
         else -> MaterialTheme.colorScheme.primary
     }
     Box(
@@ -242,6 +242,6 @@ private fun RiskHint(text: String, color: Color) {
 @Composable
 private fun riskColor(risk: ConfigRisk): Color = when (risk) {
     ConfigRisk.DESTRUCTIVE -> MaterialTheme.colorScheme.error
-    ConfigRisk.SENSITIVE -> Color(0xFFE65100)
+    ConfigRisk.SENSITIVE -> Color(0xFFFF4D00)
     ConfigRisk.NORMAL -> MaterialTheme.colorScheme.onSurface
 }

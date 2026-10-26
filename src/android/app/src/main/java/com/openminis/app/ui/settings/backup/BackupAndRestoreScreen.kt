@@ -20,35 +20,35 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Sync
-import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material.icons.outlined.Cloud
-import androidx.compose.material.icons.outlined.CloudDownload
-import androidx.compose.material.icons.outlined.CloudUpload
-import androidx.compose.material.icons.outlined.Stop
-import androidx.compose.material.icons.outlined.SwapVert
-import androidx.compose.material.icons.outlined.Storage
-import androidx.compose.material.icons.outlined.Dns
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Extension
-import androidx.compose.material.icons.outlined.FolderZip
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Forum
-import androidx.compose.material.icons.outlined.Layers
-import androidx.compose.material.icons.outlined.Link
-import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Psychology
-import androidx.compose.material.icons.outlined.RecordVoiceOver
-import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material.icons.outlined.UnfoldMore
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ErrorOutline
+import com.openminis.app.hassn.icons.Sync
+import com.openminis.app.hassn.icons.Warning
+import com.openminis.app.hassn.icons.Cloud
+import com.openminis.app.hassn.icons.CloudDownload
+import com.openminis.app.hassn.icons.CloudUpload
+import com.openminis.app.hassn.icons.Stop
+import com.openminis.app.hassn.icons.SwapVert
+import com.openminis.app.hassn.icons.Storage
+import com.openminis.app.hassn.icons.Dns
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Extension
+import com.openminis.app.hassn.icons.FolderZip
+import com.openminis.app.hassn.icons.History
+import com.openminis.app.hassn.icons.Forum
+import com.openminis.app.hassn.icons.Layers
+import com.openminis.app.hassn.icons.Link
+import com.openminis.app.hassn.icons.Lock
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.RecordVoiceOver
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.UnfoldMore
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -320,7 +320,7 @@ private fun BackupTab(
         CategorySwitchRow(
             title = stringResource(R.string.backup_encrypt_backup),
             icon = Icons.Outlined.Lock,
-            iconColor = Color(0xFF34C759),
+            iconColor = Color(0xFF00A665),
             checked = encrypt,
             onCheckedChange = { vm.setEncrypt(it) },
             enabled = !running,
@@ -561,9 +561,9 @@ private fun BackupHistoryRow(
 ) {
     val (icon, tint) = when (record.status) {
         BackupHistory.Status.RUNNING -> Icons.Outlined.Sync to Color(0xFF8E8E93)
-        BackupHistory.Status.SUCCEEDED -> Icons.Outlined.CheckCircle to Color(0xFF34C759)
-        BackupHistory.Status.COMPLETED_WITH_ISSUES -> Icons.Outlined.Warning to Color(0xFFFF9500)
-        BackupHistory.Status.FAILED -> Icons.Outlined.ErrorOutline to Color(0xFFFF3B30)
+        BackupHistory.Status.SUCCEEDED -> Icons.Outlined.CheckCircle to Color(0xFF00A665)
+        BackupHistory.Status.COMPLETED_WITH_ISSUES -> Icons.Outlined.Warning to Color(0xFFFF4D00)
+        BackupHistory.Status.FAILED -> Icons.Outlined.ErrorOutline to Color(0xFFDA2F35)
     }
     Column {
         Row(
@@ -794,7 +794,7 @@ private fun RestoreTab(
                 destinations.forEachIndexed { i, r ->
                     RestoreSourceRow(
                         icon = Icons.Outlined.Cloud,
-                        iconColor = Color(0xFFAF52DE),
+                        iconColor = Color(0xFF8E8E93),
                         label = r.name,
                         subtitle = stringResource(
                             R.string.backup_dest_row_subtitle,
@@ -821,7 +821,7 @@ private fun RestoreTab(
             // folder support is untouched — only this duplicate entry is gone.
             RestoreSourceRow(
                 icon = Icons.Outlined.Description,
-                iconColor = Color(0xFF007AFF),
+                iconColor = Color(0xFF8E8E93),
                 label = if (running) status ?: stringResource(R.string.backup_reading)
                 else stringResource(R.string.backup_choose_file),
                 enabled = !running,
@@ -830,7 +830,7 @@ private fun RestoreTab(
             )
             RestoreSourceRow(
                 icon = Icons.Outlined.Cloud,
-                iconColor = Color(0xFFAF52DE),
+                iconColor = Color(0xFF8E8E93),
                 label = stringResource(R.string.backup_choose_server),
                 enabled = !running,
                 // [T-android-restore-server-list] ALWAYS the same destination:
@@ -1134,7 +1134,7 @@ private fun DestinationsSection(
         // knew what either did.
         RestoreSourceRow(
             icon = Icons.Outlined.Add,
-            iconColor = Color(0xFF34C759),
+            iconColor = Color(0xFF00A665),
             label = stringResource(R.string.backup_manage_destinations),
             enabled = enabled,
             onClick = onManage,
@@ -1181,7 +1181,7 @@ private fun DestinationRow(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                modifier = Modifier.size(30.dp).background(Color(0xFF007AFF), CircleShape),
+                modifier = Modifier.size(30.dp).background(Color(0xFF8E8E93), CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(icon, contentDescription = null, tint = Color.White, modifier = Modifier.size(17.dp))
@@ -1257,7 +1257,7 @@ private fun ResultDestinationRow(
             Icon(
                 if (outcome.succeeded) Icons.Outlined.CheckCircle else Icons.Outlined.Warning,
                 contentDescription = null,
-                tint = if (outcome.succeeded) Color(0xFF34C759) else Color(0xFFFF9500),
+                tint = if (outcome.succeeded) Color(0xFF00A665) else Color(0xFFFF4D00),
                 modifier = Modifier.size(20.dp),
             )
             Spacer(Modifier.width(10.dp))
@@ -1536,14 +1536,14 @@ private fun categoryIcon(cat: BackupCategory): ImageVector = when (cat) {
 
 /** Tint per category, mirroring iOS BackupCategoryIcon.tint(for:). */
 private fun categoryTint(cat: BackupCategory): Color = when (cat) {
-    BackupCategory.CHATS -> Color(0xFF007AFF)                 // blue
-    BackupCategory.SHARED_FILES -> Color(0xFF5856D6)         // indigo
-    BackupCategory.SKILLS -> Color(0xFFFF9500)              // orange
-    BackupCategory.MEMORY -> Color(0xFFFF2D55)             // pink
-    BackupCategory.PROVIDERS -> Color(0xFF30B0C7)         // teal
-    BackupCategory.MCP_SERVERS -> Color(0xFF32ADE6)      // cyan
+    BackupCategory.CHATS -> Color(0xFF8E8E93)                 // blue
+    BackupCategory.SHARED_FILES -> Color(0xFF8E8E93)         // indigo
+    BackupCategory.SKILLS -> Color(0xFFFF4D00)              // orange
+    BackupCategory.MEMORY -> Color(0xFF8E8E93)             // pink
+    BackupCategory.PROVIDERS -> Color(0xFF8E8E93)         // teal
+    BackupCategory.MCP_SERVERS -> Color(0xFF8E8E93)      // cyan
     BackupCategory.ENVIRONMENT_VARIABLES -> Color(0xFFA2845E) // brown
-    BackupCategory.VOICE_CORRECTIONS -> Color(0xFFAF52DE) // purple
+    BackupCategory.VOICE_CORRECTIONS -> Color(0xFF8E8E93) // purple
 }
 
 /**

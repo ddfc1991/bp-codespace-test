@@ -12,15 +12,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CreateNewFolder
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.NorthWest
+import com.openminis.app.hassn.icons.CreateNewFolder
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.NorthWest
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -212,7 +212,7 @@ internal fun AddServerForm(
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(backendExpanded) },
                 modifier = Modifier.fillMaxWidth().menuAnchor(),
             )
-            ExposedDropdownMenu(
+            ExposedDropdownMenu(shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp), containerColor = com.openminis.app.hassn.hassn.solid, tonalElevation = 0.dp, shadowElevation = 20.dp, 
                 expanded = backendExpanded,
                 onDismissRequest = { backendExpanded = false },
             ) {

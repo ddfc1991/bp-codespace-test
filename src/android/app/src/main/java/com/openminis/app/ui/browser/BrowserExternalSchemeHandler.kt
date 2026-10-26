@@ -181,11 +181,7 @@ object BrowserExternalSchemeHandler {
                 // never asked for, and would destroy the agent's browsing
                 // context. Swallow it.
                 AppLogger.info(TAG, "blocked unknown scheme: $scheme (uri=$uri, origin=$origin)")
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.external_link_blocked, scheme),
-                    Toast.LENGTH_SHORT,
-                ).show()
+                com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.external_link_blocked, scheme), long = false)
                 true
             }
         }
@@ -230,11 +226,7 @@ object BrowserExternalSchemeHandler {
             }
         }
 
-        Toast.makeText(
-            context,
-            context.getString(R.string.external_link_no_app),
-            Toast.LENGTH_SHORT,
-        ).show()
+        com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.external_link_no_app), long = false)
         return true
     }
 
@@ -245,11 +237,7 @@ object BrowserExternalSchemeHandler {
         try {
             context.startActivity(intent)
         } catch (_: ActivityNotFoundException) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.external_link_no_app),
-                Toast.LENGTH_SHORT,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.external_link_no_app), long = false)
         } catch (e: Exception) {
             AppLogger.warning(TAG, "ACTION_VIEW failed for $uri: ${e.message}")
         }

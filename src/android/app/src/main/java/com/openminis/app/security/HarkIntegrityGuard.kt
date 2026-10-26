@@ -166,7 +166,7 @@ object HarkIntegrityGuard {
         try {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
             cm?.setPrimaryClip(ClipData.newPlainText("Hassn", text))
-            Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, toastMessage, long = false)
         } catch (ignored: Exception) {
         }
     }

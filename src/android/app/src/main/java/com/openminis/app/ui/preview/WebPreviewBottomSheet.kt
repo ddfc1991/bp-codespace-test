@@ -26,16 +26,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddToHomeScreen
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DesktopWindows
-import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.Fullscreen
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.OpenInBrowser
-import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Stop
+import com.openminis.app.hassn.icons.AddToHomeScreen
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.DesktopWindows
+import com.openminis.app.hassn.icons.ExpandMore
+import com.openminis.app.hassn.icons.Fullscreen
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.OpenInBrowser
+import com.openminis.app.hassn.icons.PhoneAndroid
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Stop
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -162,7 +162,7 @@ fun WebPreviewBottomSheet(
         },
         sheetState = sheetState,
         dragHandle = null,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         // Sheet is full-height so the scrim region above the sheet collapses
         // to nothing — avoids the grey scrim band above the sheet top.
         // Zero content insets so the sheet's surface paints all the way under
@@ -308,7 +308,7 @@ internal fun WebPreviewToolbar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .let { if (topInsetPadding) it.windowInsetsPadding(WindowInsets.statusBars) else it }
             .padding(start = 4.dp, end = 4.dp, top = 6.dp, bottom = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -358,7 +358,7 @@ internal fun WebPreviewToolbar(
                 expanded = menuOpen,
                 onDismissRequest = { menuOpen = false },
             ) {
-                androidx.compose.material3.DropdownMenuItem(
+                com.openminis.app.ui.components.HarkDropdownMenuItem(
                     text = { Text(stringResource(R.string.webpreview_open_external)) },
                     leadingIcon = {
                         Icon(Icons.Default.OpenInBrowser, contentDescription = null)
@@ -368,7 +368,7 @@ internal fun WebPreviewToolbar(
                         onOpenExternal()
                     },
                 )
-                androidx.compose.material3.DropdownMenuItem(
+                com.openminis.app.ui.components.HarkDropdownMenuItem(
                     text = { Text(stringResource(R.string.webpreview_reload)) },
                     leadingIcon = {
                         Icon(Icons.Default.Refresh, contentDescription = null)
@@ -378,7 +378,7 @@ internal fun WebPreviewToolbar(
                         onReload()
                     },
                 )
-                androidx.compose.material3.DropdownMenuItem(
+                com.openminis.app.ui.components.HarkDropdownMenuItem(
                     text = {
                         Text(
                             if (desktopMode) stringResource(R.string.webpreview_mobile_site)
@@ -398,7 +398,7 @@ internal fun WebPreviewToolbar(
                     },
                 )
                 if (onExpand != null) {
-                    androidx.compose.material3.DropdownMenuItem(
+                    com.openminis.app.ui.components.HarkDropdownMenuItem(
                         text = { Text(stringResource(R.string.webpreview_open_fullscreen)) },
                         leadingIcon = {
                             Icon(Icons.Default.Fullscreen, contentDescription = null)
@@ -410,7 +410,7 @@ internal fun WebPreviewToolbar(
                     )
                 }
                 if (onPinToHome != null) {
-                    androidx.compose.material3.DropdownMenuItem(
+                    com.openminis.app.ui.components.HarkDropdownMenuItem(
                         text = { Text(stringResource(R.string.webpreview_pin_to_home)) },
                         leadingIcon = {
                             Icon(Icons.Default.AddToHomeScreen, contentDescription = null)

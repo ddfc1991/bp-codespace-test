@@ -31,29 +31,29 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.filled.Sort
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.IosShare
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Inventory2
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.ChatBubble
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.Language
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Sort
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.ArrowDownward
+import com.openminis.app.hassn.icons.ArrowUpward
+import com.openminis.app.hassn.icons.Check
+import com.openminis.app.hassn.icons.IosShare
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.Error
+import com.openminis.app.hassn.icons.Inventory2
+import com.openminis.app.hassn.icons.Link
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.ChatBubble
+import com.openminis.app.hassn.icons.Description
+import com.openminis.app.hassn.icons.Language
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -656,11 +656,7 @@ fun SkillDetailScreen(
                                 }
                                 isExporting = false
                                 if (zip == null) {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.skill_export_failed),
-                                        Toast.LENGTH_SHORT,
-                                    ).show()
+                                    com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.skill_export_failed), long = false)
                                 } else {
                                     shareSkillZip(context, zip)
                                 }
@@ -792,9 +788,9 @@ fun SkillDetailScreen(
                     is UpdateStatus.Done -> {
                         DetailDivider()
                         DetailRow {
-                            Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF34C759), modifier = Modifier.size(16.dp))
+                            Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF00A665), modifier = Modifier.size(16.dp))
                             Spacer(Modifier.width(10.dp))
-                            Text(stringResource(R.string.skill_detail_updated), style = MaterialTheme.typography.bodySmall, color = Color(0xFF34C759))
+                            Text(stringResource(R.string.skill_detail_updated), style = MaterialTheme.typography.bodySmall, color = Color(0xFF00A665))
                         }
                     }
                     is UpdateStatus.Failed -> {
@@ -1001,7 +997,7 @@ private fun shareSkillZip(context: android.content.Context, zip: java.io.File) {
             context, "${context.packageName}.fileprovider", zip,
         )
     } catch (t: Throwable) {
-        Toast.makeText(context, context.getString(R.string.skill_export_failed), Toast.LENGTH_SHORT).show()
+        com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.skill_export_failed), long = false)
         return
     }
     val sendIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
@@ -1015,15 +1011,15 @@ private fun shareSkillZip(context: android.content.Context, zip: java.io.File) {
         context.getString(R.string.skill_export_share),
     ).apply { addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK) }
     runCatching { context.startActivity(chooser) }.onFailure {
-        Toast.makeText(context, context.getString(R.string.skill_export_failed), Toast.LENGTH_SHORT).show()
+        com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.skill_export_failed), long = false)
     }
 }
 
 /** [T-android-skill-icon-circular] The same iOS-system-palette values the main
  *  Settings rows use (SettingsScreen): blue for navigational/remote actions,
  *  green for local filesystem operations. */
-private val SettingsIconBlue = Color(0xFF007AFF)
-private val SettingsIconGreen = Color(0xFF34C759)
+private val SettingsIconBlue = Color(0xFF8E8E93)
+private val SettingsIconGreen = Color(0xFF00A665)
 
 /**
  * [T-android-skill-icon-circular] A colored circular badge with a white glyph

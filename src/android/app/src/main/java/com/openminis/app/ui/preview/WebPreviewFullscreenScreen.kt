@@ -20,12 +20,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.FullscreenExit
-import androidx.compose.material.icons.outlined.MoreHoriz
-import androidx.compose.material.icons.outlined.OpenInBrowser
-import androidx.compose.material.icons.outlined.Refresh
-import androidx.compose.material.icons.outlined.Stop
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.FullscreenExit
+import com.openminis.app.hassn.icons.MoreHoriz
+import com.openminis.app.hassn.icons.OpenInBrowser
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Stop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -289,7 +289,7 @@ private fun FloatingMenuButton(
             alignEnd = true,
         ) {
             if (onCollapse != null) {
-                androidx.compose.material3.DropdownMenuItem(
+                com.openminis.app.ui.components.HarkDropdownMenuItem(
                     text = { androidx.compose.material3.Text(stringResource(R.string.webapp_action_exit_fullscreen)) },
                     leadingIcon = {
                         Icon(Icons.Outlined.FullscreenExit, contentDescription = null)
@@ -301,7 +301,7 @@ private fun FloatingMenuButton(
                 )
             }
             if (isLoading) {
-                androidx.compose.material3.DropdownMenuItem(
+                com.openminis.app.ui.components.HarkDropdownMenuItem(
                     text = { androidx.compose.material3.Text(stringResource(R.string.webpreview_stop)) },
                     leadingIcon = {
                         Icon(Icons.Outlined.Stop, contentDescription = null)
@@ -312,7 +312,7 @@ private fun FloatingMenuButton(
                     },
                 )
             } else {
-                androidx.compose.material3.DropdownMenuItem(
+                com.openminis.app.ui.components.HarkDropdownMenuItem(
                     text = { androidx.compose.material3.Text(stringResource(R.string.webpreview_reload)) },
                     leadingIcon = {
                         Icon(Icons.Outlined.Refresh, contentDescription = null)
@@ -323,7 +323,7 @@ private fun FloatingMenuButton(
                     },
                 )
             }
-            androidx.compose.material3.DropdownMenuItem(
+            com.openminis.app.ui.components.HarkDropdownMenuItem(
                 text = { androidx.compose.material3.Text(stringResource(R.string.webpreview_open_external)) },
                 leadingIcon = {
                     Icon(Icons.Outlined.OpenInBrowser, contentDescription = null)
@@ -334,7 +334,7 @@ private fun FloatingMenuButton(
                 },
             )
             com.openminis.app.ui.components.MinisMenuDivider()
-            androidx.compose.material3.DropdownMenuItem(
+            com.openminis.app.ui.components.HarkDropdownMenuItem(
                 text = {
                     androidx.compose.material3.Text(
                         stringResource(R.string.webpreview_close),

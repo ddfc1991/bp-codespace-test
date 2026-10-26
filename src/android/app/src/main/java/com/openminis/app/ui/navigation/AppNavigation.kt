@@ -878,11 +878,7 @@ fun AppNavigation(
                         // resolvedHostPath null = SAF tree from a non-externalstorage
                         // provider (cloud / Drive). Picker normally rejects these at
                         // add time, so this is a defensive fallback.
-                        android.widget.Toast.makeText(
-                            context,
-                            "Mount path unavailable",
-                            android.widget.Toast.LENGTH_SHORT,
-                        ).show()
+                        com.openminis.app.hassn.HassnToast.show(context, "Mount path unavailable", long = false)
                     }
                 },
             )

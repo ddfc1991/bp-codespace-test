@@ -21,9 +21,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.Delete
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -322,11 +322,7 @@ fun MemoryFileEditScreen(
                         try {
                             memoryRepository.saveFile(fileName, content)
                             saveError = null
-                            android.widget.Toast.makeText(
-                                context,
-                                savedToastText,
-                                android.widget.Toast.LENGTH_SHORT,
-                            ).show()
+                            com.openminis.app.hassn.HassnToast.show(context, savedToastText, long = false)
                         } catch (e: Exception) {
                             saveError = e.message
                         }

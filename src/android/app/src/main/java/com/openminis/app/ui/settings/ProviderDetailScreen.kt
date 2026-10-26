@@ -18,27 +18,27 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.AddPhotoAlternate
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.IosShare
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.MovieCreation
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material.icons.filled.VolumeUp
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.VisibilityOff
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.AddPhotoAlternate
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.IosShare
+import com.openminis.app.hassn.icons.Mic
+import com.openminis.app.hassn.icons.MovieCreation
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.Videocam
+import com.openminis.app.hassn.icons.VolumeUp
+import com.openminis.app.hassn.icons.Visibility
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.VisibilityOff
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -833,7 +833,7 @@ private fun OAuthCredentialBlock(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .size(8.dp)
-                    .background(Color(0xFF34C759), CircleShape),
+                    .background(Color(0xFF00A665), CircleShape),
             )
         } else {
             Spacer(modifier = Modifier.weight(1f))
@@ -1112,7 +1112,7 @@ private fun ManualBearerTokenSection(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .size(8.dp)
-                    .background(Color(0xFF34C759), CircleShape),
+                    .background(Color(0xFF00A665), CircleShape),
             )
         }
         Row(modifier = Modifier.padding(top = 8.dp)) {

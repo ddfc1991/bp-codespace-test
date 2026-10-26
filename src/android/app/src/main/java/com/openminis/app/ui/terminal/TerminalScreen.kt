@@ -25,18 +25,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.filled.KeyboardTab
-import androidx.compose.material.icons.filled.Brush
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Eject
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.KeyboardHide
-import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.outlined.Keyboard
-import androidx.compose.material.icons.outlined.PauseCircle
+import com.openminis.app.hassn.icons.KeyboardArrowLeft
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.KeyboardTab
+import com.openminis.app.hassn.icons.Brush
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.Eject
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
+import com.openminis.app.hassn.icons.KeyboardHide
+import com.openminis.app.hassn.icons.Cancel
+import com.openminis.app.hassn.icons.Keyboard
+import com.openminis.app.hassn.icons.PauseCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalConfiguration
@@ -71,10 +71,10 @@ import kotlinx.coroutines.launch
 // iOS-matched palette
 private val TerminalBg = Color(0xFF000000)
 private val TerminalFg = Color(0xFFD4D4D4)
-private val TerminalGreen = Color(0xFF34C759)
+private val TerminalGreen = Color(0xFF00A665)
 private val AccessoryBg = Color(0xFF1F1F1F)
 private val AccButtonBg = Color(0xFF404040)
-private val AccButtonActive = Color(0xFF007AFF)
+private val AccButtonActive = Color(0xFF8E8E93)
 private val TopButtonBg = Color(0xFF2C2C2E)
 
 @Composable

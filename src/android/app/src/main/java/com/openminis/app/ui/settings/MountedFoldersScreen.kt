@@ -27,10 +27,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.FolderShared
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.FolderShared
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -144,11 +144,7 @@ fun MountedFoldersScreen(
         // cloud providers (Drive, Dropbox, OneDrive) with a clear toast —
         // the spec defers Option B mirror-copy to a follow-up.
         if (uri.authority != "com.android.externalstorage.documents") {
-            Toast.makeText(
-                context,
-                context.getString(R.string.mount_only_on_device_supported),
-                Toast.LENGTH_LONG,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.mount_only_on_device_supported), long = true)
             return@rememberLauncherForActivityResult
         }
         if (!SafMountHelper.handlePickerResult(context, uri)) {
@@ -290,7 +286,7 @@ fun MountedFoldersScreen(
                         item {
                             Text(
                                 text = stringResource(R.string.mount_folders_limit_reached),
-                                color = Color(0xFFFF9500),
+                                color = Color(0xFFFF4D00),
                                 style = MaterialTheme.typography.bodySmall,
                                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                             )
@@ -508,7 +504,7 @@ private fun ListHeader(count: Int, atCapacity: Boolean) {
         Text(
             text = "$count / ${MountedFoldersStore.MAX_MOUNTS}",
             style = MaterialTheme.typography.labelSmall,
-            color = if (atCapacity) Color(0xFFFF9500) else MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (atCapacity) Color(0xFFFF4D00) else MaterialTheme.colorScheme.onSurfaceVariant,
             fontFamily = FontFamily.Monospace,
         )
     }
@@ -529,7 +525,7 @@ private fun MountRow(
         Icon(
             imageVector = Icons.Outlined.Folder,
             contentDescription = null,
-            tint = Color(0xFF007AFF),
+            tint = Color(0xFF8E8E93),
             modifier = Modifier.size(28.dp),
         )
         Spacer(Modifier.width(12.dp))
@@ -577,9 +573,9 @@ private fun MountRow(
 @Composable
 private fun AccessBadge(entry: MountedFoldersStore.Entry) {
     val (text, color) = when {
-        !entry.isWritable -> stringResource(R.string.mount_badge_readonly) to Color(0xFFFF9500)
-        !entry.userAllowWrite -> stringResource(R.string.mount_badge_locked) to Color(0xFFAF52DE)
-        else -> stringResource(R.string.mount_badge_rw) to Color(0xFF34C759)
+        !entry.isWritable -> stringResource(R.string.mount_badge_readonly) to Color(0xFFFF4D00)
+        !entry.userAllowWrite -> stringResource(R.string.mount_badge_locked) to Color(0xFF8E8E93)
+        else -> stringResource(R.string.mount_badge_rw) to Color(0xFF00A665)
     }
     Surface(
         shape = RoundedCornerShape(8.dp),

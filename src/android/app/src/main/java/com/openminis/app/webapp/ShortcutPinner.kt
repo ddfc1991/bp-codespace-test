@@ -24,7 +24,7 @@ object ShortcutPinner {
         iconBitmap: Bitmap?,
     ): Boolean {
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-            Toast.makeText(context, R.string.webapp_pin_unsupported, Toast.LENGTH_LONG).show()
+            com.openminis.app.hassn.HassnToast.show(context, R.string.webapp_pin_unsupported, long = true)
             return false
         }
 
@@ -53,7 +53,7 @@ object ShortcutPinner {
         return runCatching {
             ShortcutManagerCompat.requestPinShortcut(context, info, null)
         }.getOrElse {
-            Toast.makeText(context, R.string.webapp_pin_failed, Toast.LENGTH_LONG).show()
+            com.openminis.app.hassn.HassnToast.show(context, R.string.webapp_pin_failed, long = true)
             false
         }
     }

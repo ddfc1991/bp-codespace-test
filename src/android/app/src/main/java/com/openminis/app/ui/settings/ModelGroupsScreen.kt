@@ -25,22 +25,22 @@ import sh.calvin.reorderable.ReorderableLazyListState
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.Article
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddPhotoAlternate
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DragHandle
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Layers
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.MovieCreation
-import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material.icons.filled.VolumeUp
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Article
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.AddPhotoAlternate
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.DragHandle
+import com.openminis.app.hassn.icons.Image
+import com.openminis.app.hassn.icons.Layers
+import com.openminis.app.hassn.icons.Mic
+import com.openminis.app.hassn.icons.MovieCreation
+import com.openminis.app.hassn.icons.Videocam
+import com.openminis.app.hassn.icons.VolumeUp
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -75,8 +75,8 @@ import com.openminis.app.data.repository.ProviderRepository
 import com.openminis.app.R
 import com.openminis.app.ui.components.MinisOutlinedButton
 import com.openminis.app.ui.components.MinisTextButton
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Delete
+import com.openminis.app.hassn.icons.Edit
+import com.openminis.app.hassn.icons.Delete
 import com.openminis.app.ui.components.SwipeRowAction
 import com.openminis.app.ui.components.SwipeRowActions
 import com.openminis.app.ui.components.SectionCard
@@ -504,7 +504,7 @@ private fun GroupDropdown(
                 .menuAnchor(MenuAnchorType.PrimaryNotEditable)
                 .fillMaxWidth(),
         )
-        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+        ExposedDropdownMenu(shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp), containerColor = com.openminis.app.hassn.hassn.solid, tonalElevation = 0.dp, shadowElevation = 20.dp, expanded = expanded, onDismissRequest = { expanded = false }) {
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.model_groups_none)) },
                 onClick = {

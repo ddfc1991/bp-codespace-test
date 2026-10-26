@@ -19,9 +19,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.Inventory2
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.Inventory2
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -270,7 +270,7 @@ private fun EntryRow(
         ) {
             Box(
                 Modifier.size(30.dp).background(
-                    if (entry.isDirectory) Color(0xFF8E8E93) else Color(0xFF007AFF),
+                    if (entry.isDirectory) Color(0xFF8E8E93) else Color(0xFF8E8E93),
                     CircleShape,
                 ),
                 contentAlignment = Alignment.Center,

@@ -22,21 +22,21 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.AltRoute
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.Diamond
-import androidx.compose.material.icons.filled.FlashOn
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Key
-import androidx.compose.material.icons.outlined.GraphicEq
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.KeyboardArrowRight
+import com.openminis.app.hassn.icons.AltRoute
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Cloud
+import com.openminis.app.hassn.icons.Diamond
+import com.openminis.app.hassn.icons.FlashOn
+import com.openminis.app.hassn.icons.Hub
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.Key
+import com.openminis.app.hassn.icons.GraphicEq
+import com.openminis.app.hassn.icons.Person
+import com.openminis.app.hassn.icons.Visibility
+import com.openminis.app.hassn.icons.VisibilityOff
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -190,17 +190,17 @@ private val providerDisplayOrder = listOf(
 
 /** Icon and color per provider type, matching iOS SF Symbols. */
 private fun providerIcon(type: ProviderType): Pair<ImageVector, Color> = when (type) {
-    ProviderType.openAI -> Icons.Default.Hub to Color(0xFF4CAF50)           // green
-    ProviderType.anthropic -> Icons.Default.AutoAwesome to Color(0xFFAB47BC) // purple
-    ProviderType.gemini -> Icons.Default.Diamond to Color(0xFF42A5F5)        // blue
-    ProviderType.openRouter -> Icons.Default.AltRoute to Color(0xFF00BCD4)    // cyan
-    ProviderType.xAI -> Icons.Default.FlashOn to Color(0xFFFF7043)           // orange — Grok visual cue
+    ProviderType.openAI -> Icons.Default.Hub to Color(0xFF00A665)           // green
+    ProviderType.anthropic -> Icons.Default.AutoAwesome to Color(0xFF8E8E93) // purple
+    ProviderType.gemini -> Icons.Default.Diamond to Color(0xFF8E8E93)        // blue
+    ProviderType.openRouter -> Icons.Default.AltRoute to Color(0xFF8E8E93)    // cyan
+    ProviderType.xAI -> Icons.Default.FlashOn to Color(0xFFFF4D00)           // orange — Grok visual cue
     // [T-kimi-oauth] Indigo — matches iOS's Kimi accent.
-    ProviderType.kimiCode -> Icons.Default.Terminal to Color(0xFF5C6BC0)
+    ProviderType.kimiCode -> Icons.Default.Terminal to Color(0xFF8E8E93)
     // [T-android-provider-type-parity] Types that arrive only from an iOS
     // package / newer build; never offered in addableProviderTypes, but the
     // icon helper is also used to render an already-restored instance.
-    ProviderType.openAIResponses -> Icons.Default.Hub to Color(0xFF4CAF50)
+    ProviderType.openAIResponses -> Icons.Default.Hub to Color(0xFF00A665)
     ProviderType.antigravity,
     ProviderType.unsupported -> Icons.Default.Cloud to Color(0xFF9E9E9E)
 }
@@ -725,7 +725,7 @@ private fun ColumnScope.OAuthConfigSection(
                     Icon(
                         Icons.Default.CheckCircle,
                         contentDescription = null,
-                        tint = Color(0xFF34C759),
+                        tint = Color(0xFF00A665),
                         modifier = Modifier.size(20.dp),
                     )
                     Spacer(Modifier.width(8.dp))

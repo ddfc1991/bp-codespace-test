@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.OpenInBrowser
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.ContentCopy
+import com.openminis.app.hassn.icons.OpenInBrowser
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -100,7 +100,7 @@ fun KimiDeviceLoginDialog(
                             if (copied) Icons.Default.CheckCircle else Icons.Default.ContentCopy,
                             contentDescription = stringResource(R.string.kimi_login_copy_code),
                             tint = if (copied) {
-                                androidx.compose.ui.graphics.Color(0xFF34C759)
+                                androidx.compose.ui.graphics.Color(0xFF00A665)
                             } else {
                                 MaterialTheme.colorScheme.onSurfaceVariant
                             },

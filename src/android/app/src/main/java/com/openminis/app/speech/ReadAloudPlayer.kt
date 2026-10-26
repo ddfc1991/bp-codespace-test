@@ -372,11 +372,7 @@ class ReadAloudPlayer(context: Context) {
         if (unavailableNotified) return
         unavailableNotified = true
         // The worker runs on Dispatchers.Main.immediate, so Toast is safe here.
-        Toast.makeText(
-            appContext,
-            appContext.getString(R.string.read_aloud_unavailable),
-            Toast.LENGTH_LONG,
-        ).show()
+        com.openminis.app.hassn.HassnToast.show(appContext, appContext.getString(R.string.read_aloud_unavailable), long = true)
     }
 
     /** @return true when provider audio was synthesized AND played. */

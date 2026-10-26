@@ -27,16 +27,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Article
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.SdStorage
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Warning
+import com.openminis.app.hassn.icons.Article
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.Refresh
+import com.openminis.app.hassn.icons.SdStorage
+import com.openminis.app.hassn.icons.Stop
+import com.openminis.app.hassn.icons.Terminal
+import com.openminis.app.hassn.icons.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -114,11 +114,11 @@ fun SandboxMonitorSheet(
     ) { result ->
         val uri = result.data?.data ?: return@rememberLauncherForActivityResult
         if (uri.authority != "com.android.externalstorage.documents") {
-            Toast.makeText(context, "请在文件管理器左侧栏选择「本设备/内部存储」下的文件夹", Toast.LENGTH_LONG).show()
+            com.openminis.app.hassn.HassnToast.show(context, "请在文件管理器左侧栏选择「本设备/内部存储」下的文件夹", long = true)
             return@rememberLauncherForActivityResult
         }
         if (!SafMountHelper.handlePickerResult(context, uri)) {
-            Toast.makeText(context, "未能获取该目录的读写授权", Toast.LENGTH_SHORT).show()
+            com.openminis.app.hassn.HassnToast.show(context, "未能获取该目录的读写授权", long = false)
             return@rememberLauncherForActivityResult
         }
 
@@ -141,10 +141,10 @@ fun SandboxMonitorSheet(
 
             val entry = storeInstance.add(uri, candidateName, userAllowWrite = true)
             if (entry != null) {
-                Toast.makeText(context, "已成功挂载至 /var/hark/mounts/${entry.name}", Toast.LENGTH_LONG).show()
+                com.openminis.app.hassn.HassnToast.show(context, "已成功挂载至 /var/hark/mounts/${entry.name}", long = true)
                 onRefresh()
             } else {
-                Toast.makeText(context, "挂载失败：该目录不支持直接映射或已达挂载上限", Toast.LENGTH_SHORT).show()
+                com.openminis.app.hassn.HassnToast.show(context, "挂载失败：该目录不支持直接映射或已达挂载上限", long = false)
             }
         }
     }
@@ -244,9 +244,9 @@ fun SandboxMonitorSheet(
             }
             val pressureColor = when (metrics.memoryPressure) {
                 MemoryPressure.NORMAL -> Color(0xFF10B981)
-                MemoryPressure.MODERATE -> Color(0xFF3B82F6)
-                MemoryPressure.HIGH -> Color(0xFFF59E0B)
-                MemoryPressure.CRITICAL -> Color(0xFFEF4444)
+                MemoryPressure.MODERATE -> Color(0xFF8E8E93)
+                MemoryPressure.HIGH -> Color(0xFFFF4D00)
+                MemoryPressure.CRITICAL -> Color(0xFFDA2F35)
             }
 
             Surface(
@@ -560,7 +560,7 @@ fun SandboxMonitorSheet(
                                     onClick = {
                                         scope.launch {
                                             store?.remove(entry.id)
-                                            Toast.makeText(context, "已解除挂载: ${entry.name}", Toast.LENGTH_SHORT).show()
+                                            com.openminis.app.hassn.HassnToast.show(context, "已解除挂载: ${entry.name}", long = false)
                                             onRefresh()
                                         }
                                     },
@@ -643,7 +643,7 @@ fun SandboxMonitorSheet(
                                     val success = SandboxDaemonSupervisor.stopService(srv.name)
                                     isOperating = false
                                     if (success) {
-                                        Toast.makeText(context, "服务已停止", Toast.LENGTH_SHORT).show()
+                                        com.openminis.app.hassn.HassnToast.show(context, "服务已停止", long = false)
                                         onRefresh()
                                     }
                                 }
@@ -715,7 +715,7 @@ fun SandboxMonitorSheet(
                 Button(
                     onClick = {
                         onEmergencyResetShell()
-                        Toast.makeText(context, "Shell 已急救重置并就绪", Toast.LENGTH_SHORT).show()
+                        com.openminis.app.hassn.HassnToast.show(context, "Shell 已急救重置并就绪", long = false)
                         onRefresh()
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.85f)),
@@ -734,7 +734,7 @@ fun SandboxMonitorSheet(
                     onClick = {
                         scope.launch {
                             val count = onReapOrphans()
-                            Toast.makeText(context, "已清理 $count 个挂起孤儿进程", Toast.LENGTH_SHORT).show()
+                            com.openminis.app.hassn.HassnToast.show(context, "已清理 $count 个挂起孤儿进程", long = false)
                             onRefresh()
                         }
                     },
@@ -793,7 +793,7 @@ private fun DaemonServiceItemCard(
             Box(
                 modifier = Modifier
                     .size(8.dp)
-                    .background(Color(0xFF34C759), CircleShape)
+                    .background(Color(0xFF00A665), CircleShape)
             )
 
             Spacer(modifier = Modifier.width(10.dp))

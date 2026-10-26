@@ -16,9 +16,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.RadioButtonUnchecked
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -284,7 +284,7 @@ fun AddAgentLoopGroupsScreen(
                                 Icon(
                                     if (isSelected) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
                                     contentDescription = null,
-                                    tint = if (isSelected) Color(0xFF007AFF)
+                                    tint = if (isSelected) Color(0xFF8E8E93)
                                     else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
                                     modifier = Modifier.size(20.dp),
                                 )

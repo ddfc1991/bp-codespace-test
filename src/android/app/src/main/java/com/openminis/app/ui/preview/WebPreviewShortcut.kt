@@ -37,11 +37,7 @@ object WebPreviewShortcut {
             return
         }
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-            android.widget.Toast.makeText(
-                context,
-                context.getString(R.string.webpreview_pin_to_home_unsupported),
-                android.widget.Toast.LENGTH_SHORT,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.webpreview_pin_to_home_unsupported), long = false)
             return
         }
 
@@ -90,11 +86,7 @@ object WebPreviewShortcut {
         val ok = ShortcutManagerCompat.requestPinShortcut(context, info, null)
         AppLogger.info(TAG, "pin shortcut id=$shortcutId requested=$ok")
         if (ok) {
-            android.widget.Toast.makeText(
-                context,
-                context.getString(R.string.webpreview_pin_to_home_requested),
-                android.widget.Toast.LENGTH_SHORT,
-            ).show()
+            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.webpreview_pin_to_home_requested), long = false)
         }
     }
 

@@ -14,11 +14,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.ErrorOutline
-import androidx.compose.material.icons.filled.OpenInNew
+import com.openminis.app.hassn.icons.Cancel
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Download
+import com.openminis.app.hassn.icons.ErrorOutline
+import com.openminis.app.hassn.icons.OpenInNew
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -133,7 +133,7 @@ private fun DownloadRow(
             BrowserTabPool.DownloadState.DOWNLOADING ->
                 Icons.Default.Download to MaterialTheme.colorScheme.primary
             BrowserTabPool.DownloadState.COMPLETED ->
-                Icons.Default.CheckCircle to androidx.compose.ui.graphics.Color(0xFF34C759)
+                Icons.Default.CheckCircle to androidx.compose.ui.graphics.Color(0xFF00A665)
             BrowserTabPool.DownloadState.FAILED ->
                 Icons.Default.ErrorOutline to MaterialTheme.colorScheme.error
         }

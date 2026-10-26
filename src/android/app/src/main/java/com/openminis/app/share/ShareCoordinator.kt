@@ -200,11 +200,7 @@ object ShareCoordinator {
         runCatching {
             android.os.Handler(android.os.Looper.getMainLooper()).post {
                 runCatching {
-                    android.widget.Toast.makeText(
-                        context.applicationContext,
-                        context.getString(com.openminis.app.R.string.share_expired_toast),
-                        android.widget.Toast.LENGTH_LONG,
-                    ).show()
+                    com.openminis.app.hassn.HassnToast.show(context.applicationContext, context.getString(com.openminis.app.R.string.share_expired_toast), long = true)
                 }
             }
         }

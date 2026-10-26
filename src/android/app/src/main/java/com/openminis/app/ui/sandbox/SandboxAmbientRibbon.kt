@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Terminal
+import com.openminis.app.hassn.icons.Terminal
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -48,7 +48,7 @@ fun SandboxAmbientRibbon(
 ) {
     val isDark = ChatColors.isDark
     val cardBg = if (isDark) Color(0xFF131D2E).copy(alpha = 0.92f) else Color(0xFFF3F8FF)
-    val cardBorder = if (isDark) Color(0xFF3B82F6).copy(alpha = 0.35f) else Color(0xFF2563EB).copy(alpha = 0.28f)
+    val cardBorder = if (isDark) Color(0xFF8E8E93).copy(alpha = 0.35f) else Color(0xFF8E8E93).copy(alpha = 0.28f)
     val blueAccent = if (isDark) Color(0xFF60A5FA) else Color(0xFF0066EE)
     val textColor = if (isDark) Color(0xFFE2E8F0) else Color(0xFF1E293B)
 
@@ -136,7 +136,7 @@ fun SandboxAmbientRibbon(
                     fontFamily = FontFamily.Monospace,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Normal,
-                    color = if (metrics.memoryPressure >= MemoryPressure.HIGH) Color(0xFFF59E0B) else ChatColors.secondaryText
+                    color = if (metrics.memoryPressure >= MemoryPressure.HIGH) Color(0xFFFF4D00) else ChatColors.secondaryText
                 )
             )
 
@@ -174,7 +174,7 @@ fun SandboxAmbientRibbon(
                 Box(
                     modifier = Modifier
                         .size(5.dp)
-                        .background(Color(0xFFEF4444), CircleShape)
+                        .background(Color(0xFFDA2F35), CircleShape)
                 )
             }
         }

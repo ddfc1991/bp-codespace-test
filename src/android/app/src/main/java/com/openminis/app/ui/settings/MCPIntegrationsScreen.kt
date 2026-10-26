@@ -15,13 +15,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import com.openminis.app.hassn.icons.Add
+import com.openminis.app.hassn.icons.KeyboardArrowDown
+import com.openminis.app.hassn.icons.KeyboardArrowUp
 import kotlinx.coroutines.launch
-import androidx.compose.material.icons.outlined.Extension
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Terminal
+import com.openminis.app.hassn.icons.Extension
+import com.openminis.app.hassn.icons.Language
+import com.openminis.app.hassn.icons.Terminal
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -541,11 +541,7 @@ private fun MCPFormTab(
                                         when (result) {
                                             is com.openminis.app.mcp.oauth.MCPOAuthController.Result.Success -> {
                                                 oauthAuthorized = true
-                                                android.widget.Toast.makeText(
-                                                    context,
-                                                    context.getString(R.string.mcp_form_oauth_authorized),
-                                                    android.widget.Toast.LENGTH_SHORT,
-                                                ).show()
+                                                com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.mcp_form_oauth_authorized), long = false)
                                             }
                                             is com.openminis.app.mcp.oauth.MCPOAuthController.Result.Cancelled -> {}
                                             is com.openminis.app.mcp.oauth.MCPOAuthController.Result.Failed -> {
@@ -699,9 +695,7 @@ private fun MCPFormTab(
             MinisTextButton(onClick = {
                 val server = buildServerFromForm() ?: return@MinisTextButton
                 clipboard.setText(androidx.compose.ui.text.AnnotatedString(mcpRepository.exportServerJSON(server)))
-                android.widget.Toast.makeText(
-                    context, context.getString(R.string.mcp_export_copied), android.widget.Toast.LENGTH_SHORT,
-                ).show()
+                com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.mcp_export_copied), long = false)
             }) { Text(stringResource(R.string.mcp_export_copy)) }
             MinisTextButton(onClick = {
                 val server = buildServerFromForm() ?: return@MinisTextButton

@@ -15,10 +15,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.Psychology
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.Psychology
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -157,9 +157,9 @@ private fun SharedFolderRow(
 @Composable
 private fun AccessBadge(writable: Boolean) {
     val (textRes, color) = if (writable) {
-        R.string.mount_badge_rw to Color(0xFF34C759)
+        R.string.mount_badge_rw to Color(0xFF00A665)
     } else {
-        R.string.mount_badge_readonly to Color(0xFFFF9500)
+        R.string.mount_badge_readonly to Color(0xFFFF4D00)
     }
     Surface(
         shape = RoundedCornerShape(8.dp),
@@ -192,7 +192,7 @@ internal object SharedFolderRegistry {
             linuxPath = "/var/hark/shared",
             writable = true,
             icon = Icons.Outlined.Folder,
-            iconColor = Color(0xFF007AFF),
+            iconColor = Color(0xFF8E8E93),
         ),
         SharedFolderEntry(
             id = "skills",
@@ -200,7 +200,7 @@ internal object SharedFolderRegistry {
             linuxPath = "/var/hark/skills",
             writable = false,
             icon = Icons.Outlined.AutoAwesome,
-            iconColor = Color(0xFFAF52DE),
+            iconColor = Color(0xFF8E8E93),
         ),
         SharedFolderEntry(
             id = "memory",
@@ -208,7 +208,7 @@ internal object SharedFolderRegistry {
             linuxPath = "/var/hark/memory",
             writable = false,
             icon = Icons.Outlined.Psychology,
-            iconColor = Color(0xFFFF2D55),
+            iconColor = Color(0xFF8E8E93),
         ),
     )
 

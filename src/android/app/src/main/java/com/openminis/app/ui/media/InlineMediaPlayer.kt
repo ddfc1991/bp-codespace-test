@@ -31,11 +31,11 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Stop
+import com.openminis.app.hassn.icons.Close
+import com.openminis.app.hassn.icons.Pause
+import com.openminis.app.hassn.icons.PlayArrow
+import com.openminis.app.hassn.icons.Share
+import com.openminis.app.hassn.icons.Stop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator

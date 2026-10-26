@@ -23,11 +23,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Edit
+import com.openminis.app.hassn.icons.AutoAwesome
+import com.openminis.app.hassn.icons.Edit
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -365,7 +365,7 @@ fun SoulSettingsScreen(onBack: () -> Unit) {
                 Spacer(Modifier.height(6.dp))
                 val isOverLimit = bodyLimitCheck.isOverLimit
                 val warnColor: Color =
-                    if (isOverLimit) Color(0xFFFF3B30)
+                    if (isOverLimit) Color(0xFFDA2F35)
                     else MaterialTheme.colorScheme.onSurfaceVariant
                 val indicatorText: String = when (val c = bodyLimitCheck) {
                     is SoulBodyLimitCheck.Ok -> {

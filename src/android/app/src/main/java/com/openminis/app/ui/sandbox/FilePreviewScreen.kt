@@ -44,12 +44,12 @@ import androidx.compose.foundation.overscroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.filled.Android
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Print
-import androidx.compose.material.icons.filled.Share
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.InsertDriveFile
+import com.openminis.app.hassn.icons.Android
+import com.openminis.app.hassn.icons.Download
+import com.openminis.app.hassn.icons.Print
+import com.openminis.app.hassn.icons.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -132,11 +132,7 @@ fun FilePreviewScreen(
                 false
             }
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    context,
-                    context.getString(if (ok) R.string.file_saved_toast else R.string.file_save_failed_toast),
-                    Toast.LENGTH_SHORT,
-                ).show()
+                com.openminis.app.hassn.HassnToast.show(context, context.getString(if (ok) R.string.file_saved_toast else R.string.file_save_failed_toast), long = false)
             }
         }
     }
@@ -205,11 +201,7 @@ fun FilePreviewScreen(
                         IconButton(onClick = {
                             scope.launch {
                                 val ok = saveImageToGallery(context, item.file)
-                                Toast.makeText(
-                                    context,
-                                    context.getString(if (ok) R.string.image_saved_to_album_toast else R.string.image_save_failed_toast),
-                                    Toast.LENGTH_SHORT,
-                                ).show()
+                                com.openminis.app.hassn.HassnToast.show(context, context.getString(if (ok) R.string.image_saved_to_album_toast else R.string.image_save_failed_toast), long = false)
                             }
                         }) {
                             Icon(Icons.Default.Download, contentDescription = stringResource(R.string.filepreview_save_to_gallery))
@@ -1104,7 +1096,7 @@ private fun openExternally(context: Context, item: FileItem, mime: String) {
         context.startActivity(Intent.createChooser(intent, "Open with…"))
     } catch (e: Exception) {
         AppLogger.warning("FilePreview", "openExternally failed: ${e.message}")
-        Toast.makeText(context, "No app available to open this file.", Toast.LENGTH_SHORT).show()
+        com.openminis.app.hassn.HassnToast.show(context, "No app available to open this file.", long = false)
     }
 }
 
@@ -1214,7 +1206,7 @@ private fun shareFile(context: Context, item: FileItem) {
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.file_share_chooser_title)))
     } catch (e: Exception) {
         AppLogger.warning("FilePreview", "share failed for ${item.name}: ${e.message}")
-        Toast.makeText(context, context.getString(R.string.file_share_failed_toast, e.message ?: ""), Toast.LENGTH_SHORT).show()
+        com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.file_share_failed_toast, e.message ?: ""), long = false)
     }
 }
 
@@ -1273,7 +1265,7 @@ private fun printFile(context: Context, item: FileItem) {
         holder = webView
     } catch (e: Exception) {
         AppLogger.warning("FilePreview", "print failed for ${item.name}: ${e.message}")
-        Toast.makeText(context, context.getString(R.string.file_print_failed_toast, e.message ?: ""), Toast.LENGTH_SHORT).show()
+        com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.file_print_failed_toast, e.message ?: ""), long = false)
     }
 }
 

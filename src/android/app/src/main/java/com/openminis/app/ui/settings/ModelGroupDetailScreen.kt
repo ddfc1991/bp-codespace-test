@@ -15,17 +15,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.DragHandle
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Warning
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.Delete
+import com.openminis.app.hassn.icons.DragHandle
+import com.openminis.app.hassn.icons.Memory
+import com.openminis.app.hassn.icons.MoreVert
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.MinisMenu as DropdownMenu
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -420,7 +420,7 @@ fun ModelGroupDetailScreen(
                             )
                         },
                         icon = Icons.Default.Psychology,
-                        iconColor = Color(0xFFAF52DE),
+                        iconColor = Color(0xFF8E8E93),
                         showDivider = reasoningEnabled,
                     )
                     if (reasoningEnabled) {
@@ -535,7 +535,7 @@ fun ModelGroupDetailScreen(
                             }
                         },
                         icon = Icons.Default.Memory,
-                        iconColor = Color(0xFF5856D6),
+                        iconColor = Color(0xFF8E8E93),
                         showDivider = contextEnabled,
                     )
                     if (contextEnabled) {

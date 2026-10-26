@@ -12,15 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.DeleteSweep
-import androidx.compose.material.icons.outlined.RecordVoiceOver
-import androidx.compose.material.icons.outlined.Accessibility
-import androidx.compose.material.icons.outlined.BatteryAlert
-import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.LockOpen
-import androidx.compose.material.icons.outlined.RestartAlt
+import com.openminis.app.hassn.icons.ArrowBack
+import com.openminis.app.hassn.icons.DeleteSweep
+import com.openminis.app.hassn.icons.RecordVoiceOver
+import com.openminis.app.hassn.icons.Accessibility
+import com.openminis.app.hassn.icons.BatteryAlert
+import com.openminis.app.hassn.icons.Build
+import com.openminis.app.hassn.icons.Info
+import com.openminis.app.hassn.icons.LockOpen
+import com.openminis.app.hassn.icons.RestartAlt
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -132,7 +132,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
             ) {
                 SettingsRow(
                     icon = Icons.Outlined.Accessibility,
-                    iconColor = Color(0xFF34C759),
+                    iconColor = Color(0xFF00A665),
                     title = stringResource(R.string.system_permissions_a11y_row),
                     subtitle = if (a11yEnabled)
                         stringResource(R.string.system_permissions_a11y_enabled)
@@ -164,7 +164,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
                     if (shizukuReady) {
                         SettingsRow(
                             icon = Icons.Outlined.LockOpen,
-                            iconColor = Color(0xFF34C759),
+                            iconColor = Color(0xFF00A665),
                             title = stringResource(R.string.system_permissions_a11y_restricted_shizuku),
                             subtitle = when {
                                 unrestricting ->
@@ -190,7 +190,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
                     }
                     SettingsRow(
                         icon = Icons.Outlined.Info,
-                        iconColor = Color(0xFFFF9500),
+                        iconColor = Color(0xFFFF4D00),
                         title = stringResource(R.string.system_permissions_a11y_restricted_manual),
                         subtitle = stringResource(R.string.system_permissions_a11y_restricted_manual_sub),
                         // Lands on Minis' own App info page, where the
@@ -222,7 +222,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
                 ) {
                     SettingsRow(
                         icon = Icons.Outlined.Build,
-                        iconColor = Color(0xFFFF3B30),
+                        iconColor = Color(0xFFDA2F35),
                         title = stringResource(
                             if (shizukuReady) R.string.a11y_repair_row_shizuku
                             else R.string.a11y_repair_row_manual
@@ -271,7 +271,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
                 ) {
                     SettingsRow(
                         icon = Icons.Outlined.RestartAlt,
-                        iconColor = Color(0xFFFF9500),
+                        iconColor = Color(0xFFFF4D00),
                         title = stringResource(R.string.system_permissions_a11y_oem_autostart),
                         subtitle = stringResource(R.string.system_permissions_a11y_oem_autostart_sub),
                         onClick = {
@@ -282,7 +282,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
                     )
                     SettingsRow(
                         icon = Icons.Outlined.BatteryAlert,
-                        iconColor = Color(0xFFFF9500),
+                        iconColor = Color(0xFFFF4D00),
                         title = stringResource(R.string.system_permissions_a11y_oem_battery),
                         subtitle = stringResource(R.string.system_permissions_a11y_oem_battery_sub),
                         onClick = {
@@ -342,11 +342,7 @@ fun SystemPermissionsScreen(onBack: () -> Unit) {
                             showClearCorrectionConfirm = false
                             com.openminis.app.speech.correction.VoiceCorrection
                                 .clearAllData(context)
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.voice_correction_cleared),
-                                Toast.LENGTH_SHORT,
-                            ).show()
+                            com.openminis.app.hassn.HassnToast.show(context, context.getString(R.string.voice_correction_cleared), long = false)
                         }) {
                             Text(
                                 stringResource(R.string.voice_correction_clear),

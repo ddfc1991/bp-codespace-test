@@ -29,23 +29,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.KeyboardReturn
-import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.BrightnessAuto
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.FormatSize
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Keyboard
-import androidx.compose.material.icons.outlined.Launch
-import androidx.compose.material.icons.outlined.Psychology
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.ScreenLockPortrait
-import androidx.compose.material.icons.outlined.Visibility
+import com.openminis.app.hassn.icons.KeyboardReturn
+import com.openminis.app.hassn.icons.Send
+import com.openminis.app.hassn.icons.CheckCircle
+import com.openminis.app.hassn.icons.Bolt
+import com.openminis.app.hassn.icons.BrightnessAuto
+import com.openminis.app.hassn.icons.ChatBubbleOutline
+import com.openminis.app.hassn.icons.Folder
+import com.openminis.app.hassn.icons.DarkMode
+import com.openminis.app.hassn.icons.FormatSize
+import com.openminis.app.hassn.icons.History
+import com.openminis.app.hassn.icons.Home
+import com.openminis.app.hassn.icons.Keyboard
+import com.openminis.app.hassn.icons.Launch
+import com.openminis.app.hassn.icons.Psychology
+import com.openminis.app.hassn.icons.LightMode
+import com.openminis.app.hassn.icons.ScreenLockPortrait
+import com.openminis.app.hassn.icons.Visibility
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -271,10 +271,10 @@ fun AppearanceScreen(
 
     val fontsModified = chatInputLevel != 0 || messageLevel != 0 || appBaseLevel != 0
 
-    val tilePurple = Color(0xFF5856D6)
-    val tileBlue = Color(0xFF007AFF)
-    val tileOrange = Color(0xFFFF9500)
-    val tileGreen = Color(0xFF34C759)
+    val tilePurple = Color(0xFF8E8E93)
+    val tileBlue = Color(0xFF8E8E93)
+    val tileOrange = Color(0xFFFF4D00)
+    val tileGreen = Color(0xFF00A665)
     val tileTeal = Color(0xFF5AC8FA)
 
     SettingsScaffold(title = stringResource(R.string.appearance_title), onBack = onBack) {

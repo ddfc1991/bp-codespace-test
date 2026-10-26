@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Accessibility
-import androidx.compose.material.icons.outlined.Shield
+import com.openminis.app.hassn.icons.Accessibility
+import com.openminis.app.hassn.icons.Shield
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenuItem
+import com.openminis.app.ui.components.HarkDropdownMenuItem as DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -125,7 +125,7 @@ fun OffloadPermissionScreen(
         // deeplink back to the OS settings page that fixes it.
         IntegrationSection(
             iconVector = Icons.Outlined.Accessibility,
-            iconTint = Color(0xFF34C759),
+            iconTint = Color(0xFF00A665),
             sectionHeaderRes = R.string.perm_section_a11y,
             sectionFooterRes = R.string.perm_a11y_section_footer,
             toolName = "a11y_cli",
@@ -198,7 +198,7 @@ fun OffloadPermissionScreen(
 
         IntegrationSection(
             iconVector = Icons.Outlined.Shield,
-            iconTint = Color(0xFFAF52DE),
+            iconTint = Color(0xFF8E8E93),
             // [T-android-privileged-backend] One section covers both Shizuku
             // and AXManager (they share the same binder slot + protocol);
             // toolName stays "shizuku_cli" so user authz is preserved.
