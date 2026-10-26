@@ -90,11 +90,11 @@ fun HassnGatewayScreen(onBack: () -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.hassn_gateway_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.settings_back))
                     }
                 },
             )

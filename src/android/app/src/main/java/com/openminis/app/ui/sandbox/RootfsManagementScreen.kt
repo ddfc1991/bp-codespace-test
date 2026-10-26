@@ -1,5 +1,6 @@
 package com.openminis.app.ui.sandbox
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.R
 import com.openminis.app.ui.components.MinisTextButton
 
@@ -80,11 +81,11 @@ fun RootfsManagementScreen(
     val groupedBg = MaterialTheme.colorScheme.surfaceContainerLowest
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.rootfs_management_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = groupedBg),

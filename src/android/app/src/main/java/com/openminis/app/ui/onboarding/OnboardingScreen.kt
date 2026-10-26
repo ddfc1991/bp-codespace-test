@@ -73,8 +73,7 @@ fun OnboardingScreen(
 private fun WelcomeStep(onNext: () -> Unit) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -84,8 +83,8 @@ private fun WelcomeStep(onNext: () -> Unit) {
             Box(
                 modifier = Modifier
                     .size(88.dp)
-                    .clip(RoundedCornerShape(22.dp))
-                    .background(androidx.compose.ui.graphics.Color.White)
+                    .clip(RoundedCornerShape(26.dp))
+                    .background(com.openminis.app.hassn.hassn.card)
                     .padding(4.dp),
                 contentAlignment = Alignment.Center,
             ) {
@@ -107,7 +106,7 @@ private fun WelcomeStep(onNext: () -> Unit) {
                 stringResource(R.string.onboarding_welcome_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary,
+                color = com.openminis.app.hassn.hassn.text2,
             )
             Spacer(Modifier.height(48.dp))
             MinisButton(onClick = onNext, modifier = Modifier.fillMaxWidth(0.6f)) {
@@ -147,31 +146,14 @@ private fun ApiKeyStep(
             )
             Spacer(Modifier.height(24.dp))
 
-            // Provider type selector
-            Row(
+            // Provider type selector — [Hassn] glass segmented control
+            val types = listOf(ProviderType.anthropic, ProviderType.gemini, ProviderType.openAI, ProviderType.openRouter)
+            com.openminis.app.hassn.HassnTabs(
+                labels = types.map { it.displayName },
+                selected = types.indexOf(selectedType),
+                onSelect = { i -> selectedType = types[i]; apiKey = ""; saved = false },
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                for (type in listOf(ProviderType.anthropic, ProviderType.gemini, ProviderType.openAI, ProviderType.openRouter)) {
-                    val isSelected = type == selectedType
-                    Card(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable { selectedType = type; apiKey = ""; saved = false },
-                    ) {
-                        Text(
-                            type.displayName,
-                            modifier = Modifier.padding(8.dp),
-                            fontSize = 12.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            color = if (isSelected) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurface,
-                            textAlign = TextAlign.Center,
-                            maxLines = 1,
-                        )
-                    }
-                }
-            }
+            )
 
             Spacer(Modifier.height(16.dp))
 
@@ -286,63 +268,55 @@ private fun ModelSelectionStep(
             ) {
                 for ((instanceId, entries) in grouped) {
                     val instance = config.instances.find { it.id == instanceId }
-                    item {
-                        Text(
+                    item(key = "h_$instanceId") {
+                        com.openminis.app.hassn.HassnGroupHeader(
                             instance?.label ?: instanceId,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(vertical = 8.dp),
+                            Modifier.padding(top = 12.dp),
                         )
                     }
-                    items(entries, key = { it.id }) { entry ->
-                        val isSelected = entry.id in selected
-                        val selectionIndex = selected.indexOf(entry.id)
-                        val canSelect = selected.size < 3 || isSelected
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable(enabled = canSelect) {
-                                    if (isSelected) selected.remove(entry.id)
-                                    else if (selected.size < 3) selected.add(entry.id)
-                                }
-                                .padding(vertical = 8.dp, horizontal = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            if (isSelected) {
-                                Box(
+                    item(key = "c_$instanceId") {
+                        com.openminis.app.hassn.GlassCard {
+                            entries.forEachIndexed { idx, entry ->
+                                if (idx > 0) com.openminis.app.hassn.HassnDivider()
+                                val isSelected = entry.id in selected
+                                val selectionIndex = selected.indexOf(entry.id)
+                                val canSelect = selected.size < 3 || isSelected
+                                Row(
                                     modifier = Modifier
-                                        .size(24.dp)
-                                        .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.primary),
-                                    contentAlignment = Alignment.Center,
+                                        .fillMaxWidth()
+                                        .clickable(enabled = canSelect) {
+                                            if (isSelected) selected.remove(entry.id)
+                                            else if (selected.size < 3) selected.add(entry.id)
+                                        }
+                                        .padding(vertical = 10.dp, horizontal = 18.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Text(
-                                        "${selectionIndex + 1}",
-                                        color = MaterialTheme.colorScheme.onPrimary,
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Bold,
-                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .clip(CircleShape)
+                                            .background(if (isSelected) com.openminis.app.hassn.hassn.ink else com.openminis.app.hassn.hassn.soft),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        if (isSelected) Text(
+                                            "${selectionIndex + 1}",
+                                            color = com.openminis.app.hassn.hassn.onInk,
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                    }
+                                    Spacer(Modifier.width(12.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(entry.model.displayName, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+                                        Text(
+                                            entry.model.id,
+                                            fontSize = 12.5.sp,
+                                            color = com.openminis.app.hassn.hassn.text2,
+                                        )
+                                    }
                                 }
-                            } else {
-                                Box(
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.surfaceVariant),
-                                )
-                            }
-                            Spacer(Modifier.width(12.dp))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(entry.model.displayName, style = MaterialTheme.typography.bodyMedium)
-                                Text(
-                                    entry.model.id,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
                             }
                         }
-                        HorizontalDivider()
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.openminis.app.ui.settings
 
+import com.openminis.app.hassn.HassnAppBar
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -140,11 +141,11 @@ fun ModelGroupDetailScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(group.name, fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.model_group_detail_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.model_group_detail_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

@@ -1,5 +1,6 @@
 package com.openminis.app.ui.settings
 
+import com.openminis.app.hassn.HassnAppBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -159,11 +160,11 @@ fun ModelGroupsScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.model_groups_model_groups)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.model_group_detail_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.model_group_detail_back))
                     }
                 },
                 actions = {

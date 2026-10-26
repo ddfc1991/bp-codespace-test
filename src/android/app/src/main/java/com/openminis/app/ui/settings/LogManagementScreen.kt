@@ -1,5 +1,6 @@
 package com.openminis.app.ui.settings
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.R
 import com.openminis.app.ui.components.MinisTextButton
 
@@ -445,11 +446,11 @@ fun LogDetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(fileName) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 actions = {

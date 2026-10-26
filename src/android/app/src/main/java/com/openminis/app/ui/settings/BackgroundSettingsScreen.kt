@@ -1,5 +1,6 @@
 package com.openminis.app.ui.settings
 
+import com.openminis.app.hassn.HassnAppBar
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -133,11 +134,11 @@ fun BackgroundSettingsScreen(onBack: () -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.bg_section_header)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = null)
                     }
                 },
             )

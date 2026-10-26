@@ -1,5 +1,6 @@
 package com.openminis.app.ui.sandbox
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.ui.settings.SettingsSwitch
 import com.openminis.app.R
 
@@ -623,11 +624,11 @@ fun MirrorCategoryDetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(category.displayName) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.mirror_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.mirror_back))
                     }
                 },
             )

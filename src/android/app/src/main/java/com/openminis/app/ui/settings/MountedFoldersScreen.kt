@@ -1,5 +1,6 @@
 package com.openminis.app.ui.settings
 
+import com.openminis.app.hassn.HassnAppBar
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -159,11 +160,11 @@ fun MountedFoldersScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.settings_mount_external_folders)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = null)
                     }
                 },
                 actions = {

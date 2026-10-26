@@ -1,5 +1,6 @@
 package com.openminis.app.ui.settings
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.R
 import com.openminis.app.ui.components.MinisTextButton
 
@@ -99,11 +100,11 @@ fun MinisSkillsBrowserScreen(
             // would fight the WebView measure pass. Match the SettingsScaffold
             // bar styling (background colour + SemiBold title) so the visual
             // signature stays consistent with the rest of the settings stack.
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.skills_browser_title), fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
                     IconButton(onClick = handleBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 actions = {

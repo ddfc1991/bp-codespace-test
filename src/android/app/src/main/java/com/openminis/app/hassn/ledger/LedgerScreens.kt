@@ -1,5 +1,6 @@
 package com.openminis.app.hassn.ledger
 
+import com.openminis.app.hassn.HassnAppBar
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.ClipData
@@ -226,9 +227,9 @@ fun LedgerListScreen(onBack: () -> Unit, onOpenBox: (String) -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text("临时邮箱台账") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回") } },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = "返回") } },
             )
         },
     ) { padding ->
@@ -417,7 +418,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
 
     if (box == null) {
         Scaffold(topBar = {
-            TopAppBar(title = { Text("邮箱详情") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回") } })
+            HassnAppBar(title = { Text("邮箱详情") }, navigationIcon = { IconButton(onClick = onBack) { Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = "返回") } })
         }) { p -> Text("这个邮箱已经不在台账里", modifier = Modifier.padding(p).padding(20.dp)) }
         return
     }
@@ -463,7 +464,7 @@ fun LedgerBoxScreen(boxId: String, onBack: () -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("邮箱详情") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回") } })
+            HassnAppBar(title = { Text("邮箱详情") }, navigationIcon = { IconButton(onClick = onBack) { Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = "返回") } })
         },
         bottomBar = {
             Row(

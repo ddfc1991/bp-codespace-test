@@ -1,5 +1,6 @@
 package com.openminis.app.ui.sandbox
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.R
 import androidx.compose.ui.res.stringResource
 import androidx.activity.compose.BackHandler
@@ -108,11 +109,11 @@ fun FileBrowserScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.filebrowser_title)) },
                 navigationIcon = {
                     IconButton(onClick = handleBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 actions = {

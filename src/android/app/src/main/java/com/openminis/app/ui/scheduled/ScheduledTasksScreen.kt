@@ -1,5 +1,6 @@
 package com.openminis.app.ui.scheduled
 
+import com.openminis.app.hassn.HassnAppBar
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -85,7 +86,7 @@ fun ScheduledTasksScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = {
                     Text(
                         stringResource(R.string.scheduled_tasks_title),
@@ -96,7 +97,7 @@ fun ScheduledTasksScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
+                            com.openminis.app.hassn.HassnIcons.get("back", 2f),
                             contentDescription = stringResource(R.string.back),
                         )
                     }

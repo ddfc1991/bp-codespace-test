@@ -1,5 +1,6 @@
 package com.openminis.app.ui.onboarding
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.R
 import androidx.compose.ui.res.stringResource
 import com.openminis.app.ui.components.MinisButton
@@ -91,11 +92,11 @@ fun OnboardingModelSelectionScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = { Text(stringResource(R.string.onboarding_select_models_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 actions = {

@@ -1,5 +1,6 @@
 package com.openminis.app.ui.sandbox
 
+import com.openminis.app.hassn.HassnAppBar
 import com.openminis.app.R
 import androidx.compose.ui.res.stringResource
 import android.content.ContentValues
@@ -166,7 +167,7 @@ fun FilePreviewScreen(
     // (FileBrowserScreen) renders correctly with zero overrides; do the same.
     Scaffold(
         topBar = {
-            TopAppBar(
+            HassnAppBar(
                 title = {
                     Text(
                         text = if (showFullPath) item.file.absolutePath else item.name,
@@ -178,7 +179,7 @@ fun FilePreviewScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(com.openminis.app.hassn.HassnIcons.get("back", 2f), contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 actions = {
