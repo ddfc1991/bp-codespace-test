@@ -89,6 +89,8 @@ object Routes {
     const val SESSION_LIST = "sessions"
     const val CHAT = "chat/{sessionId}"
     const val SETTINGS = "settings"
+    // [Hassn-P1] Settings → 智能网关
+    const val HASSN_GATEWAY = "hassn_gateway"
     const val PROVIDER_LIST = "providers"
     const val ADD_PROVIDER = "add_provider"
     const val PROVIDER_DETAIL = "provider/{instanceId}"
@@ -607,7 +609,12 @@ fun AppNavigation(
                 onAboutClick = { navController.safeNavigate(Routes.ABOUT) },
                 onMountedFoldersClick = { navController.safeNavigate(Routes.MOUNTED_FOLDERS) },
                 onSharedFoldersClick = { navController.safeNavigate(Routes.SHARED_FOLDERS) },
+                onHassnGatewayClick = { navController.safeNavigate(Routes.HASSN_GATEWAY) },
             )
+        }
+
+        composable(Routes.HASSN_GATEWAY) {
+            com.openminis.app.hassn.HassnGatewayScreen(onBack = { navController.safePopBackStack() })
         }
 
         composable(Routes.BACKUP) {

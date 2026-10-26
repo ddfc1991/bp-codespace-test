@@ -30,6 +30,8 @@ import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Backup
+import androidx.compose.material.icons.outlined.Badge
+import androidx.compose.material.icons.outlined.Hub
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.FolderShared
 import androidx.compose.material.icons.outlined.Info
@@ -40,7 +42,10 @@ import androidx.compose.material.icons.outlined.Psychology
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Terminal
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +53,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -105,7 +111,45 @@ fun SettingsScreen(
     // About row below still has a TODO onClick in HEAD; future settings-bucket
     // work will wire this through.
     onAboutClick: () -> Unit = {},
+    // [Hassn-P1] Settings → 智能网关
+    onHassnGatewayClick: () -> Unit = {},
 ) {
+    val hassnCtx = LocalContext.current
+    var showRename by remember { mutableStateOf(false) }
+    val soulMeta by com.openminis.app.agent.SoulStore.cachedMetadata.collectAsState()
+    val hassnName = soulMeta.name.trim().ifEmpty { com.openminis.app.hassn.HassnBrand.DEFAULT_NAME }
+    if (showRename) {
+        var draft by remember { mutableStateOf(hassnName) }
+        AlertDialog(
+            onDismissRequest = { showRename = false },
+            title = { Text(stringResource(R.string.hassn_name_title)) },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        value = draft,
+                        onValueChange = { draft = it.take(com.openminis.app.hassn.HassnBrand.MAX_LEN) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        stringResource(R.string.hassn_name_launcher_note),
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    com.openminis.app.hassn.HassnBrand.setName(hassnCtx, draft)
+                    showRename = false
+                }) { Text(stringResource(R.string.hassn_gateway_save)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showRename = false }) { Text(stringResource(android.R.string.cancel)) }
+            },
+        )
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -127,6 +171,25 @@ fun SettingsScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState()),
         ) {
+            // -- Hassn [Hassn-P1] --
+            SettingsSection(title = stringResource(R.string.hassn_section)) {
+                SettingsItem(
+                    icon = Icons.Outlined.Badge,
+                    iconColor = Color(0xFF34C759),
+                    title = stringResource(R.string.hassn_name_title),
+                    subtitle = hassnName,
+                    onClick = { showRename = true },
+                )
+                SettingsItem(
+                    icon = Icons.Outlined.Hub,
+                    iconColor = Color(0xFF34C759),
+                    title = stringResource(R.string.hassn_gateway_title),
+                    subtitle = stringResource(R.string.hassn_gateway_subtitle),
+                    onClick = onHassnGatewayClick,
+                    showDivider = false,
+                )
+            }
+
             // -- LLM Providers --
             SettingsSection(
                 title = stringResource(R.string.settings_section_llm_providers),
