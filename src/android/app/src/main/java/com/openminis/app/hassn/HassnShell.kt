@@ -92,6 +92,12 @@ fun HassnShell(
         val intent = (ctx as? android.app.Activity)?.intent ?: return@LaunchedEffect
         val t = intent.getIntExtra("hassn_tab", -1)
         if (t in 0..3) tab = t
+        // CI shots: sample conversation in memory only (see ChatViewModel.hassnSeedDemoChat)
+        if (intent.getBooleanExtra("hassn_demo_chat", false)) {
+            HassnShellState.demoChatPending = true
+            tab = 1
+            intent.removeExtra("hassn_demo_chat")
+        }
         val open = intent.getStringExtra("hassn_open")
         val route = when (open) {
             "settings" -> Routes.SETTINGS

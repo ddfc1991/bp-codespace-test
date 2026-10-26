@@ -188,6 +188,7 @@ jobs:
           go 00_first_launch 25
           go 01_home 14 --ei hassn_tab 0
           go 02_chat 16 --ei hassn_tab 1
+          go 02b_chat_demo 18 --ez hassn_demo_chat true
           go 03_feed 12 --ei hassn_tab 2
           go 04_projects 12 --ei hassn_tab 3
           go 05_settings 12 --es hassn_open settings

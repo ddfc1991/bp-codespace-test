@@ -2541,6 +2541,14 @@ fun ChatScreen(
         // map (which is last-writer-wins across sessions).
         LocalMarkdownSessionId provides sessionId,
     ) {
+    // [Hassn] CI screenshot seed (launch extra hassn_demo_chat); after the session's own load.
+    LaunchedEffect(Unit) {
+        if (com.openminis.app.hassn.HassnShellState.demoChatPending) {
+            com.openminis.app.hassn.HassnShellState.demoChatPending = false
+            kotlinx.coroutines.delay(1500)
+            viewModel.hassnSeedDemoChat()
+        }
+    }
     Scaffold(
         // [Hassn-P1] transparent: the app-wide weather sky shows behind the chat.
         containerColor = Color.Transparent,
@@ -2640,8 +2648,10 @@ fun ChatScreen(
                                 }
                             }
 
+                            // [Hassn] real model first (truncation keeps it), then a named group; the generic
+                            // "Default …" badge is dropped when a model name is known.
                             val modelLabel = when {
-                                groupNameDisplay.isNotEmpty() && modelName.isNotEmpty() -> "$groupNameDisplay · $modelName"
+                                modelName.isNotEmpty() && selectedGroupName.isNotEmpty() -> "$modelName · $selectedGroupName"
                                 modelName.isNotEmpty() -> modelName
                                 groupNameDisplay.isNotEmpty() -> groupNameDisplay
                                 else -> providerName
@@ -2842,7 +2852,8 @@ fun ChatScreen(
                     // [T-balance-chip] Remaining API balance in the top-bar's
                     // empty slot, left of the ⋮ menu. Hidden entirely when the
                     // active provider has no balance adapter or the fetch failed.
-                    if (hasBalance) {
+                    // [Hassn] balance moved to the ⋯ menu (header stays: back · title · ⋯).
+                    if (false && hasBalance) {
                         com.openminis.app.ui.chat.BalanceChip(
                             info = balanceUiState.current,
                             display = balanceUiState.display,
@@ -2910,6 +2921,30 @@ fun ChatScreen(
                                 )
                                 MinisMenuDivider()
                             }
+                            // [Hassn] balance + sandbox status live here instead of header/composer chips.
+                            if (hasBalance) {
+                                val balText = com.openminis.app.data.balance.formatBalanceAmount(
+                                    balanceUiState.current!!, balanceUiState.display, balanceUiState.fxRate,
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("余额  $balText") },
+                                    onClick = {
+                                        showChatMenu = false
+                                        viewModel.loadBalanceSheet()
+                                        showBalanceSheet = true
+                                    },
+                                    leadingIcon = { Icon(Icons.Default.Bolt, contentDescription = null) },
+                                )
+                            }
+                            DropdownMenuItem(
+                                text = { Text("运行环境") },
+                                onClick = {
+                                    showChatMenu = false
+                                    viewModel.openEnvMonitorSheet()
+                                },
+                                leadingIcon = { Icon(Icons.Default.Terminal, contentDescription = null) },
+                            )
+                            MinisMenuDivider()
                             // [T-new-chat-menu-entry] New Chat — first item
                             // (iOS parity: square.and.pencil at the top of the
                             // "..." menu). Streaming sessions confirm first.
@@ -5346,7 +5381,7 @@ fun ChatScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         // [Hassn-P1] Hark composer: flat glass capsule (mockup 02), no drop shadow.
-                        .clip(RoundedCornerShape(26.dp))
+                        .clip(RoundedCornerShape(28.dp))
                         .background(ChatColors.inputBg)
                         .padding(top = if (attachments.isNotEmpty()) 8.dp else 4.dp),
                 ) {
@@ -6280,11 +6315,7 @@ fun ChatScreen(
                                 .horizontalScroll(rememberScrollState(), reverseScrolling = false),
                         ) {
                             // 白卡蓝虚拟 Linux 沙盒空间胶囊 (ui-craft Rule 7 & 13)
-                            val sandboxMetricsForChip by com.openminis.app.sandbox.SandboxMetricsCollector.metrics.collectAsState()
-                            com.openminis.app.ui.sandbox.SandboxAmbientRibbon(
-                                metrics = sandboxMetricsForChip,
-                                onClick = { viewModel.openEnvMonitorSheet() }
-                            )
+                            // [Hassn] storage/RAM ribbon removed from the composer → ⋯ menu 「运行环境」.
 
                             // 团队协作模式胶囊 (ui-craft Rule 13: 30dp chip)
                             val teamworkModeState by viewModel.teamworkMode.collectAsState()
@@ -6486,8 +6517,8 @@ fun ChatScreen(
                                 Box(
                                     modifier = Modifier
                                         .pressScaleEffect(targetScale = 0.92f, interactionSource = stopInteraction)
-                                        .size(40.dp)
-                                        .background(Color(0xFFFF3B30), CircleShape)
+                                        .size(38.dp)
+                                        .background(Color(0xFFE5484D).copy(alpha = 0.92f), CircleShape)
                                         .clip(CircleShape)
                                         .clickable(
                                             interactionSource = stopInteraction,
@@ -6499,7 +6530,7 @@ fun ChatScreen(
                                         Icons.Default.Stop,
                                         contentDescription = "Stop",
                                         tint = Color.White,
-                                        modifier = Modifier.size(20.dp),
+                                        modifier = Modifier.size(16.dp),
                                     )
                                 }
                             } else {
@@ -7241,7 +7272,7 @@ private fun ThinkingLevelSheet(
 
 
 /**
- * [Hassn-P1] Each assistant turn reads as one white Hark card (mockup 02): the header row opens it
+ * [Hassn-P1] (was: one white card) Assistant turn padding only; Hark draws text on the sky: the header row opens it
  * (rounded top), the action bar closes it (rounded bottom), every block in between is painted
  * edge to edge and reaches 2dp up over the LazyColumn's spacedBy gap so the card has no seams.
  */
@@ -7256,24 +7287,7 @@ private fun hassnAssistantCard(item: FlatChatItem): Modifier {
         is FlatChatItem.AssistantError, is FlatChatItem.AssistantLegacyContent -> 1
         else -> return Modifier
     }
-    val color = com.openminis.app.hassn.hassn.assistantBubble
+    // [Hassn] Hark style: assistant text sits directly on the sky — no white card.
     return Modifier
-        .drawBehind {
-            val r = 24.dp.toPx()
-            val gap = 2.dp.toPx()
-            val top = if (pos == 0) 0f else -gap
-            val path = androidx.compose.ui.graphics.Path().apply {
-                addRoundRect(
-                    androidx.compose.ui.geometry.RoundRect(
-                        left = 0f, top = top, right = size.width, bottom = size.height + if (pos == 2) 0f else 0.5f,
-                        topLeftCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 0) r else 0f),
-                        topRightCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 0) r else 0f),
-                        bottomLeftCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 2) r else 0f),
-                        bottomRightCornerRadius = androidx.compose.ui.geometry.CornerRadius(if (pos == 2) r else 0f),
-                    ),
-                )
-            }
-            drawPath(path, color)
-        }
-        .padding(start = 16.dp, end = 16.dp, top = if (pos == 0) 6.dp else 0.dp, bottom = if (pos == 2) 6.dp else 0.dp)
+        .padding(start = 6.dp, end = 6.dp, top = if (pos == 0) 4.dp else 0.dp, bottom = if (pos == 2) 4.dp else 0.dp)
 }

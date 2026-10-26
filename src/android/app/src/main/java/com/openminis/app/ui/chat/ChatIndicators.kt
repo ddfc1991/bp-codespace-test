@@ -170,7 +170,7 @@ internal fun TypingIndicator() {
     ) {
         Text(
             text = stringResource(R.string.chat_typing_indicator, soulName),
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             color = ChatColors.tertiaryText,
         )
         // Animated bouncing dots

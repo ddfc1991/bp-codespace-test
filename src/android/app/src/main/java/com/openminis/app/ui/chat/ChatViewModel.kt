@@ -7249,6 +7249,26 @@ class ChatViewModel(
         _messages.value = msgs
     }
 
+    /**
+     * [Hassn] CI screenshots only (launch extra hassn_demo_chat): replaces the visible list with a
+     * sample conversation in memory. Nothing is written to the database or sent anywhere.
+     */
+    fun hassnSeedDemoChat() {
+        val t = System.currentTimeMillis()
+        _messages.value = listOf(
+            ChatMessage(id = "hassn-demo-u1-$t", role = "user", content = "你好，帮我看下网关这周哪个模型最稳"),
+            ChatMessage(
+                id = "hassn-demo-a1-$t", role = "assistant",
+                content = "这周智能网关里最稳的是 **DeepSeek-V4**：\n\n- 成功率 99.6%，平均首字 0.8 秒\n- GLM-5.3 次之，高峰期偶尔 503\n\n需要我把它设成默认模型吗？",
+            ),
+            ChatMessage(id = "hassn-demo-u2-$t", role = "user", content = "好，设成默认"),
+            ChatMessage(
+                id = "hassn-demo-a2-$t", role = "assistant", content = "",
+                error = "Transient error: [503] system cpu overloaded (current: 92.7%, threshold: 90%) — retrying (2/3)…",
+            ),
+        )
+    }
+
     /** Clear any inline error on the last assistant message (used after successful retry). */
     private fun clearInlineError() {
         val msgs = _messages.value.toMutableList()

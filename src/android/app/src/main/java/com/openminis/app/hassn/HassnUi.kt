@@ -161,6 +161,8 @@ val hassn: HassnPalette
 /** Shell tab chosen from outside the shell (e.g. the tabs on the Settings page). */
 object HassnShellState {
     val tab = mutableIntStateOf(0)
+    /** CI shots: next ChatScreen seeds an in-memory sample conversation. */
+    @Volatile var demoChatPending = false
 }
 
 // ─── line icons (mockup IC set, 24-unit viewBox, stroke 1.8, round caps) ───

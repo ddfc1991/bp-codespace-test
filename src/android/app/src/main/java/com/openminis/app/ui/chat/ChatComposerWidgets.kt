@@ -391,8 +391,8 @@ internal fun InputCircleButton(
         modifier = modifier
             .pressScaleEffect(targetScale = 0.93f, interactionSource = interactionSource)
             .size(38.dp)
-            .background(ChatColors.inputIconBg, CircleShape)
-            .border(0.5.dp, ChatColors.inputIconBorder, CircleShape)
+            // [Hassn] flat glass icon button inside the composer bar (no outline).
+            .background(com.openminis.app.hassn.hassn.soft, CircleShape)
             .clip(CircleShape)
             .clickable(
                 interactionSource = interactionSource,

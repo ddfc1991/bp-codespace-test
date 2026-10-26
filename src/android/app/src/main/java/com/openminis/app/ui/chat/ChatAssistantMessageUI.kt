@@ -309,18 +309,19 @@ internal fun AssistantHeader() {
         // 18.dp, matching the previous Icon exactly: the row height feeds a
         // measured-height estimate in the message list, so the icon stays
         // square and same-sized whichever branch renders.
+        // [Hassn] Hark style: small, subtle sparkle + name over the sky (no bubble).
         com.openminis.app.ui.settings.SoulIconGlyph(
             icon = soulMeta.icon,
-            sizeDp = 18.dp,
-            emojiSp = 15.sp,
+            sizeDp = 14.dp,
+            emojiSp = 12.sp,
             sparkleTint = sparkleGradient,
         )
-        Spacer(modifier = Modifier.width(6.dp))
+        Spacer(modifier = Modifier.width(5.dp))
         Text(
             text = displayName,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium,
+            color = com.openminis.app.hassn.hassn.text2,
         )
     }
 }
@@ -459,57 +460,72 @@ internal fun BoundsTrackedBlock(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun InlineErrorBanner(error: String, onRetry: (() -> Unit)? = null) {
+    // [Hassn] glass r20 card, soft red accent, short Chinese headline; raw detail on tap, copy on long-press.
     val clipboard = LocalClipboardManager.current
-    Row(
+    val p = com.openminis.app.hassn.hassn
+    val friendly = remember(error) { com.openminis.app.hassn.HassnErrorText.friendly(error) }
+    var expanded by remember(error) { androidx.compose.runtime.mutableStateOf(false) }
+    val red = Color(0xFFE5484D)
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 4.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFFFF3B30).copy(alpha = 0.12f))
+            .padding(top = 6.dp, bottom = 4.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(p.card)
+            .border(0.75.dp, red.copy(alpha = 0.22f), RoundedCornerShape(20.dp))
             .combinedClickable(
-                onClick = {},
+                onClick = { if (friendly.translated) expanded = !expanded },
                 onLongClick = {
                     clipboard.setText(androidx.compose.ui.text.AnnotatedString(error))
                 },
             )
-            .padding(horizontal = 10.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
+            .padding(start = 14.dp, end = 10.dp, top = 10.dp, bottom = 10.dp),
     ) {
-        Icon(
-            imageVector = Icons.Default.Error,
-            contentDescription = null,
-            tint = Color(0xFFFF3B30),
-            modifier = Modifier.size(14.dp),
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = error,
-            color = Color(0xFFFF3B30),
-            fontSize = 12.sp,
-            lineHeight = 16.sp,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f),
-        )
-        if (onRetry != null) {
-            Spacer(modifier = Modifier.width(8.dp))
-            Row(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(50))
-                    .background(Color(0xFFFF3B30).copy(alpha = 0.15f))
-                    .clickable(onClick = onRetry)
-                    .padding(horizontal = 10.dp, vertical = 3.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = null,
-                    tint = Color(0xFFFF3B30),
-                    modifier = Modifier.size(10.dp),
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(stringResource(R.string.chat_longpress_retry), color = Color(0xFFFF3B30), fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier.size(8.dp).clip(CircleShape).background(red.copy(alpha = 0.85f)),
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                text = friendly.headline,
+                color = p.text,
+                fontSize = 14.sp,
+                lineHeight = 19.sp,
+                maxLines = if (friendly.translated) 2 else 4,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f),
+            )
+            if (onRetry != null) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(p.glassButton)
+                        .clickable(onClick = onRetry)
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = null,
+                        tint = p.text,
+                        modifier = Modifier.size(13.dp),
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(stringResource(R.string.chat_longpress_retry), color = p.text, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                }
             }
+        }
+        if (friendly.translated) {
+            Text(
+                text = if (expanded) error else "轻触查看详情 · 长按复制",
+                color = p.text2,
+                fontSize = 11.sp,
+                lineHeight = 15.sp,
+                maxLines = if (expanded) 12 else 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(start = 18.dp, top = 3.dp),
+            )
         }
     }
 }
